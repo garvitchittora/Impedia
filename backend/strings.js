@@ -4,5 +4,5 @@ const key = "8RTDWTAYJd1IPgwx8MhoN9jKYyq1inNy";
 
 module.exports = {
   mongoURL,
-  key
+  key,
 };

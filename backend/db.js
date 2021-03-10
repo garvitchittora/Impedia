@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
-const {mongoURL} = require('./strings');
+const mongoose = require("mongoose");
+const { mongoURL } = require("./strings");
 
 mongoose.connect(mongoURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 let db = mongoose.connection;
 
