@@ -120,7 +120,6 @@ const AdminLogin = () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
             },
             body: JSON.stringify(body)
         };
@@ -133,14 +132,14 @@ const AdminLogin = () => {
     return (
         <>
             <Grid container justify="center" className={classes.GridContainerWrapper}>
-                <Grid item xs={12} md={6} justify="center">
+                <Grid item xs={12} md={6}>
                     <div>
                         <div className={classes.textCenter}>
                             <Typography className={classes.logoStyle}>
                                 <span className={classes.blacklogo}>Impe</span><span className={classes.yellowLogo}>dia</span>
                             </Typography>
                         </div>
-                        <Grid item justify="center">
+                        <Grid item>
                             <Typography className={classes.formName}>
                                 Admin Login
                             </Typography>
@@ -182,7 +181,7 @@ const AdminLogin = () => {
                         </form>
                     </div>
                 </Grid>
-                <Grid item xs={12} md={6} justify="center" className={classes.textCenter}>
+                <Grid item xs={12} md={6} className={classes.textCenter}>
                     <img src = "/image/login.svg" alt="login"/>
                 </Grid>
             </Grid>
