@@ -13,7 +13,18 @@ import { baseUrl } from '../../urlConstants';
 const useStyles = makeStyles(theme => ({
     formName: {
         color: "red",
-        fontSize: "25px"
+        fontSize: "25px",
+        textAlign:"center",
+        padding:"30px 0",
+    },
+    logoStyle:{
+        color: "red",
+        fontSize: "40px",
+        textAlign:"center",
+        fontWeight:"bold",
+    },
+    GridContainerWrapper:{
+        paddingTop:"30px"
     },
     formContainer: {
         display: "flex",
@@ -21,7 +32,18 @@ const useStyles = makeStyles(theme => ({
         justifyContent: "center",
         alignItems: "center",
         width: "90vw",
-        maxWidth: "30rem"
+        maxWidth: "30rem",
+        margin: "auto"
+    },
+    formWrapper: {
+        border: "1px solid #B0B0B0",
+        display: "flex",
+        padding: "5%",
+        alignItems: "center",
+        borderRadius: "15px",
+        maxWidth: "70%",
+        margin: "auto",
+        marginBottom:"30px",
     },
     formInputs: {
         padding: "10px",
@@ -58,36 +80,46 @@ const useStyles = makeStyles(theme => ({
     },
     profileInputField: {
         display: "none"
+    },
+    textCenter:{
+        textAlign:"center",
+    },
+    blacklogo:{
+        color:"black"
+    },
+    yellowLogo:{
+        color:"red"
     }
+
 }));
 
 const AdminLogin = () => {
     const classes = useStyles();
-    
-    const [EmailValues,setEmailValues] = React.useState('');
-    const [PasswordValues,setPasswordValues] = React.useState('');
+
+    const [EmailValues, setEmailValues] = React.useState('');
+    const [PasswordValues, setPasswordValues] = React.useState('');
 
     const handleChange = (event) => {
-        if(event.target.name === "email"){
+        if (event.target.name === "email") {
             setEmailValues(event.target.value);
         }
-        else if(event.target.name === "password"){
+        else if (event.target.name === "password") {
             setPasswordValues(event.target.value);
         }
     }
-    
+
     const submitFunction = async (e) => {
         e.preventDefault();
-        
-        const body = { 
+
+        const body = {
             email: EmailValues,
             password: PasswordValues,
         }
 
         const requestOptions = {
             method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json', 
+            headers: {
+                'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
             },
             body: JSON.stringify(body)
@@ -95,53 +127,66 @@ const AdminLogin = () => {
 
         const response = await fetch(`${baseUrl}/admin/auth`, requestOptions);
         const data = await response.json();
-        console.log(data);    
+        console.log(data);
     }
 
     return (
-        
-        <Grid container direction="column" justify="center" spacing={5} alignItems="center">
-            <Grid item>
-                <Typography className={classes.formName}>
-                    Admin Login
-                </Typography>
-            </Grid>
-            <Grid item>
-                <form className={classes.formContainer} onSubmit={submitFunction}>
+        <>
+            <Grid container justify="center" className={classes.GridContainerWrapper}>
+                <Grid item xs={12} md={6} justify="center">
+                    <div>
+                        <div className={classes.textCenter}>
+                            <Typography className={classes.logoStyle}>
+                                <span className={classes.blacklogo}>Impe</span><span className={classes.yellowLogo}>dia</span>
+                            </Typography>
+                        </div>
+                        <Grid item justify="center">
+                            <Typography className={classes.formName}>
+                                Admin Login
+                            </Typography>
+                        </Grid>
+                    </div>
+                    <div className={classes.formWrapper}>
+                        <form className={classes.formContainer} onSubmit={submitFunction}>
 
-                    <div className={classes.formInputs}>
-                        <FormControl className={classes.fieldInput}>
-                            <InputLabel htmlFor="name">
-                                Email
-                            </InputLabel>
-                            <Input
-                                id="email"
-                                name="email"
-                                onChange={handleChange}
-                            />
-                        </FormControl>
-                    </div>
-                    <div className={classes.formInputs}>
-                        <FormControl className={classes.fieldInput}>
-                            <InputLabel htmlFor="name">
-                                Password
-                            </InputLabel>
-                            <Input
-                                id="password"
-                                name="password"
-                                onChange={handleChange}
-                            />
-                        </FormControl>
-                    </div>
+                            <div className={classes.formInputs}>
+                                <FormControl className={classes.fieldInput}>
+                                    <InputLabel htmlFor="name">
+                                        Email
+    </InputLabel>
+                                    <Input
+                                        id="email"
+                                        name="email"
+                                        onChange={handleChange}
+                                    />
+                                </FormControl>
+                            </div>
+                            <div className={classes.formInputs}>
+                                <FormControl className={classes.fieldInput}>
+                                    <InputLabel htmlFor="name">
+                                        Password
+    </InputLabel>
+                                    <Input
+                                        id="password"
+                                        name="password"
+                                        onChange={handleChange}
+                                    />
+                                </FormControl>
+                            </div>
 
-                    <div >
-                        <Button className={classes.formButton} variant="contained" color="secondary" type="submit">
-                            Login
-                        </Button>
+                            <div >
+                                <Button className={classes.formButton} variant="contained" color="secondary" type="submit">
+                                    Login
+</Button>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </Grid>
+                <Grid item xs={12} md={6} justify="center" className={classes.textCenter}>
+                    <img src = "/image/login.svg" alt="login"/>
+                </Grid>
             </Grid>
-        </Grid>
+        </>
     )
 }
 
