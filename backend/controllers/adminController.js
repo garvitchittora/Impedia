@@ -24,8 +24,7 @@ const adminAuth = (req, res) => {
             sign(
               {
                 email: admin.email,
-                id: admin.id,
-                type: "admin",
+                id: admin.id
               },
               key,
               (err, token) => {
@@ -53,8 +52,10 @@ const adminAuth = (req, res) => {
 };
 
 const setEmailDomain = async (req, res) => {
+  const id = req.user.id;
+  if (!(id.substring(0, 2)==='AD')) return res.status(403).json({error: "Forbidden"});
   let { domain } = req.body;
-  if (!domain) return res.status(400).json({ error: "The field is required" });
+  if (!domain) return res.status(400).json({ error: "The domain field is required" });
   const setting = new Settings({
     emailDomain: domain,
   });
