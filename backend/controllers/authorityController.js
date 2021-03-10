@@ -1,13 +1,8 @@
-const bcrypt = require('bcrypt');
-const {
-    key,
-    sign
-} = require('../utils/jwt');
+const bcrypt = require("bcrypt");
+const { key, sign } = require("../utils/jwt");
 
-const authorityAuth = (req, res) => {
-
-}
+const authorityAuth = (req, res) => {};
 
 module.exports = {
-    authorityAuth
-}
+  authorityAuth,
+};

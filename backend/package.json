@@ -2,7 +2,7 @@
   "name": "impedia",
   "version": "1.0.0",
   "description": "A Centralized Appeal Management System",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
