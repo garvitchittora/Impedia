@@ -13,8 +13,7 @@ const studentSchema = new mongoose.Schema({
     required: true,
   },
   id: {
-    type: String,
-    required: true,
+    type: String
   },
   section: {
     type: String,
