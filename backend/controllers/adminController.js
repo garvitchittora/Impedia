@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const { key, sign } = require("../utils/jwt");
-const Admin = require("../models/admin");
+const Admin = require("../models/Admin");
 const Settings = require("../models/Settings");
 
 const adminAuth = (req, res) => {

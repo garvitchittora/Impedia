@@ -120,7 +120,6 @@ const StudentRegister = () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
             },
             body: JSON.stringify(body)
         };
@@ -227,7 +226,7 @@ const StudentRegister = () => {
 
                             <div >
                                 <Button className={classes.formButton} variant="contained" color="secondary" type="submit">
-                                    Login
+                                    Register
     </Button>
                             </div>
                         </form>
