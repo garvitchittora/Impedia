@@ -93,18 +93,14 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-const AdminLogin = () => {
+const ChangeDomain = () => {
     const classes = useStyles();
 
-    const [EmailValues, setEmailValues] = React.useState('');
-    const [PasswordValues, setPasswordValues] = React.useState('');
+    const [DomainValues, setDomainValues] = React.useState('');
 
     const handleChange = (event) => {
-        if (event.target.name === "email") {
-            setEmailValues(event.target.value);
-        }
-        else if (event.target.name === "password") {
-            setPasswordValues(event.target.value);
+        if (event.target.name === "domain") {
+            setDomainValues(event.target.value);
         }
     }
 
@@ -112,22 +108,26 @@ const AdminLogin = () => {
         e.preventDefault();
 
         const body = {
-            email: EmailValues,
-            password: PasswordValues,
+            domain: DomainValues,
+        }
+
+        let authToken;
+        if (localStorage.getItem('key')) {
+            authToken = localStorage.getItem('key');
         }
 
         const requestOptions = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization':`${authToken}`
             },
             body: JSON.stringify(body)
         };
 
-        const response = await fetch(`${baseUrl}/admin/auth`, requestOptions);
+        const response = await fetch(`${baseUrl}/admin/setemaildomain`, requestOptions);
         const data = await response.json();
-        localStorage.setItem('key',data.authKey);
-        console.log(data.authKey);
+        console.log(data);
     }
 
     return (
@@ -142,7 +142,7 @@ const AdminLogin = () => {
                         </div>
                         <Grid item>
                             <Typography className={classes.formName}>
-                                Admin Login
+                                Set Domain
                             </Typography>
                         </Grid>
                     </div>
@@ -151,24 +151,12 @@ const AdminLogin = () => {
 
                             <div className={classes.formInputs}>
                                 <FormControl className={classes.fieldInput}>
-                                    <InputLabel htmlFor="name">
-                                        Email
+                                    <InputLabel htmlFor="domain">
+                                    Domain Values
     </InputLabel>
                                     <Input
-                                        id="email"
-                                        name="email"
-                                        onChange={handleChange}
-                                    />
-                                </FormControl>
-                            </div>
-                            <div className={classes.formInputs}>
-                                <FormControl className={classes.fieldInput}>
-                                    <InputLabel htmlFor="name">
-                                        Password
-    </InputLabel>
-                                    <Input
-                                        id="password"
-                                        name="password"
+                                        id="domain"
+                                        name="domain"
                                         onChange={handleChange}
                                     />
                                 </FormControl>
@@ -176,7 +164,7 @@ const AdminLogin = () => {
 
                             <div >
                                 <Button className={classes.formButton} variant="contained" color="secondary" type="submit">
-                                    Login
+                                    Save
 </Button>
                             </div>
                         </form>
@@ -190,4 +178,4 @@ const AdminLogin = () => {
     )
 }
 
-export default AdminLogin;
+export default ChangeDomain;

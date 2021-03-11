@@ -6,7 +6,7 @@ import AdminLogin from './components/Auth/AdminLogin';
 import AuthorityLogin from './components/Auth/AuthorityLogin';
 import StudentLogin from './components/Auth/StudentLogin';
 import StudentRegister from './components/Auth/StudentRegister';
-
+import ChangeDomain from './components/Admin/ChangeDomain';
 
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
           <Route exact path="/AuthorityLogin" component={AuthorityLogin} />
           <Route exact path="/StudentLogin" component={StudentLogin} />
           <Route exact path="/StudentRegister" component={StudentRegister} />
+          <Route exact path="/ChangeDomain" component={ChangeDomain} />
         </Switch>
       </BrowserRouter>
     </>
