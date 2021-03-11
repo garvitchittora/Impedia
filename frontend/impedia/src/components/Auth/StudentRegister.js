@@ -97,14 +97,30 @@ const StudentRegister = () => {
     const classes = useStyles();
 
     const [EmailValues, setEmailValues] = React.useState('');
+    const [SemValues, setSemValues] = React.useState('');
+    const [SectionValues, setSectionValues] = React.useState('');
+    const [BranchValues, setBranchValues] = React.useState('');
     const [PasswordValues, setPasswordValues] = React.useState('');
+    const [NameValues, setNameValues] = React.useState('');
 
     const handleChange = (event) => {
         if (event.target.name === "email") {
             setEmailValues(event.target.value);
         }
+        else if (event.target.name === "sem") {
+            setSemValues(event.target.value);
+        }
+        else if (event.target.name === "section") {
+            setSectionValues(event.target.value);
+        }
+        else if (event.target.name === "branch") {
+            setBranchValues(event.target.value);
+        }
         else if (event.target.name === "password") {
             setPasswordValues(event.target.value);
+        }
+        else if (event.target.name === "name") {
+            setNameValues(event.target.value);
         }
     }
 
@@ -114,6 +130,10 @@ const StudentRegister = () => {
         const body = {
             email: EmailValues,
             password: PasswordValues,
+            semester:SemValues,
+            branch:BranchValues,
+            section:SectionValues,
+            name:NameValues,
         }
 
         const requestOptions = {
@@ -124,7 +144,7 @@ const StudentRegister = () => {
             body: JSON.stringify(body)
         };
 
-        const response = await fetch(`${baseUrl}/admin/auth`, requestOptions);
+        const response = await fetch(`${baseUrl}/student/register`, requestOptions);
         const data = await response.json();
         console.log(data);
     }
@@ -132,17 +152,17 @@ const StudentRegister = () => {
     return (
         <>
             <Grid container justify="center" className={classes.GridContainerWrapper}>
-                <Grid item xs={12} md={6} justify="center" className={classes.textCenter}>
+                <Grid item xs={12} md={6} className={classes.textCenter}>
                     <img src="/image/login.svg" alt="login"/>
                 </Grid>
-                <Grid item xs={12} md={6} justify="center">
+                <Grid item xs={12} md={6}>
                     <div>
                         <div className={classes.textCenter}>
                             <Typography className={classes.logoStyle}>
                                 <span className={classes.blacklogo}>Impe</span><span className={classes.yellowLogo}>dia</span>
                             </Typography>
                         </div>
-                        <Grid item justify="center">
+                        <Grid item>
                             <Typography className={classes.formName}>
                                 Student Registration
                             </Typography>
@@ -153,7 +173,7 @@ const StudentRegister = () => {
 
                             <div className={classes.formInputs}>
                                 <FormControl className={classes.fieldInput}>
-                                    <InputLabel htmlFor="name">
+                                    <InputLabel htmlFor="email">
                                         Email
         </InputLabel>
                                     <Input
@@ -165,36 +185,36 @@ const StudentRegister = () => {
                             </div>
                             <div className={classes.formInputs}>
                                 <FormControl className={classes.fieldInput}>
-                                    <InputLabel htmlFor="name">
+                                    <InputLabel htmlFor="sem">
                                         Sem
         </InputLabel>
                                     <Input
-                                        id="email"
-                                        name="email"
+                                        id="sem"
+                                        name="sem"
                                         onChange={handleChange}
                                     />
                                 </FormControl>
                             </div>
                             <div className={classes.formInputs}>
                                 <FormControl className={classes.fieldInput}>
-                                    <InputLabel htmlFor="name">
+                                    <InputLabel htmlFor="section">
                                         Section
         </InputLabel>
                                     <Input
-                                        id="email"
-                                        name="email"
+                                        id="section"
+                                        name="section"
                                         onChange={handleChange}
                                     />
                                 </FormControl>
                             </div>
                             <div className={classes.formInputs}>
                                 <FormControl className={classes.fieldInput}>
-                                    <InputLabel htmlFor="name">
+                                    <InputLabel htmlFor="branch">
                                         Branch
         </InputLabel>
                                     <Input
-                                        id="email"
-                                        name="email"
+                                        id="branch"
+                                        name="branch"
                                         onChange={handleChange}
                                     />
                                 </FormControl>
@@ -205,15 +225,15 @@ const StudentRegister = () => {
                                         Name
         </InputLabel>
                                     <Input
-                                        id="email"
-                                        name="email"
+                                        id="name"
+                                        name="name"
                                         onChange={handleChange}
                                     />
                                 </FormControl>
                             </div>
                             <div className={classes.formInputs}>
                                 <FormControl className={classes.fieldInput}>
-                                    <InputLabel htmlFor="name">
+                                    <InputLabel htmlFor="password">
                                         Password
         </InputLabel>
                                     <Input
