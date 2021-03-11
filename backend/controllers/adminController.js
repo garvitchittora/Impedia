@@ -56,10 +56,16 @@ const setEmailDomain = async (req, res) => {
   if (!(id.substring(0, 2)==='AD')) return res.status(403).json({error: "Forbidden"});
   let { domain } = req.body;
   if (!domain) return res.status(400).json({ error: "The domain field is required" });
-  const setting = new Settings({
-    emailDomain: domain,
-  });
-  await setting.save();
+  const domainSettings = await Settings.findOne({});
+  if (domainSettings) {
+    domainSettings.emailDomain = domain;
+    await domainSettings.save();
+  } else {
+    const setting = new Settings({
+      emailDomain: domain,
+    });
+    await setting.save();
+  }
   res.status(200).end();
 };
 
