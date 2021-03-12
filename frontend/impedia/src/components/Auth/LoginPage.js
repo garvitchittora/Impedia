@@ -99,15 +99,16 @@ const useStyles = makeStyles(theme => ({
     },
     formWrapper: {
         border: "1px solid #B0B0B0",
+        maxWidth:"1200px",
         display: "flex",
-        padding: "2% 1%",
+        padding: "2% 3%",
         alignItems: "center",
         borderRadius: "15px",
         margin: "0",
         marginBottom:"30px",
     },
     formCover:{
-        flex:"60%"
+        flex:"50%"
     },
     formInputs: {
         padding: "10px",
