@@ -221,6 +221,7 @@ const LoginPage = (props) => {
                                         <FilledInput
                                             type={showPassword?'text':'password'}
                                             id="password"
+                                            name="password"
                                             value={props.PasswordValues}
                                             onChange={handleChange}
                                             endAdornment={
