@@ -90,6 +90,7 @@ const addAuthorities = async (req, res) => {
     const password = "password";
     const passwordHash = await bcrypt.hash(password, 10);
     let user = new Authority({
+      name: email,
       email: email,
       id: "AU" + new mongoose.mongo.ObjectId(),
       password: passwordHash,
