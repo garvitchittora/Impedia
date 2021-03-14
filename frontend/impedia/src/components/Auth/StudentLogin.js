@@ -1,6 +1,4 @@
 import React from 'react';
-
-import { baseUrl } from '../../urlConstants';
 import LoginPage from './LoginPage';
 import StudentLoginPic from '../../assets/Login/studentLogin.svg'
 
@@ -25,7 +23,7 @@ const StudentLogin = () => {
             body: JSON.stringify(body)
         };
 
-        const response = await fetch(`${baseUrl}/admin/auth`, requestOptions);
+        const response = await fetch(`/admin/auth`, requestOptions);
         const data = await response.json();
         localStorage.setItem('key',data.authKey);
         console.log(data.authKey);

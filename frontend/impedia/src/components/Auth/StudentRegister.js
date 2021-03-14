@@ -8,7 +8,6 @@ import {
     Button,
     Typography,
 } from '@material-ui/core';
-import { baseUrl } from '../../urlConstants';
 
 const useStyles = makeStyles(theme => ({
     formName: {
@@ -144,7 +143,7 @@ const StudentRegister = () => {
             body: JSON.stringify(body)
         };
 
-        const response = await fetch(`${baseUrl}/student/register`, requestOptions);
+        const response = await fetch(`/student/register`, requestOptions);
         const data = await response.json();
         console.log(data);
     }
