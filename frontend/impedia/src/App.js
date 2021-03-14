@@ -2,6 +2,7 @@ import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 
+import LoginPage from './components/Auth/LoginPage';
 import AdminLogin from './components/Auth/AdminLogin';
 import AuthorityLogin from './components/Auth/AuthorityLogin';
 import StudentLogin from './components/Auth/StudentLogin';
@@ -14,9 +15,9 @@ function App() {
     <>
       <BrowserRouter>
         <Switch>
-          <Route exact path="/AdminLogin" component={AdminLogin} />
-          <Route exact path="/AuthorityLogin" component={AuthorityLogin} />
-          <Route exact path="/StudentLogin" component={StudentLogin} />
+          <Route exact path="/login/admin" component={AdminLogin} />
+          <Route exact path="/login/authority" component={AuthorityLogin} />
+          <Route exact path="/login/student" component={StudentLogin} />
           <Route exact path="/StudentRegister" component={StudentRegister} />
           <Route exact path="/ChangeDomain" component={ChangeDomain} />
         </Switch>
