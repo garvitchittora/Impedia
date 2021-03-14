@@ -76,6 +76,9 @@ const setEmailDomain = async (req, res) => {
 };
 
 const addAuthorities = async (req, res) => {
+  const id = req.user.id;
+  if (!(id.substring(0, 2) === "AD"))
+    return res.status(403).json({ error: "Forbidden" });
   const { emailIds } = req.body;
   if (!emailIds)
     return res
@@ -83,7 +86,7 @@ const addAuthorities = async (req, res) => {
       .json({ error: "Please enter the required information" });
 
   await emailIds.forEach(async (email) => {
-    // const password: email+String(Math.floor(Math.random() * 10000))
+    // const password = email + String(Math.floor(Math.random() * 10000))
     const password = "password";
     const passwordHash = await bcrypt.hash(password, 10);
     let user = new Authority({

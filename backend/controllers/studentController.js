@@ -4,8 +4,6 @@ const Student = require('../models/Student');
 const Settings = require('../models/Settings');
 const mongoose = require('mongoose');
 
-const studentAuth = (req, res) => {};
-
 const validateStudentRegisterRequest = async (req, res, next) => {
     const tempStudent = new Student(req.body);
     try {
@@ -41,6 +39,29 @@ const studentRegister = async (req, res) => {
     const studentSave = await student.save();
     res.status(201).json(studentSave);
 }
+
+const studentAuth = async (req, res) => {
+    const { email, password } = req.body;
+    if (!(email && password)) {
+        return res.status(400).json({
+          error: "Required fields are missing.",
+        });
+    }
+    const student = await Student.findOne({ email });
+    if (!student) res.status(400).json({ error: "The user does not exist" });
+    const authorized = await bcrypt.compare(password, student.password);
+    if (!authorized) return res.status(403).json({ error: "Invalid credentials" });
+    const token = await sign({
+        email: student.email,
+        id: student.id,
+      },
+      key
+    );
+    let authDisplay = {};
+    authDisplay.authKey = token;
+    authDisplay.data = student;
+    res.json(authDisplay);
+};
 
 module.exports = {
   studentAuth,
