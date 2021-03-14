@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import LoginPage from './LoginPage';
 import AuthorityLoginPic from '../../assets/Login/authLogin.svg'
 
@@ -15,18 +16,15 @@ const AuthorityLogin = () => {
             password: PasswordValues,
         }
 
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(body)
-        };
-
-        const response = await fetch(`/admin/auth`, requestOptions);
-        const data = await response.json();
-        localStorage.setItem('key',data.authKey);
-        console.log(data.authKey);
+        axios.post('/authority/auth',body)
+        .then((res)=>(res.data))
+        .then((data)=>{
+            localStorage.setItem('key',data.authKey);
+            console.log(data.authKey);
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
     }
 
     return (

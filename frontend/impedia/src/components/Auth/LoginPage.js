@@ -203,7 +203,7 @@ const LoginPage = (props) => {
                         <div className={classes.formCover}>
                             <form className={classes.formContainer} onSubmit={props.submitFunction}>
                                 <div className={classes.formInputs}>
-                                    <FormControl className={classes.fieldInput} variant="outlined">
+                                    <FormControl className={classes.fieldInput} variant="filled">
                                         <InputLabel htmlFor="email">
                                             Email
                                         </InputLabel>
@@ -216,7 +216,7 @@ const LoginPage = (props) => {
                                     </FormControl>
                                 </div>
                                 <div className={classes.formInputs}>
-                                    <FormControl className={classes.fieldInput} variant="outlined">
+                                    <FormControl className={classes.fieldInput} variant="filled">
                                         <InputLabel htmlFor="password">Password</InputLabel>
                                         <FilledInput
                                             type={showPassword?'text':'password'}
