@@ -1,9 +1,8 @@
 const express = require("express");
+require("express-async-errors");
 const cors = require("cors");
 const app = express();
-const port = process.env.PORT || 3000;
 const db = require("./db");
-
 // Importing Routers
 const studentRouter = require("./routes/studentRouter");
 const authorityRouter = require("./routes/authorityRouter");

@@ -1,7 +1,9 @@
 const bcrypt = require("bcrypt");
+const mongoose = require("mongoose");
 const { key, sign } = require("../utils/jwt");
 const Admin = require("../models/Admin");
 const Settings = require("../models/Settings");
+const Authority = require("../models/Authority");
 
 const adminAuth = (req, res) => {
   let email = req.body.email;
@@ -24,7 +26,7 @@ const adminAuth = (req, res) => {
             sign(
               {
                 email: admin.email,
-                id: admin.id
+                id: admin.id,
               },
               key,
               (err, token) => {
@@ -53,9 +55,13 @@ const adminAuth = (req, res) => {
 
 const setEmailDomain = async (req, res) => {
   const id = req.user.id;
-  if (!(id.substring(0, 2)==='AD')) return res.status(403).json({error: "Forbidden"});
-  let { domain } = req.body;
-  if (!domain) return res.status(400).json({ error: "The domain field is required" });
+  if (!(id.substring(0, 2) === "AD"))
+    return res.status(403).json({ error: "Forbidden" });
+
+  const { domain } = req.body;
+  if (!domain)
+    return res.status(400).json({ error: "The domain field is required" });
+
   const domainSettings = await Settings.findOne({});
   if (domainSettings) {
     domainSettings.emailDomain = domain;
@@ -69,7 +75,30 @@ const setEmailDomain = async (req, res) => {
   res.status(200).end();
 };
 
+const addAuthorities = async (req, res) => {
+  const { emailIds } = req.body;
+  if (!emailIds)
+    return res
+      .status(400)
+      .json({ error: "Please enter the required information" });
+
+  await emailIds.forEach(async (email) => {
+    // const password: email+String(Math.floor(Math.random() * 10000))
+    const password = "password";
+    const passwordHash = await bcrypt.hash(password, 10);
+    let user = new Authority({
+      email: email,
+      id: "AU" + new mongoose.mongo.ObjectId(),
+      password: passwordHash,
+    });
+    await user.save();
+  });
+
+  res.status(201).end();
+};
+
 module.exports = {
   adminAuth,
   setEmailDomain,
+  addAuthorities,
 };
