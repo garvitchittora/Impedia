@@ -188,7 +188,7 @@ const StudentRegister = () => {
 
         console.log(body)
 
-        axios.post(`${baseUrl}/admin/addauthorities`,body,config)
+        axios.post(`/admin/addauthorities`,body,config)
         .then((res)=>{
             console.log(res);
         })

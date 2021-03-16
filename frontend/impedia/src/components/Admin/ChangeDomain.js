@@ -142,7 +142,14 @@ const ChangeDomain = () => {
             return;
         }
 
-        axios.post('/admin/setemaildomain',body)
+        const AdminToken = localStorage.getItem("key");
+        const config = {
+            headers: {
+              authorization: AdminToken,
+            }
+        }
+
+        axios.post('/admin/setemaildomain',body,config)
         .then((res)=>{
             console.log(res);
         })
