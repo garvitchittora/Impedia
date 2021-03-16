@@ -55,6 +55,7 @@ const adminAuth = (req, res) => {
 
 const setEmailDomain = async (req, res) => {
   const id = req.user.id;
+  console.log(id);
   if (!(id.substring(0, 2) === "AD"))
     return res.status(403).json({ error: "Forbidden" });
 

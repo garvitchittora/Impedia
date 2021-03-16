@@ -7,88 +7,113 @@ import {
     Input,
     Button,
     Typography,
+    TextField
 } from '@material-ui/core';
-import { baseUrl } from '../../urlConstants';
+import axios from 'axios';
+import ImpediaLogo from '../../assets/Logo-Impedia.png';
+import DomainPic from '../../assets/Admin/domainPic.svg';
+import domainIcon from '../../assets/Admin/domainIcon.svg';
+
 
 const useStyles = makeStyles(theme => ({
-    formName: {
-        color: "red",
-        fontSize: "25px",
+    setDomainPage:{
+        margin: "2% 0"
+    },
+    topbar:{
+        display:"flex",
+        alignContent:"center",
+        alignItems:"center",
+        [theme.breakpoints.down("xs")]:{
+            flexDirection:"column"
+        }
+    },
+    logo:{
+        margin:"auto 5%",
+        flex:"40%",
+    },
+    logoSubtext:{
+        marginLeft:"80px",
+        letterSpacing:"3px",
+        fontSize:"15px",
+        fontWeight:"600",
+        marginTop:"-10px"
+    },
+    logoImg:{
+        width: "250px"
+    },
+    heading:{
+        flex:"60%",
         textAlign:"center",
-        padding:"30px 0",
+        background:" linear-gradient(87.74deg, #FFAC41 4.75%, #FF1E56 140.54%)",
+        padding:"1.5%",
+        borderRadius:"30px 0 0 30px",
+        [theme.breakpoints.down("xs")]:{
+            width:"85%",
+            marginLeft:"auto",
+            marginTop:"10%"
+        }
     },
-    logoStyle:{
-        color: "red",
-        fontSize: "40px",
+    headingText:{
+        fontWeight:"800",
+        fontSize:"30px",
+        color:"white",
+        userSelect:"none"
+    },
+    Domainbody:{
+        display:"flex",
+        width:"90%",
+        margin:"5% auto",
+        [theme.breakpoints.down("xs")]:{
+            flexDirection:"column",
+            margin:"15% auto",
+        }
+    },
+    group:{
+        background:"red"
+    },
+    domainArea:{
+        flex:"50%",
+        display:"flex",
+        flexWrap:"wrap",
+        alignItems:"center"
+    },
+    domainTextArea:{
+        flex:"100%",
+        display:"flex",
+        alignItems:"center",
+    },
+    textField:{
+        width: "90%",
+        margin:"auto 5%",
+    },
+    domainIcon:{
+        width:"100px",
+        backgroundColor:"#FFAC41",
+        padding:"20px",
+        borderRadius:"25px",
+        [theme.breakpoints.down("xs")]:{
+           width:"50px"
+        }
+    },
+    button:{
+        margin:"auto"
+    },
+    submitButton:{
+        background: "linear-gradient(85.98deg, #FFA41B 0.54%, rgba(255, 30, 86, 0.99) 130.83%)",
+        width:"200px",
+        fontWeight:"800",
+        padding:"5%",
+        fontSize:"16px"
+    },
+    sidePic:{
+        flex:"50%",
         textAlign:"center",
-        fontWeight:"bold",
+        [theme.breakpoints.down("xs")]:{
+            margin:"5% auto"
+        }
     },
-    GridContainerWrapper:{
-        paddingTop:"30px"
-    },
-    formContainer: {
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "90vw",
-        maxWidth: "30rem",
-        margin: "auto"
-    },
-    formWrapper: {
-        border: "1px solid #B0B0B0",
-        display: "flex",
-        padding: "5%",
-        alignItems: "center",
-        borderRadius: "15px",
-        maxWidth: "70%",
-        margin: "auto",
-        marginBottom:"30px",
-    },
-    formInputs: {
-        padding: "10px",
-        width: "100%"
-    },
-    fieldInput: {
-        width: "100%"
-    },
-    forgotButton: {
-        width: "15rem",
-        padding: "2%"
-    },
-    passwordInput: {
-        width: "100%"
-    },
-    formButton: {
-        width: "15rem",
-        maxWidth: "90vw",
-        margin: "15% auto"
-    },
-    profileAvatar: {
-        width: theme.spacing(12),
-        height: theme.spacing(12),
-        borderRadius: "100px"
-    },
-    profileInputLabel: {
-        padding: "0px",
-        height: "16px",
-        width: "16px"
-    },
-    profileInputBadge: {
-        cursor: "pointer",
-        fontSize: "16px"
-    },
-    profileInputField: {
-        display: "none"
-    },
-    textCenter:{
-        textAlign:"center",
-    },
-    blacklogo:{
-        color:"black"
-    },
-    yellowLogo:{
-        color:"red"
+    domainPic:{
+        maxWidth:"100%"
     }
 
 }));
@@ -96,12 +121,14 @@ const useStyles = makeStyles(theme => ({
 const ChangeDomain = () => {
     const classes = useStyles();
 
-    const [DomainValues, setDomainValues] = React.useState('');
+    const re = new RegExp(/^(((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9][a-z0-9\-]{0,60}|[a-z0-9-]{1,30}\.[a-z]{2,})$/); 
 
-    const handleChange = (event) => {
-        if (event.target.name === "domain") {
-            setDomainValues(event.target.value);
-        }
+    const [DomainValues, setDomainValues] = React.useState('');
+    const [validDomain, setValidDomain] = React.useState(true);
+
+    const handleDomainChange = (e) => {
+        setDomainValues(e.target.value);
+        setValidDomain(DomainValues.match(re));
     }
 
     const submitFunction = async (e) => {
@@ -111,69 +138,68 @@ const ChangeDomain = () => {
             domain: DomainValues,
         }
 
-        let authToken;
-        if (localStorage.getItem('key')) {
-            authToken = localStorage.getItem('key');
+        if(!validDomain){
+            return;
         }
 
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization':`${authToken}`
-            },
-            body: JSON.stringify(body)
-        };
-
-        const response = await fetch(`${baseUrl}/admin/setemaildomain`, requestOptions);
-        const data = await response.json();
-        console.log(data);
+        axios.post('/admin/setemaildomain',body)
+        .then((res)=>{
+            console.log(res);
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
     }
 
     return (
         <>
-            <Grid container justify="center" className={classes.GridContainerWrapper}>
-                <Grid item xs={12} md={6}>
-                    <div>
-                        <div className={classes.textCenter}>
-                            <Typography className={classes.logoStyle}>
-                                <span className={classes.blacklogo}>Impe</span><span className={classes.yellowLogo}>dia</span>
-                            </Typography>
+            <div className={classes.setDomainPage}>
+                <div className={classes.topbar}>
+                    <div className={classes.logo}>
+                        <img className={classes.logoImg} src={ImpediaLogo} alt="Impedia Logo" />
+                        <Typography className={classes.logoSubtext}>
+                            FOR ADMIN
+                        </Typography>
+                    </div>
+
+                    <div className={classes.heading}>
+                        <Typography className={classes.headingText}>
+                            Set Domain
+                        </Typography>
+                    </div>
+                </div>
+
+                <div className={classes.Domainbody}>
+                    <div className={classes.domainArea}>
+                        <div className={classes.domainTextArea}>
+                                <div className={classes.icon} >
+                                    <img src={domainIcon} alt="doamin" className={classes.domainIcon} />
+                                </div>
+                                <TextField
+                                    className={classes.textField}
+                                    error
+                                    id="filled-error-helper-text"
+                                    label="Domain Name"
+                                    variant="filled"
+                                    value={DomainValues}
+                                    helperText={!validDomain && "Not a valid Domain"}
+                                    onChange={handleDomainChange}
+                                />
                         </div>
-                        <Grid item>
-                            <Typography className={classes.formName}>
-                                Set Domain
-                            </Typography>
-                        </Grid>
+                        <div className={classes.button}>
+                            <Button variant="contained" className={classes.submitButton} onClick={submitFunction}>
+                                UPDATE
+                            </Button>
+                        </div>
                     </div>
-                    <div className={classes.formWrapper}>
-                        <form className={classes.formContainer} onSubmit={submitFunction}>
+                    
 
-                            <div className={classes.formInputs}>
-                                <FormControl className={classes.fieldInput}>
-                                    <InputLabel htmlFor="domain">
-                                    Domain Values
-    </InputLabel>
-                                    <Input
-                                        id="domain"
-                                        name="domain"
-                                        onChange={handleChange}
-                                    />
-                                </FormControl>
-                            </div>
-
-                            <div >
-                                <Button className={classes.formButton} variant="contained" color="secondary" type="submit">
-                                    Save
-</Button>
-                            </div>
-                        </form>
+                    <div className={classes.sidePic}>
+                        <img src={DomainPic} className={classes.domainPic} alt="Set/Update Domain" />
                     </div>
-                </Grid>
-                <Grid item xs={12} md={6} className={classes.textCenter}>
-                    <img src = "/image/login.svg" alt="login"/>
-                </Grid>
-            </Grid>
+                </div>
+                
+            </div>
         </>
     )
 }
