@@ -188,6 +188,11 @@ const StudentRegister = () => {
         axios.post(`/admin/addauthorities`,body,config)
         .then((res)=>{
             console.log(res);
+            if(res.status === 200 || res.status === 201){
+                alert("Authorities added Successfully")
+            }else{
+                alert("Failed")
+            } 
         })
         .catch((err)=>{
             console.log(err);

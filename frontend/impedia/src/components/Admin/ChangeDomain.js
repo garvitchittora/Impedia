@@ -148,6 +148,11 @@ const ChangeDomain = () => {
         axios.post('/admin/setemaildomain',body,config)
         .then((res)=>{
             console.log(res);
+            if(res.status === 200 || res.status === 201){
+                alert("Domain Name Changed")
+            }else{
+                alert("Failed")
+            } 
         })
         .catch((err)=>{
             console.log(err);
