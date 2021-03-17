@@ -17,7 +17,7 @@ import back1 from '../../assets/Login/login-1.svg';
 import back2 from '../../assets/Login/login-2.svg';
 import back3 from '../../assets/Login/login-3.svg';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
-import LoginSidePic from '../../assets/Login/loginSidePic.svg';
+
 const useStyles = makeStyles(theme => ({
     loginPage: {
         position: "absolute",

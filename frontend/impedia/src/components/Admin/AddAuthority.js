@@ -13,7 +13,6 @@ import back2 from '../../assets/Login/login-2.svg';
 import back3 from '../../assets/Login/login-3(2).svg';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import LoginSidePic from '../../assets/Login/loginSidePic.svg';
-import { baseUrl } from '../../urlConstants';
 
 const useStyles = makeStyles(theme => ({
     loginPage: {
@@ -185,8 +184,6 @@ const StudentRegister = () => {
               authorization: AdminToken,
             }
         }
-
-        console.log(body)
 
         axios.post(`/admin/addauthorities`,body,config)
         .then((res)=>{
