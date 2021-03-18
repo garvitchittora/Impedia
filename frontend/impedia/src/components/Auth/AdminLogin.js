@@ -17,8 +17,13 @@ const AdminLogin = () => {
         }
 
         axios.post('/admin/auth',body)
-        .then((res)=>(res.data))
-        .then((data)=>{
+        .then((res)=>{
+            if(res.status === 200 || res.status === 201){
+                alert("Login Successful")
+            }else{
+                alert("Failed")
+            }    
+            let data = res.data;
             localStorage.setItem('key',data.authKey);
             console.log(data.authKey);
         })
