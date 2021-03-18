@@ -4,6 +4,7 @@ const { key, sign } = require("../utils/jwt");
 const Admin = require("../models/Admin");
 const Settings = require("../models/Settings");
 const Authority = require("../models/Authority");
+const Group = require("../models/Group");
 
 const adminAuth = (req, res) => {
   let email = req.body.email;
@@ -101,8 +102,34 @@ const addAuthorities = async (req, res) => {
   res.status(201).end();
 };
 
+const makeAuthorityGroup = async (req, res) => {
+  const id = req.user.id;
+  if (!(id.substring(0, 2) === "AD"))
+    return res.status(403).json({ error: "Forbidden" });
+  const { name, emailIds } = req.body;
+  if (!emailIds || !name)
+    return res
+      .status(400)
+      .json({ error: "Please enter the required information" });
+  
+  const authorities = await Authority.find().where('email').in(emailIds).exec();
+  const authorityIds = [];
+  authorities.forEach((authority) => {
+    authorityIds.push(authority.id);
+  });
+
+  const group = new Group({
+    id: "GR" + new mongoose.mongo.ObjectId(),
+    name: name,
+    members: authorityIds
+  });
+  const groupSave = await group.save();
+  res.status(201).json(groupSave);
+};
+
 module.exports = {
   adminAuth,
   setEmailDomain,
   addAuthorities,
+  makeAuthorityGroup
 };
