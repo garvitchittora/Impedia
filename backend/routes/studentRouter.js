@@ -4,7 +4,9 @@ const {
   studentAuth,
   validateStudentRegisterRequest,
   studentRegister,
+  createAppeal,
 } = require("../controllers/studentController");
+const authenticate = require("../utils/authenticate");
 
 studentRouter.post("/auth", studentAuth);
 studentRouter.post(
@@ -12,5 +14,6 @@ studentRouter.post(
   validateStudentRegisterRequest,
   studentRegister
 );
+studentRouter.post("/createappeal", authenticate, createAppeal);
 
 module.exports = studentRouter;
