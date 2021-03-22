@@ -8,6 +8,8 @@ const AuthorityLogin = () => {
     const [EmailValues, setEmailValues] = React.useState('');
     const [PasswordValues, setPasswordValues] = React.useState('');
 
+    const [openAlert, setOpenAlert] = React.useState(false);
+
     const submitFunction = async (e) => {
         e.preventDefault();
 
@@ -29,7 +31,8 @@ const AuthorityLogin = () => {
             console.log(data.authKey);
         })
         .catch((err)=>{
-            console.log(err);
+            if(err.response.status === 400 || err.response.status === 403)
+                setOpenAlert(true);
         });
     }
 
@@ -43,6 +46,8 @@ const AuthorityLogin = () => {
                 setPasswordValues={setPasswordValues}
                 submitFunction={submitFunction}
                 loginImage={AuthorityLoginPic}
+                openAlert={openAlert}
+                setOpenAlert={setOpenAlert}
             />
         </>
     )

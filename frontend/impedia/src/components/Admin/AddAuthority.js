@@ -6,10 +6,11 @@ import {
     FormControl,
     InputLabel,
     FilledInput,
+    TextField
 } from '@material-ui/core';
 import axios from 'axios';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
-import DomainPic from '../../assets/Admin/domainPic.svg';
+import DomainPic from '../../assets/Admin/addAuthoritiesPage.svg';
 import domainIcon from '../../assets/Admin/domainIcon.svg';
 
 
@@ -45,7 +46,7 @@ const useStyles = makeStyles(theme => ({
         background:" linear-gradient(87.74deg, #FFAC41 4.75%, #FF1E56 140.54%)",
         padding:"1.5%",
         borderRadius:"30px 0 0 30px",
-        [theme.breakpoints.down("xs")]:{
+        [theme.breakpoints.down("sm")]:{
             width:"85%",
             marginLeft:"auto",
             marginTop:"10%"
@@ -61,7 +62,7 @@ const useStyles = makeStyles(theme => ({
         display:"flex",
         width:"90%",
         margin:"5% auto",
-        [theme.breakpoints.down("xs")]:{
+        [theme.breakpoints.down("sm")]:{
             flexDirection:"column",
             margin:"15% auto",
         }
@@ -89,12 +90,15 @@ const useStyles = makeStyles(theme => ({
         backgroundColor:"#FFAC41",
         padding:"20px",
         borderRadius:"25px",
-        [theme.breakpoints.down("xs")]:{
+        [theme.breakpoints.down("md")]:{
            width:"50px"
         }
     },
     button:{
-        margin:"auto"
+        margin:"auto",
+        [theme.breakpoints.down("sm")]:{
+            margin:"2% auto"
+         }
     },
     submitButton:{
         background: "linear-gradient(85.98deg, #FFA41B 0.54%, rgba(255, 30, 86, 0.99) 130.83%)",
@@ -106,7 +110,7 @@ const useStyles = makeStyles(theme => ({
     sidePic:{
         flex:"50%",
         textAlign:"center",
-        [theme.breakpoints.down("xs")]:{
+        [theme.breakpoints.down("sm")]:{
             margin:"5% auto"
         }
     },
@@ -187,22 +191,19 @@ const StudentRegister = () => {
                                 <div className={classes.icon} >
                                     <img src={domainIcon} alt="doamin" className={classes.domainIcon} />
                                 </div>
-                                <FormControl variant="filled" className={classes.textField}>
-                                    <InputLabel htmlFor="email" className={classes.labelColor}>
-                                        Emails
-                                    </InputLabel>
-
-                                    <FilledInput
+                                    <TextField
+                                        error
                                         id="email"
                                         name="email"
+                                        label="Emails"
+                                        variant="filled"
                                         onChange={handleChange}
+                                        multiline
+                                        rows={4}
+                                        helperText="for multiple emails type emails separate by comma (,)"
+                                        className={classes.textField}
                                     />
-                                </FormControl>
                             </div>
-                                
-                            <div>
-                                <p>* for multiple emails type emails separate by comma (,)</p>
-                            </div>    
                         </div>
                         
                         <div className={classes.button}>
