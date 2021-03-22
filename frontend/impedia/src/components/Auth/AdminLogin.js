@@ -23,8 +23,6 @@ const AdminLogin = () => {
             if(res.status === 200 || res.status === 201){
                 alert("Login Successful")
             }
-            console.log("ok");
-            setOpenAlert(true);
             let data = res.data;
             localStorage.setItem('key',data.authKey);
             console.log(data.authKey);
