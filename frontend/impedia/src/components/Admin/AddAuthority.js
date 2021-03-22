@@ -1,160 +1,123 @@
 import React from 'react';
-import axios from 'axios';
 import {
     makeStyles,
+    Button,
     Typography,
     FormControl,
     InputLabel,
-    Button,
     FilledInput,
 } from '@material-ui/core';
-import back1 from '../../assets/Login/login-1.svg';
-import back2 from '../../assets/Login/login-2.svg';
-import back3 from '../../assets/Login/login-3(2).svg';
+import axios from 'axios';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
-import LoginSidePic from '../../assets/Login/loginSidePic.svg';
+import DomainPic from '../../assets/Admin/domainPic.svg';
+import domainIcon from '../../assets/Admin/domainIcon.svg';
+
 
 const useStyles = makeStyles(theme => ({
-    loginPage: {
-        position: "absolute",
-        height:"100%",
-        width:"100%",
-        overflowX: "hidden",
+    setDomainPage:{
+        margin: "2% 0"
     },
-    bg1: {
-        position:"absolute",
-        height:"25vh",
-        left:"-2%",
-        top:"-2%",
-        zIndex:"-1",
-        [theme.breakpoints.down("xs")]: {
-            top:"-12%",
-            left:"-15%",
-          }
-    },
-    bg2:{
-        position:"absolute",
-        right:"0",
-        top:"-5%",
-        height:"35vh",
-        zIndex:"-1",
-        [theme.breakpoints.down("xs")]: {
-            top:"-12%",
-            right:"-10%",
-          }
-    },
-    bg3:{
-        position:"absolute",
-        left:"0",
-        right:"0",
-        marginLeft:"auto",
-        marginRight:"auto",
-        bottom:"-30%",
-        height:"15vh",
-        zIndex:"-1"
+    topbar:{
+        display:"flex",
+        alignContent:"center",
+        alignItems:"center",
+        [theme.breakpoints.down("xs")]:{
+            flexDirection:"column"
+        }
     },
     logo:{
-        width:"300px"
+        margin:"auto 5%",
+        flex:"40%",
     },
-    loginContainer:{
-        width:"95vw",
+    logoSubtext:{
+        marginLeft:"80px",
+        letterSpacing:"3px",
+        fontSize:"15px",
+        fontWeight:"600",
+        marginTop:"-10px"
+    },
+    logoImg:{
+        width: "250px"
+    },
+    heading:{
+        flex:"60%",
+        textAlign:"center",
+        background:" linear-gradient(87.74deg, #FFAC41 4.75%, #FF1E56 140.54%)",
+        padding:"1.5%",
+        borderRadius:"30px 0 0 30px",
+        [theme.breakpoints.down("xs")]:{
+            width:"85%",
+            marginLeft:"auto",
+            marginTop:"10%"
+        }
+    },
+    headingText:{
+        fontWeight:"800",
+        fontSize:"30px",
+        color:"white",
+        userSelect:"none"
+    },
+    Domainbody:{
+        display:"flex",
+        width:"90%",
         margin:"5% auto",
+        [theme.breakpoints.down("xs")]:{
+            flexDirection:"column",
+            margin:"15% auto",
+        }
+    },
+    group:{
+        background:"red"
+    },
+    domainArea:{
+        flex:"50%",
+        display:"flex",
+        flexWrap:"wrap",
+        alignItems:"center"
+    },
+    domainTextArea:{
+        flex:"100%",
         display:"flex",
         alignItems:"center",
-        justifyContent:"center",
-        flexDirection:"column",
-        verticalAlign:"middle",
-        position:"absolute",
-        left:"2.5vw",
-        [theme.breakpoints.down("xs")]: {
-            top:"10vh",
-          }
     },
-    formName: {
-        fontSize: "25px",
+    textField:{
+        width: "90%",
+        margin:"auto 5%",
+    },
+    domainIcon:{
+        width:"100px",
+        backgroundColor:"#FFAC41",
+        padding:"20px",
+        borderRadius:"25px",
+        [theme.breakpoints.down("xs")]:{
+           width:"50px"
+        }
+    },
+    button:{
+        margin:"auto"
+    },
+    submitButton:{
+        background: "linear-gradient(85.98deg, #FFA41B 0.54%, rgba(255, 30, 86, 0.99) 130.83%)",
+        width:"200px",
+        fontWeight:"800",
+        padding:"5%",
+        fontSize:"16px"
+    },
+    sidePic:{
+        flex:"50%",
         textAlign:"center",
-        padding:"5px 0",
-        fontWeight: "600"
+        [theme.breakpoints.down("xs")]:{
+            margin:"5% auto"
+        }
     },
-    logoStyle:{
-        color: "red",
-        fontSize: "40px",
-        textAlign:"center",
-        fontWeight:"bold",
+    domainPic:{
+        maxWidth:"100%"
     },
-    GridContainerWrapper:{
-        paddingTop:"30px"
+    labelColor:{
+        color:"rgb(244, 67, 54)"
     },
-    formContainer: {
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "95vw",
-        maxWidth: "30rem",
-        margin: "auto"
-    },
-    formWrapper: {
-        border: "1px solid #B0B0B0",
-        maxWidth:"1200px",
-        display: "flex",
-        padding: "2% 3%",
-        alignItems: "center",
-        borderRadius: "15px",
-        margin: "0",
-        marginBottom:"30px",
-    },
-    formCover:{
-        flex:"50%"
-    },
-    formInputs: {
-        padding: "10px",
-        width: "100%",
-        maxWidth:"80vw"
-    },
-    fieldInput: {
-        width: "100%"
-    },
-    forgotButton: {
-        width: "15rem",
-        padding: "2%"
-    },
-    passwordInput: {
-        width: "100%"
-    },
-    formButton: {
-        width: "15rem",
-        maxWidth: "90vw",
-        margin: "15% auto"
-    },
-    profileAvatar: {
-        width: theme.spacing(12),
-        height: theme.spacing(12),
-        borderRadius: "100px"
-    },
-    profileInputLabel: {
-        padding: "0px",
-        height: "16px",
-        width: "16px"
-    },
-    profileInputBadge: {
-        cursor: "pointer",
-        fontSize: "16px"
-    },
-    profileInputField: {
-        display: "none"
-    },
-    textCenter:{
-        textAlign:"center",
-    },
-    loginImageContainer:{
-        flex:"35%"
-    },
-    loginImage:{
-        width: "100%",
-        [theme.breakpoints.down("sm")]: {
-            display:"none",
-          }
+    formWrapper:{
+        width:"100%"
     }
 
 }));
@@ -200,52 +163,63 @@ const StudentRegister = () => {
     }
 
     return (
-    <div className={classes.loginPage}>
-            <img src={back1} className={classes.bg1} alt="login-bg-1"/>
-            <img src={back2} className={classes.bg2} alt="login-bg-2"/>
-            <img src={back3} className={classes.bg3} alt="login-bg-3"/>
-
-                <div className={classes.loginContainer}>
-                    <div>
-                        <div className={classes.textCenter}>
-                            <img src={ImpediaLogo} className={classes.logo} alt="impedia-logo" />
-                        </div>
-            
-                            <Typography className={classes.formName} color="error">
-                                Add Authority
-                            </Typography>
+        <>
+            <div className={classes.setDomainPage}>
+                <div className={classes.topbar}>
+                    <div className={classes.logo}>
+                        <img className={classes.logoImg} src={ImpediaLogo} alt="Impedia Logo" />
+                        <Typography className={classes.logoSubtext}>
+                            FOR ADMIN
+                        </Typography>
                     </div>
-                    <div className={classes.formWrapper}>
-                        <div className={classes.formCover}>
-                            <form className={classes.formContainer} onSubmit={submitFunction}>
-                                <div className={classes.formInputs}>
-                                    <FormControl className={classes.fieldInput} variant="filled">
-                                        <InputLabel htmlFor="email">
-                                            Emails
-                                        </InputLabel>
 
-                                        <FilledInput
-                                            id="email"
-                                            name="email"
-                                            onChange={handleChange}
-                                        />
-                                    </FormControl>
-                                </div>
-                                <p>* for multiple emails type emails separate by comma(,)</p>
-                                <div >
-                                    <Button className={classes.formButton} variant="contained" color="secondary" type="submit">
-                                        Add
-                                    </Button>
-                                </div>
-                            </form>
-                        </div>
-                        <div className={classes.loginImageContainer}>
-                            <img src = {LoginSidePic} alt="login-side" className={classes.loginImage}/>
-                        </div>
+                    <div className={classes.heading}>
+                        <Typography className={classes.headingText}>
+                            Add Authority
+                        </Typography>
                     </div>
                 </div>
 
-        </div>
+                <div className={classes.Domainbody}>
+                    <div className={classes.domainArea}>
+                        <div className={classes.formWrapper}>
+                            <div className={classes.domainTextArea}>
+                                <div className={classes.icon} >
+                                    <img src={domainIcon} alt="doamin" className={classes.domainIcon} />
+                                </div>
+                                <FormControl variant="filled" className={classes.textField}>
+                                    <InputLabel htmlFor="email" className={classes.labelColor}>
+                                        Emails
+                                    </InputLabel>
+
+                                    <FilledInput
+                                        id="email"
+                                        name="email"
+                                        onChange={handleChange}
+                                    />
+                                </FormControl>
+                            </div>
+                                
+                            <div>
+                                <p>* for multiple emails type emails separate by comma (,)</p>
+                            </div>    
+                        </div>
+                        
+                        <div className={classes.button}>
+                            <Button variant="contained" className={classes.submitButton} onClick={submitFunction}>
+                                ADD
+                            </Button>
+                        </div>
+                    </div>
+                    
+
+                    <div className={classes.sidePic}>
+                        <img src={DomainPic} className={classes.domainPic} alt="Set/Update Domain" />
+                    </div>
+                </div>
+                
+            </div>
+        </>
     )
 }
 
