@@ -12,51 +12,12 @@ import axios from 'axios';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import DomainPic from '../../assets/Admin/addAuthoritiesPage.svg';
 import domainIcon from '../../assets/Admin/domainIcon.svg';
+import TopBar from '../TopBar/TopBar';
 
 
 const useStyles = makeStyles(theme => ({
     setDomainPage:{
         margin: "2% 0"
-    },
-    topbar:{
-        display:"flex",
-        alignContent:"center",
-        alignItems:"center",
-        [theme.breakpoints.down("xs")]:{
-            flexDirection:"column"
-        }
-    },
-    logo:{
-        margin:"auto 5%",
-        flex:"40%",
-    },
-    logoSubtext:{
-        marginLeft:"80px",
-        letterSpacing:"3px",
-        fontSize:"15px",
-        fontWeight:"600",
-        marginTop:"-10px"
-    },
-    logoImg:{
-        width: "250px"
-    },
-    heading:{
-        flex:"60%",
-        textAlign:"center",
-        background:" linear-gradient(87.74deg, #FFAC41 4.75%, #FF1E56 140.54%)",
-        padding:"1.5%",
-        borderRadius:"30px 0 0 30px",
-        [theme.breakpoints.down("sm")]:{
-            width:"85%",
-            marginLeft:"auto",
-            marginTop:"10%"
-        }
-    },
-    headingText:{
-        fontWeight:"800",
-        fontSize:"30px",
-        color:"white",
-        userSelect:"none"
     },
     Domainbody:{
         display:"flex",
@@ -169,20 +130,7 @@ const StudentRegister = () => {
     return (
         <>
             <div className={classes.setDomainPage}>
-                <div className={classes.topbar}>
-                    <div className={classes.logo}>
-                        <img className={classes.logoImg} src={ImpediaLogo} alt="Impedia Logo" />
-                        <Typography className={classes.logoSubtext}>
-                            FOR ADMIN
-                        </Typography>
-                    </div>
-
-                    <div className={classes.heading}>
-                        <Typography className={classes.headingText}>
-                            Add Authority
-                        </Typography>
-                    </div>
-                </div>
+                <TopBar useCase="Add Authority" />
 
                 <div className={classes.Domainbody}>
                     <div className={classes.domainArea}>
