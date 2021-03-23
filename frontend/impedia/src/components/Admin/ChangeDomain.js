@@ -132,7 +132,7 @@ const ChangeDomain = () => {
     return (
         <>
             <div className={classes.setDomainPage}>
-                <TopBar useCase="Set Domain" />
+                <TopBar useCase="Set Domain" actor="ADMIN" />
 
                 <div className={classes.Domainbody}>
                     <div className={classes.domainArea}>

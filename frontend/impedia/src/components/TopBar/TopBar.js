@@ -64,7 +64,7 @@ const TopBar = (props) => {
                     <div className={classes.logo}>
                         <img className={classes.logoImg} src={ImpediaLogo} alt="Impedia Logo" />
                         <Typography className={classes.logoSubtext}>
-                            FOR ADMIN
+                            FOR {props.actor}
                         </Typography>
                     </div>
 

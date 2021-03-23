@@ -11,7 +11,7 @@ import {
 import axios from 'axios';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import DomainPic from '../../assets/Admin/addAuthoritiesPage.svg';
-import domainIcon from '../../assets/Admin/domainIcon.svg';
+import addAuthIcon from '../../assets/Admin/addAuth.svg';
 import TopBar from '../TopBar/TopBar';
 
 
@@ -130,14 +130,14 @@ const StudentRegister = () => {
     return (
         <>
             <div className={classes.setDomainPage}>
-                <TopBar useCase="Add Authority" />
+                <TopBar useCase="Add Authority" actor="ADMIN"/>
 
                 <div className={classes.Domainbody}>
                     <div className={classes.domainArea}>
                         <div className={classes.formWrapper}>
                             <div className={classes.domainTextArea}>
                                 <div className={classes.icon} >
-                                    <img src={domainIcon} alt="doamin" className={classes.domainIcon} />
+                                    <img src={addAuthIcon} alt="doamin" className={classes.domainIcon} />
                                 </div>
                                     <TextField
                                         error
