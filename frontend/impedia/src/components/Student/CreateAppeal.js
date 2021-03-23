@@ -10,11 +10,18 @@ import {
     RadioGroup,
     Radio,
     FormControlLabel,
-    Button
+    Button,
+    Collapse,
+    IconButton
 } from '@material-ui/core';
 import {
-    Autocomplete
+    Autocomplete,
+    Alert,
+    AlertTitle
 } from '@material-ui/lab';
+import {
+    Close as CloseIcon
+ } from '@material-ui/icons';
 import axios from 'axios';
 import TopBar from '../TopBar/TopBar';
 import ReactMarkdown from 'react-markdown/with-html';
@@ -24,6 +31,14 @@ import gfm from 'remark-gfm';
 const useStyles = makeStyles(theme => ({
     createAppealPage:{
         margin:"2% 0"
+    },
+    appealSuccessAlert:{
+        width:"80vw",
+        position:"fixed",
+        top:"5%",
+        margin:"auto",
+        left:"10vw",
+        zIndex:"100"
     },
     editor:{
         width:"95vw",
@@ -81,11 +96,21 @@ const useStyles = makeStyles(theme => ({
         fontWeight:"800",
         padding:"1%",
         fontSize:"16px"
+    },
+    appealFailureAlert:{
+        width:"60vw",
+        margin:"auto",
+        left:"20vw",
+        zIndex:"100",
+        marginBottom:"10px"
     }
 }));
 
 const CreateAppeal = () => {
     const classes = useStyles();
+
+    const [openAlert, setOpenAlert] = useState(false);
+    const [openErrorAlert, setOpenErrorAlert] = useState(false);
 
     const [newAppeal, setNewAppeal] = useState({
         title:"Sample Title",
@@ -220,16 +245,42 @@ const CreateAppeal = () => {
             axios.post("/student/createappeal", body, config)
             .then((res) => {
                 console.log(res);
+                if(res.status === 201){
+                    setOpenAlert(true);
+                }
             })
         }
         else{
-            alert("Select an ID")
+            setOpenErrorAlert(true);
         }
     }   
 
     return (
         <>
            <div className={classes.createAppealPage} >
+                <div className={classes.appealSuccessAlert}>
+                    <Collapse in={openAlert}>
+                        <Alert
+                        action={
+                            <IconButton
+                            aria-label="close"
+                            color="inherit"
+                            size="small"
+                            onClick={() => {
+                                setOpenAlert(false);
+                            }}
+                            >
+                            <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                        severity="success"
+                        variant="filled"
+                        >
+                        <AlertTitle><strong>Successful !</strong></AlertTitle>
+                            Your appeal was sent
+                        </Alert>
+                    </Collapse>
+                </div>                
                <TopBar actor="STUDENT" useCase="Create Appeal" />
 
                 <div className={classes.appealTo}>
@@ -320,6 +371,29 @@ const CreateAppeal = () => {
                             </div>
                     </RadioGroup>
                     </div>
+
+                    <div className={classes.appealFailureAlert}>
+                        <Collapse in={openErrorAlert}>
+                            <Alert
+                            action={
+                                <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setOpenErrorAlert(false);
+                                }}
+                                >
+                                <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                            severity="error"
+                            >
+                            <AlertTitle><strong>Error !</strong></AlertTitle>
+                                Please select someone to send the Appeal to
+                            </Alert>
+                        </Collapse>
+                    </div>       
                 </div>
                
 
@@ -374,6 +448,29 @@ const CreateAppeal = () => {
                     </div>
                 )}
            </div>
+
+           <div className={classes.appealFailureAlert}>
+                <Collapse in={openErrorAlert}>
+                    <Alert
+                    action={
+                        <IconButton
+                        aria-label="close"
+                        color="inherit"
+                        size="small"
+                        onClick={() => {
+                            setOpenErrorAlert(false);
+                        }}
+                        >
+                        <CloseIcon fontSize="inherit" />
+                        </IconButton>
+                    }
+                    severity="error"
+                    >
+                    <AlertTitle><strong>Error !</strong></AlertTitle>
+                        Please select someone to send the Appeal to
+                    </Alert>
+                </Collapse>
+            </div>  
 
            <div className={classes.button}>
                 <Button variant="contained" className={classes.submitButton} onClick={submitFunction}>
