@@ -1,6 +1,26 @@
 const bcrypt = require("bcrypt");
 const Authority = require("../models/Authority");
+const Student = require("../models/Student");
+const Admin = require("../models/Admin");
 const { key, sign } = require("../utils/jwt");
+
+const getAuthorities = async (req, res) => {
+  const { id } = req.user;
+  let userType = id.substring(0, 2);
+  let foundUser;
+
+  if (userType === "AD") {
+    foundUser = await Admin.findOne({ id });
+  } else if (userType === "ST") {
+    foundUser = await Student.findOne({ id });
+  } else if (userType === "AU") {
+    foundUser = await Authority.findOne({ id });
+  }
+
+  if (!foundUser) return res.status(400).json({ error: "Invalid user" });
+  const authorities = await Authority.find({});
+  return res.status(200).json(authorities);
+};
 
 const authorityAuth = async (req, res) => {
   const { email, password } = req.body;
@@ -12,8 +32,10 @@ const authorityAuth = async (req, res) => {
   const authority = await Authority.findOne({ email });
   if (!authority) res.status(400).json({ error: "The user does not exist" });
   const authorized = await bcrypt.compare(password, authority.password);
-  if (!authorized) return res.status(403).json({ error: "Invalid credentials" });
-  const token = await sign({
+  if (!authorized)
+    return res.status(403).json({ error: "Invalid credentials" });
+  const token = await sign(
+    {
       email: authority.email,
       id: authority.id,
     },
@@ -27,4 +49,5 @@ const authorityAuth = async (req, res) => {
 
 module.exports = {
   authorityAuth,
+  getAuthorities,
 };
