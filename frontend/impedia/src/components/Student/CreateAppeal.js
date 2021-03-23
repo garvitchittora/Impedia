@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     makeStyles,
     TextField,
     Tabs,
     Tab,
     AppBar,
-    Typography
+    Typography,
+    CircularProgress,
+    RadioGroup,
+    Radio,
+    FormControlLabel,
+    Button
 } from '@material-ui/core';
+import {
+    Autocomplete
+} from '@material-ui/lab';
 import axios from 'axios';
 import TopBar from '../TopBar/TopBar';
 import ReactMarkdown from 'react-markdown/with-html';
-// const gfm = require('remark-gfm')
 import gfm from 'remark-gfm';
 
 
@@ -41,21 +48,139 @@ const useStyles = makeStyles(theme => ({
     previewTitle:{
         fontWeight:"600",
         fontSize:"35px"
+    },
+    appealTo:{
+        margin:"50px auto"
+    },
+    appealToText:{
+        textAlign:"center",
+        fontWeight:"600",
+        fontSize:"20px"
+    },
+    appealToOptions:{
+        display:"flex",
+        flexDirection:"row",
+        justifyContent:"center"
+    },
+    appealOption:{
+        margin:"10px 40px"
+    },
+    optionSelectorDisabled:{
+        opacity:"0.4"
+    },
+    button:{
+        margin:"auto",
+        [theme.breakpoints.down("sm")]:{
+            margin:"2% auto"
+         },
+         textAlign:"center"
+    },
+    submitButton:{
+        background: "linear-gradient(85.98deg, #FFA41B 0.54%, rgba(255, 30, 86, 0.99) 130.83%)",
+        width:"200px",
+        fontWeight:"800",
+        padding:"1%",
+        fontSize:"16px"
     }
 }));
 
 const CreateAppeal = () => {
     const classes = useStyles();
 
-    const [newAppeal, setNewAppeal] = React.useState({
-        title:"",
-        content:""
+    const [newAppeal, setNewAppeal] = useState({
+        title:"Sample Title",
+        content:"Sample Content"
     })
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
+
+    const [appealTo, setAppealTo] = useState("");
+
+    const[sendToId,setId] = useState();
+
+    const [openGroup, setOpenGroup] = useState(false);
+    const [openAuth, setOpenAuth] = useState(false);
+    const [optionsGroup, setOptionsGroup] = useState([]);
+    const [optionsAuth, setOptionsAuth] = useState([]);
+    const loadingGroup = openGroup && optionsGroup.length === 0;
+    const loadingAuth = openAuth && optionsAuth.length === 0;
+
+    useEffect(() => {
+        let active = true;
+        
+        if (loadingGroup === true) {
+          return undefined;
+        }
+    
+        (async () => {
+            const AdminToken = localStorage.getItem("key");
+            const config = {
+                headers: {
+                  authorization: AdminToken,
+                }
+            }
+            const res = await axios.get("/group", config)
+            const dataGroups = res.data;
+    
+            if (active) {
+                setOptionsGroup(() => {
+                    return dataGroups.map((option) => {
+                        let firstLetter = option.name[0].toUpperCase();
+                        return {
+                            firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
+                            ...option,
+                        }
+                    })
+                });
+            }
+        })();
+    
+        return () => {
+          active = false;
+        };
+    }, [loadingGroup]);
+
+    useEffect( ()=>{
+        let active = true;
+
+        if (loadingAuth === true) {
+            return undefined;
+          }
+
+        (async () => {
+            const AdminToken = localStorage.getItem("key");
+            const config = {
+                headers: {
+                  authorization: AdminToken,
+                }
+            }
+            const res = await axios.get("/authority", config)
+            const dataAuth = res.data;
+            if (active) {
+                setOptionsAuth(() => {
+                    return dataAuth.map((option) => {
+                        let firstLetter = option.email[0].toUpperCase();
+                        return {
+                            firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
+                            optionName: typeof option.name!=="undefined" ? (option.name + " | " + option.email) : (option.email) ,
+                            ...option,
+                        }
+                    })
+                });
+            }
+        })();
+
+        return () => {
+            active = false;
+          };
+    },[loadingAuth])
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
+
+    const handleAppealToChange = (e) => {
+        setAppealTo(e.target.value);
+    }
   
     const handleChangeIndex = (index) => {
       setValue(index);
@@ -75,10 +200,128 @@ const CreateAppeal = () => {
             }))
         }
     }
+
+    const submitFunction = (e) => {
+        e.preventDefault();
+
+        if(typeof sendToId !== "undefined" && sendToId !== null){
+            const AdminToken = localStorage.getItem("key");
+            const config = {
+                headers: {
+                  authorization: AdminToken,
+                }
+            }
+
+            const body = {
+                ...newAppeal,
+                appealToId: sendToId.id,
+            }
+
+            axios.post("/student/createappeal", body, config)
+            .then((res) => {
+                console.log(res);
+            })
+        }
+        else{
+            alert("Select an ID")
+        }
+    }   
+
     return (
         <>
            <div className={classes.createAppealPage} >
                <TopBar actor="STUDENT" useCase="Create Appeal" />
+
+                <div className={classes.appealTo}>
+                    <Typography className={classes.appealToText}>
+                        Make Appeal To :
+                    </Typography>
+                    <div >
+
+                    <RadioGroup className={classes.appealToOptions} aria-label="Appeal-To" name="appealTo" value={appealTo} onChange={handleAppealToChange}>
+                        <div className={classes.appealOption}>
+                            <FormControlLabel value="Group" control={<Radio />} label="Group" />
+                                <Autocomplete
+                                    id="authority-groups"
+                                    style={{ width: 300 }}
+                                    disabled={appealTo!=="Group"}
+                                    open={openGroup}
+                                    onOpen={() => {
+                                    setOpenGroup(true);
+                                    }}
+                                    onClose={() => {
+                                    setOpenGroup(false);
+                                    }}
+                                    getOptionSelected={(option, value) => option.name === value.name}
+                                    getOptionLabel={(option) => option.name}
+                                    loading={loadingGroup}
+                                    options={optionsGroup.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
+                                    groupBy={(option) => option.firstLetter}
+                                    onChange={(e,v)=>{setId(v)}}
+                                    renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        error
+                                        label="Authority Groups"
+                                        variant="filled"
+                                        className={appealTo!=="Group" ? classes.optionSelectorDisabled : ""}
+                                        InputProps={{
+                                        ...params.InputProps,
+                                        endAdornment: (
+                                            <React.Fragment>
+                                            {loadingGroup ? <CircularProgress color="inherit" size={20} /> : null}
+                                            {params.InputProps.endAdornment}
+                                            </React.Fragment>
+                                        ),
+                                        }}
+                                    />
+                                    )}
+                                />
+                        </div>
+
+                        <div className={classes.appealOption}>
+                            <FormControlLabel value="Single Authority" control={<Radio />} label="Single Authority" />
+                                <Autocomplete
+                                    id="authority"
+                                    style={{ width: 300 }}
+                                    disabled={appealTo!=="Single Authority"}
+                                    open={openAuth}
+                                    onOpen={() => {
+                                    setOpenAuth(true);
+                                    }}
+                                    onClose={() => {
+                                    setOpenAuth(false);
+                                    }}
+                                    getOptionSelected={(option, value) => option.optionName === value.optionName}
+                                    getOptionLabel={(option) => option.optionName}
+                                    loading={loadingAuth}
+                                    options={optionsAuth.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
+                                    groupBy={(option) => option.firstLetter}
+                                    onChange={(e,v)=>{setId(v)}}
+                                    renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        error
+                                        label="Authority"
+                                        variant="filled"
+                                        className={appealTo!=="Single Authority" ? classes.optionSelectorDisabled : ""}
+                                        InputProps={{
+                                        ...params.InputProps,
+                                        endAdornment: (
+                                            <React.Fragment>
+                                            {loadingGroup ? <CircularProgress color="inherit" size={20} /> : null}
+                                            {params.InputProps.endAdornment}
+                                            </React.Fragment>
+                                        ),
+                                        }}
+                                    />
+                                    )}
+                                />
+                            </div>
+                    </RadioGroup>
+                    </div>
+                </div>
+               
 
            <div className={classes.editor} >
            <AppBar position="static" color="default">
@@ -131,6 +374,12 @@ const CreateAppeal = () => {
                     </div>
                 )}
            </div>
+
+           <div className={classes.button}>
+                <Button variant="contained" className={classes.submitButton} onClick={submitFunction}>
+                     CREATE APPEAL
+                </Button>
+            </div>
            
            </div>
         </>
