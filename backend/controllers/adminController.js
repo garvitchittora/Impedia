@@ -5,6 +5,7 @@ const Admin = require("../models/Admin");
 const Settings = require("../models/Settings");
 const Authority = require("../models/Authority");
 const Group = require("../models/Group");
+const Student = require("../models/Student");
 
 const adminAuth = (req, res) => {
   let email = req.body.email;
@@ -111,8 +112,8 @@ const makeAuthorityGroup = async (req, res) => {
     return res
       .status(400)
       .json({ error: "Please enter the required information" });
-  
-  const authorities = await Authority.find().where('email').in(emailIds).exec();
+
+  const authorities = await Authority.find().where("email").in(emailIds).exec();
   const authorityIds = [];
   authorities.forEach((authority) => {
     authorityIds.push(authority.id);
@@ -121,15 +122,31 @@ const makeAuthorityGroup = async (req, res) => {
   const group = new Group({
     id: "GR" + new mongoose.mongo.ObjectId(),
     name: name,
-    members: authorityIds
+    members: authorityIds,
   });
   const groupSave = await group.save();
   res.status(201).json(groupSave);
+};
+
+const editAuthorityGroup = async (req, res) => {
+  const { user, body } = req;
+  const admin = Admin.find({ id: user.id });
+  if (!admin) return res.status(403).json({ error: "Forbidden" });
+  const group = await Group.findOne({ id: body.id });
+  const { nameUpdate, memberUpdate } = body;
+
+  group.members = memberUpdate;
+  if (nameUpdate) {
+    group.name = nameUpdate;
+  }
+  await group.save();
+  res.status(200).json(group);
 };
 
 module.exports = {
   adminAuth,
   setEmailDomain,
   addAuthorities,
-  makeAuthorityGroup
+  makeAuthorityGroup,
+  editAuthorityGroup,
 };

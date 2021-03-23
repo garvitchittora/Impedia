@@ -5,11 +5,16 @@ const {
   setEmailDomain,
   addAuthorities,
   makeAuthorityGroup,
+  editAuthorityGroup,
 } = require("../controllers/adminController");
 const authenticate = require("../utils/authenticate");
 
 adminRouter.post("/auth", adminAuth);
 adminRouter.post("/setemaildomain", authenticate, setEmailDomain);
 adminRouter.post("/addauthorities", authenticate, addAuthorities);
-adminRouter.post("/makeauthoritygroup", authenticate, makeAuthorityGroup);
+adminRouter
+  .route("/authoritygroup")
+  .post(authenticate, makeAuthorityGroup)
+  .put(authenticate, editAuthorityGroup)
+  .delete(authenticate, editAuthorityGroup);
 module.exports = adminRouter;

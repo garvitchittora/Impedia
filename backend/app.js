@@ -7,6 +7,7 @@ const db = require("./db");
 const studentRouter = require("./routes/studentRouter");
 const authorityRouter = require("./routes/authorityRouter");
 const adminRouter = require("./routes/adminRouter");
+const groupRouter = require("./routes/groupRouter");
 
 // Adding parsing middlewares
 app.use(express.json());
@@ -29,6 +30,7 @@ db.on("error", function (err) {
 app.use("/student", studentRouter);
 app.use("/authority", authorityRouter);
 app.use("/admin", adminRouter);
+app.use("/group", groupRouter);
 
 // Adding dummy routes
 app.get("/", (req, res) => {
