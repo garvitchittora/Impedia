@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
         background:" linear-gradient(87.74deg, #FFAC41 4.75%, #FF1E56 140.54%)",
         padding:"1.5%",
         borderRadius:"30px 0 0 30px",
-        [theme.breakpoints.down("xs")]:{
+        [theme.breakpoints.down("sm")]:{
             width:"85%",
             marginLeft:"auto",
             marginTop:"10%"
@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
         display:"flex",
         width:"90%",
         margin:"5% auto",
-        [theme.breakpoints.down("xs")]:{
+        [theme.breakpoints.down("sm")]:{
             flexDirection:"column",
             margin:"15% auto",
         }
@@ -87,12 +87,15 @@ const useStyles = makeStyles(theme => ({
         backgroundColor:"#FFAC41",
         padding:"20px",
         borderRadius:"25px",
-        [theme.breakpoints.down("xs")]:{
+        [theme.breakpoints.down("md")]:{
            width:"50px"
         }
     },
     button:{
-        margin:"auto"
+        margin:"auto",
+        [theme.breakpoints.down("sm")]:{
+            margin:"2% auto"
+         }
     },
     submitButton:{
         background: "linear-gradient(85.98deg, #FFA41B 0.54%, rgba(255, 30, 86, 0.99) 130.83%)",
@@ -104,12 +107,18 @@ const useStyles = makeStyles(theme => ({
     sidePic:{
         flex:"50%",
         textAlign:"center",
-        [theme.breakpoints.down("xs")]:{
+        [theme.breakpoints.down("sm")]:{
             margin:"5% auto"
         }
     },
     domainPic:{
         maxWidth:"100%"
+    },
+    labelColor:{
+        color:"rgb(244, 67, 54)"
+    },
+    formWrapper:{
+        width:"100%"
     }
 
 }));

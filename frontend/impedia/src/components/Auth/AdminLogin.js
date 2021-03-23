@@ -8,6 +8,8 @@ const AdminLogin = () => {
     const [EmailValues, setEmailValues] = React.useState('');
     const [PasswordValues, setPasswordValues] = React.useState('');
 
+    const [openAlert, setOpenAlert] = React.useState(false);
+
     const submitFunction = async (e) => {
         e.preventDefault();
 
@@ -20,15 +22,14 @@ const AdminLogin = () => {
         .then((res)=>{
             if(res.status === 200 || res.status === 201){
                 alert("Login Successful")
-            }else{
-                alert("Failed")
-            }    
+            }
             let data = res.data;
             localStorage.setItem('key',data.authKey);
             console.log(data.authKey);
         })
         .catch((err)=>{
-            console.log(err);
+            if(err.response.status === 400 || err.response.status === 403)
+                setOpenAlert(true);
         });
     }
 
@@ -42,6 +43,8 @@ const AdminLogin = () => {
                 setPasswordValues={setPasswordValues}
                 submitFunction={submitFunction}
                 loginImage={AdminLoginPic}
+                openAlert={openAlert}
+                setOpenAlert={setOpenAlert}
             />
         </>
     )

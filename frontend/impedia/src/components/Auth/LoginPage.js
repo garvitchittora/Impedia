@@ -8,10 +8,16 @@ import {
     InputAdornment,
     IconButton,
     FilledInput,
+    Collapse,
 } from '@material-ui/core';
 import {
+    Alert,
+    AlertTitle,
+} from '@material-ui/lab';
+import {
     Visibility,
-    VisibilityOff
+    VisibilityOff,
+    Close as CloseIcon
  } from '@material-ui/icons';
 import back1 from '../../assets/Login/login-1.svg';
 import back2 from '../../assets/Login/login-2.svg';
@@ -238,6 +244,28 @@ const LoginPage = (props) => {
                                         />
                                     </FormControl>
                                 </div>
+                                <div className={classes.failureLoginAlert}>
+                                    <Collapse in={props.openAlert}>
+                                        <Alert
+                                        action={
+                                            <IconButton
+                                            aria-label="close"
+                                            color="inherit"
+                                            size="small"
+                                            onClick={() => {
+                                                props.setOpenAlert(false);
+                                            }}
+                                            >
+                                            <CloseIcon fontSize="inherit" />
+                                            </IconButton>
+                                        }
+                                        severity="error"
+                                        >
+                                        <AlertTitle><strong>Failed !</strong></AlertTitle>
+                                            Wrong username or password. Try again
+                                        </Alert>
+                                    </Collapse>
+                                    </div>
                                 <div >
                                     <Button className={classes.formButton} variant="contained" color="secondary" type="submit">
                                         Login

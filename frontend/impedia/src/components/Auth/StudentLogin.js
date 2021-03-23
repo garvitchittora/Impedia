@@ -8,6 +8,8 @@ const StudentLogin = () => {
     const [EmailValues, setEmailValues] = React.useState('');
     const [PasswordValues, setPasswordValues] = React.useState('');
 
+    const [openAlert, setOpenAlert] = React.useState(false);
+
     const submitFunction = async (e) => {
         e.preventDefault();
 
@@ -30,7 +32,8 @@ const StudentLogin = () => {
             console.log(data.authKey);
         })
         .catch((err)=>{
-            console.log(err);
+            if(err.response.status === 400 || err.response.status === 403)
+                setOpenAlert(true);
         });
     }
 
@@ -44,6 +47,8 @@ const StudentLogin = () => {
                 setPasswordValues={setPasswordValues}
                 submitFunction={submitFunction}
                 loginImage={StudentLoginPic}
+                openAlert={openAlert}
+                setOpenAlert={setOpenAlert}
             />
         </>
     )
