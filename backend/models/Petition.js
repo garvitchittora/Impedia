@@ -15,6 +15,7 @@ const petitionSchema = new mongoose.Schema(
     },
     petitionFromId: {
       type: String,
+      ref: "Student",
       required: true,
     },
     petitionToId: {

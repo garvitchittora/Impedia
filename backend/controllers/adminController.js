@@ -7,7 +7,7 @@ const Authority = require("../models/Authority");
 const Group = require("../models/Group");
 const Student = require("../models/Student");
 
-//* FOR TESTING ONLY! REMOVE LATER
+//! FOR TESTING ONLY! REMOVE LATER
 const addAdmin = async (req, res) => {
   const { email, name, password } = req.body;
   const passwordHash = await bcrypt.hash(password, 10);
@@ -21,7 +21,7 @@ const addAdmin = async (req, res) => {
   if (!saved) console.log("Shit fucked up");
   res.status(201).json(saved);
 };
-//* FOR TESTING ONLY! REMOVE LATER
+// ! FOR TESTING ONLY! REMOVE LATER
 
 const adminAuth = async (req, res) => {
   console.log(await bcrypt.hash("password", 10));

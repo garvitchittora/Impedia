@@ -15,6 +15,7 @@ const appealSchema = new mongoose.Schema(
     },
     appealFromId: {
       type: String,
+      ref: "Student",
       required: true,
     },
     appealToId: {

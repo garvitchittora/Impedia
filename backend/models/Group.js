@@ -10,7 +10,12 @@ const groupSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    members: [String],
+    members: [
+      {
+        type: "String",
+        ref: "Authority",
+      },
+    ],
   },
   { _id: false }
 );

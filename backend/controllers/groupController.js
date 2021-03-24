@@ -9,23 +9,15 @@ const getGroups = async (req, res) => {
   let foundUser;
 
   if (userType === "AD") {
-    foundUser = await Admin.findOne({ id });
+    foundUser = await Admin.findById(id);
   } else if (userType === "ST") {
-    foundUser = await Student.findOne({ id });
+    foundUser = await Student.findById(id);
   } else if (userType === "AU") {
-    foundUser = await Authority.findOne({ id });
+    foundUser = await Authority.findById(id);
   }
 
   if (!foundUser) return res.status(400).json({ error: "Invalid user" });
-  const groups = await Group.find({});
-  const data = groups.map(async (group) => {
-    let members = await Authority.find().where("id").in(group.members).exec();
-    return {
-      id: group.id,
-      members,
-      name: group.name,
-    };
-  });
+  const groups = await Group.find({}).populate("members").exec();
   return res.status(200).json(groups);
 };
 
@@ -36,25 +28,18 @@ const getGroupById = async (req, res) => {
   let foundUser;
 
   if (userType === "AD") {
-    foundUser = await Admin.findOne({ id });
+    foundUser = await Admin.findById(id);
   } else if (userType === "ST") {
-    foundUser = await Student.findOne({ id });
+    foundUser = await Student.findById(id);
   } else if (userType === "AU") {
-    foundUser = await Authority.findOne({ id });
+    foundUser = await Authority.findById(id);
   }
 
   if (!foundUser) return res.status(400).json({ error: "Invalid user" });
 
-  let group = await Group.findOne({ id: req.params.id });
+  let group = await Group.findById(req.params.id).populate("members").exec();
   if (!group) return res.status(404).end();
-  let members = await Authority.find().where("id").in(group.members).exec();
-
-  let data = {
-    id: group.id,
-    members,
-    name: group.name,
-  };
-  return res.status(200).json(data);
+  return res.status(200).json(group);
 };
 
 module.exports = {

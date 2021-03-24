@@ -7,16 +7,17 @@ const { key, sign } = require("../utils/jwt");
 const getAuthorities = async (req, res) => {
   const { id } = req.user;
   let userType = id.substring(0, 2);
+  console.log(userType);
   let foundUser;
 
   if (userType === "AD") {
-    foundUser = await Admin.findOne({ id });
+    foundUser = await Admin.findById(id);
   } else if (userType === "ST") {
-    foundUser = await Student.findOne({ id });
+    foundUser = await Student.findById(id);
   } else if (userType === "AU") {
-    foundUser = await Authority.findOne({ id });
+    foundUser = await Authority.findById(id);
   }
-
+  console.log("The founduser is", foundUser);
   if (!foundUser) return res.status(400).json({ error: "Invalid user" });
   const authorities = await Authority.find({});
   return res.status(200).json(authorities);
@@ -37,7 +38,7 @@ const authorityAuth = async (req, res) => {
   const token = await sign(
     {
       email: authority.email,
-      id: authority.id,
+      id: authority._id,
     },
     key
   );
