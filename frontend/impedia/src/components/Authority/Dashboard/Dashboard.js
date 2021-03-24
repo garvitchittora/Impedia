@@ -144,32 +144,34 @@ const Dashboard = () => {
     const [appeals, setAppeals] = useState([]);
     const [petitions, setPetitions] = useState([]);
 
-    useEffect(async () => {
+    useEffect(() => {
             const AdminToken = localStorage.getItem("key");
             const config = {
                 headers: {
                   authorization: AdminToken,
                 }
             }
-            const res = await axios.get("/authority/appeals", config)
-            const data = res.data;
-
-            setAppeals(data);
+            axios.get("/authority/appeals", config)
+            .then(res=>res.data)
+            .then(data=>{
+                setAppeals(data);
+            })
 
     }, []);
 
-    useEffect(async () => { 
+    useEffect(() => { 
             const AdminToken = localStorage.getItem("key");
             const config = {
                 headers: {
                   authorization: AdminToken,
                 }
             }
-            const res = await axios.get("/authority/petitions", config)
-            const data = res.data;
-            console.log(data);
-
+            
+            axios.get("/authority/petitions", config)
+            .then(res=>res.data)
+            .then(data=>{
                 setPetitions(data);
+            })
 
     }, []);
 
@@ -219,11 +221,11 @@ const Dashboard = () => {
                         <Link to="/UpdateProfile" className={classes.link}>
                             <UseCase icon={AddAuthIcon} type="Update Profile" />
                         </Link>
-                        <Link to="/petition/view" className={classes.link}>
-                            <UseCase icon={PetitionIcon} type="View Petitions" />
+                        <Link to="/authority/petitions" className={classes.link}>
+                            <UseCase icon={PetitionIcon} type="Petitions" />
                         </Link>
-                        <Link to="/appeals/view" className={classes.link}>
-                            <UseCase icon={AppealIcon} type="View Appeals" />
+                        <Link to="/authority/appeals" className={classes.link}>
+                            <UseCase icon={AppealIcon} type="Appeals" />
                         </Link>
                     </div>
                 </div>

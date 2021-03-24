@@ -151,28 +151,25 @@ const Dashboard = () => {
                   authorization: AdminToken,
                 }
             }
-            const res = await axios.get("/student/appeals", config)
-            const data = res.data;
-
-            setAppeals(data);
+            axios.get("/student/appeals", config).then(res=>res.data)
+            .then(data=>{
+                setAppeals(data);
+            })
     }, []);
 
-    useEffect(async () => {
+    useEffect(() => {
             const AdminToken = localStorage.getItem("key");
             const config = {
                 headers: {
                   authorization: AdminToken,
                 }
             }
-            const res = await axios.get("/student/petitions", config)
-            const dataGroups = res.data;
-            console.log(dataGroups);
 
-            setPetitions(() => {
-                return dataGroups.map((option) => {
-                    return option;
-                })
-            });
+            axios.get("/student/petitions", config)
+            .then(res=>res.data)
+            .then(data=>{
+                setPetitions(data);
+            })
     }, []);
 
     return (
@@ -221,16 +218,16 @@ const Dashboard = () => {
                         <Link to="/UpdateProfile" className={classes.link}>
                             <UseCase icon={AddAuthIcon} type="Update Profile" />
                         </Link>
-                        <Link to="/petition/view" className={classes.link}>
+                        <Link to="/student/petitions" className={classes.link}>
                             <UseCase icon={PetitionIcon} type="View Petitions" />
                         </Link>
-                        <Link to="/appeals/view" className={classes.link}>
+                        <Link to="/student/appeals" className={classes.link}>
                             <UseCase icon={AppealIcon} type="View Appeals" />
                         </Link>
-                        <Link to="/appeals/create" className={classes.link}>
+                        <Link to="/student/appeals/create" className={classes.link}>
                             <UseCase icon={AppealIcon} type="Create Appeals" />
                         </Link>
-                        <Link to="/petitions/create" className={classes.link}>
+                        <Link to="/student/petitions/create" className={classes.link}>
                             <UseCase icon={PetitionIcon} type="Create Petitions" />
                         </Link>
                     </div>

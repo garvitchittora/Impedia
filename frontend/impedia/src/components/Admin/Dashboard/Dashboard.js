@@ -145,16 +145,18 @@ const Dashboard = () => {
     const classes = useStyles();
     const [AppealsPetitions, setAppealsPetitions] = useState([]);
 
-    useEffect(async () => {
+    useEffect(() => {
             const AdminToken = localStorage.getItem("key");
             const config = {
                 headers: {
                   authorization: AdminToken,
                 }
             }
-            const res = await axios.get("/admin/appealspetitions", config)
-            const dataGroups = res.data;
-                setAppealsPetitions(dataGroups);
+            axios.get("/admin/appealspetitions", config)
+            .then(res=>res.data)
+            .then(data=>{
+                setAppealsPetitions(data);
+            })
     }, []);
 
     return(
@@ -210,7 +212,7 @@ const Dashboard = () => {
                         <Link to="/admin/appeals" className={classes.link}>
                             <UseCase icon={AppealIcon} type="Appeals" />
                         </Link>
-                        <Link to="/admin/petitions" className={classes.link}>
+                        <Link to="admin//petitions" className={classes.link}>
                             <UseCase icon={PetitionIcon} type="Petitions" />
                         </Link>
                     </div>
