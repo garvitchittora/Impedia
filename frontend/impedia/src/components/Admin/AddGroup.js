@@ -103,8 +103,8 @@ const AddGroup = () => {
     const [openGroup, setOpenGroup] = useState(false);
     const [optionsGroup, setOptionsGroup] = useState([]);
     const loadingGroup = openGroup && optionsGroup.length === 0;
-    const [sendToId, setId] = useState();
-    
+    const [authorityIds, setAuthorityIds] = useState();
+    const [groupSelected, setGroupSelected] = useState();
 
     useEffect(() => {
         let active = true;
@@ -190,7 +190,7 @@ const AddGroup = () => {
                 authorization: AdminToken,
             }
         }
-        console.log(sendToId, optionsGroup)
+        console.log(authorityIds, groupSelected)
         // axios.post(`/admin/addauthorities`, body, config)
         //     .then((res) => {
         //         console.log(res);
@@ -202,7 +202,7 @@ const AddGroup = () => {
         //     })
         //     .catch((err) => {
         //         console.log(err);
-        //     });
+        // });
     }
 
     return (
@@ -225,13 +225,20 @@ const AddGroup = () => {
                                     </Typography>
                                         <Autocomplete
                                             freeSolo
-                                            id="free-solo-2-demo"
+                                            id="group"
                                             disableClearable
                                             getOptionSelected={(option, value) => option.name === value.name}
                                             getOptionLabel={(option) => option.name}
                                             loading={loadingGroup}
                                             options={optionsGroup.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
                                             groupBy={(option) => option.firstLetter}
+                                            onChange={(e, v) => { setGroupSelected(v) }}
+                                            onOpen={() => {
+                                                setOpenGroup(true);
+                                            }}
+                                            onClose={() => {
+                                                setOpenGroup(false);
+                                            }}
                                             renderInput={(params) => (
                                                 <TextField
                                                     {...params}
@@ -271,7 +278,7 @@ const AddGroup = () => {
                                             loading={loadingAuth}
                                             options={optionsAuth.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
                                             groupBy={(option) => option.firstLetter}
-                                            onChange={(e, v) => { setId(v) }}
+                                            onChange={(e, v) => { setAuthorityIds(v) }}
                                             renderInput={(params) => (
                                                 <TextField
                                                     {...params}
@@ -282,7 +289,7 @@ const AddGroup = () => {
                                                         ...params.InputProps,
                                                         endAdornment: (
                                                             <React.Fragment>
-                                                                {loadingGroup ? <CircularProgress color="inherit" size={20} /> : null}
+                                                                {loadingAuth ? <CircularProgress color="inherit" size={20} /> : null}
                                                                 {params.InputProps.endAdornment}
                                                             </React.Fragment>
                                                         ),
