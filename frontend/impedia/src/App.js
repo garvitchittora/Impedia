@@ -9,6 +9,7 @@ import Dashboard from './components/Admin/Dashboard/Dashboard';
 import ChangeDomain from './components/Admin/ChangeDomain';
 import AddAuthority from './components/Admin/AddAuthority';
 import CreateAppeal from './components/Student/CreateAppeal';
+import AddGroup from './components/Admin/AddGroup';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route exact path="/admin/ChangeDomain" component={ChangeDomain} />
           <Route exact path="/admin/AddAuthority" component={AddAuthority} />
           <Route exact path="/appeals/create" component={CreateAppeal} />
+          <Route exact path="/admin/AddGroup" component={AddGroup} />
         </Switch>
       </BrowserRouter>
     </>
