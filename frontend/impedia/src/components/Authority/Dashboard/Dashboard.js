@@ -152,18 +152,9 @@ const Dashboard = () => {
                 }
             }
             const res = await axios.get("/authority/appeals", config)
-            const dataGroups = res.data;
+            const data = res.data;
 
-                setAppeals(() => {
-                    return dataGroups.map((option) => {
-                        return option;
-                        // let firstLetter = option.name[0].toUpperCase();
-                        // return {
-                        //     firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
-                        //     ...option,
-                        // }
-                    })
-                });
+            setAppeals(data);
 
     }, []);
 
@@ -175,14 +166,10 @@ const Dashboard = () => {
                 }
             }
             const res = await axios.get("/authority/petitions", config)
-            const dataGroups = res.data;
-            console.log(dataGroups);
+            const data = res.data;
+            console.log(data);
 
-                setPetitions(() => {
-                    return dataGroups.map((option) => {
-                        return option;
-                    })
-                });
+                setPetitions(data);
 
     }, []);
 
@@ -223,8 +210,8 @@ const Dashboard = () => {
                         RECENT
                     </Typography>
 
-                    <Recents type="APPEALS" data={appeals} />
-                    <Recents type="PETITIONS" data={petitions} />
+                    <Recents type="APPEALS" data={appeals || []} />
+                    <Recents type="PETITIONS" data={petitions || []} />
                 </div>
 
                 <div className={classes.bodyRight}>

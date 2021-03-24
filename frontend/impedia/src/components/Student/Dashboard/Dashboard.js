@@ -152,14 +152,9 @@ const Dashboard = () => {
                 }
             }
             const res = await axios.get("/student/appeals", config)
-            const dataGroups = res.data;
+            const data = res.data;
 
-
-            setAppeals(() => {
-                return dataGroups.map((option) => {
-                    return option;
-                })
-            });
+            setAppeals(data);
     }, []);
 
     useEffect(async () => {
@@ -217,8 +212,8 @@ const Dashboard = () => {
                         RECENT
                     </Typography>
 
-                    <Recents type="APPEALS" data={appeals} />
-                    <Recents type="PETITIONS" data={petitions} />
+                    <Recents type="APPEALS" data={appeals || []} />
+                    <Recents type="PETITIONS" data={petitions || []} />
                 </div>
 
                 <div className={classes.bodyRight}>

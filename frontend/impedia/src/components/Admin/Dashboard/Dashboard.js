@@ -144,12 +144,8 @@ const useStyles = makeStyles(theme => ({
 const Dashboard = () => {
     const classes = useStyles();
     const [AppealsPetitions, setAppealsPetitions] = useState([]);
-    const loadingAppealsPetitions = AppealsPetitions.length === 0;
 
-    useEffect(() => {
-        let active = true;
-
-        (async () => {
+    useEffect(async () => {
             const AdminToken = localStorage.getItem("key");
             const config = {
                 headers: {
@@ -158,15 +154,8 @@ const Dashboard = () => {
             }
             const res = await axios.get("/admin/appealspetitions", config)
             const dataGroups = res.data;
-            if (active) {
                 setAppealsPetitions(dataGroups);
-            }
-        })();
-    
-        return () => {
-          active = false;
-        };
-    }, [loadingAppealsPetitions]);
+    }, []);
 
     return(
         <div className={classes.dashboardPage}>
@@ -203,8 +192,8 @@ const Dashboard = () => {
                         RECENT
                     </Typography>
 
-                    <Recents type="APPEALS" data={loadingAppealsPetitions=== false ? AppealsPetitions.appeals : []} />
-                    <Recents type="PETITIONS" data={loadingAppealsPetitions=== false ? AppealsPetitions.petitions : []} />
+                    <Recents type="APPEALS" data={AppealsPetitions.appeals || []} />
+                    <Recents type="PETITIONS" data={AppealsPetitions.petitions || []} />
                 </div>
 
                 <div className={classes.bodyRight}>
