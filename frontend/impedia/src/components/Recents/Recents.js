@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     makeStyles,
     Typography
@@ -49,8 +49,20 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+const MAXRETURN = 5;
+
 const Recents = (props) => {
     const classes = useStyles();
+
+    const [data,setData] = useState([]);
+
+    useEffect(()=>{
+        props.data.sort((a,b)=>{
+            return new Date(b.dateTime) - new Date(a.dateTime)
+        });
+
+        setData(props.data.slice(0,MAXRETURN))
+    },[props.data])
 
     const makeCard = (obj, ind) => {
         return( <div className={classes.cardData} key={ind}>
@@ -73,7 +85,7 @@ const Recents = (props) => {
                 {props.type}
             </Typography>
             {
-                props.data.map(makeCard)
+                data.map(makeCard)
             }
         </div>
     )
