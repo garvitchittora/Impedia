@@ -156,13 +156,18 @@ const Dashboard = () => {
                   authorization: AdminToken,
                 }
             }
-            const res = await axios.get("/student/appeals", config)
+            const res = await axios.get("/authority/appeals", config)
             const dataGroups = res.data;
 
             if (active) {
                 setAppeals(() => {
                     return dataGroups.map((option) => {
                         return option;
+                        // let firstLetter = option.name[0].toUpperCase();
+                        // return {
+                        //     firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
+                        //     ...option,
+                        // }
                     })
                 });
             }
@@ -183,7 +188,7 @@ const Dashboard = () => {
                   authorization: AdminToken,
                 }
             }
-            const res = await axios.get("/student/petitions", config)
+            const res = await axios.get("/authority/petitions", config)
             const dataGroups = res.data;
             console.log(dataGroups);
 
@@ -209,7 +214,7 @@ const Dashboard = () => {
                         <img src={ImpediaLogo} alt="Impedia" className={classes.logo} />
 
                         <Typography className={classes.logoForAdmin}>
-                            FOR STUDENT
+                            FOR AUTHORITY
                         </Typography>
                     </Link>
                 </div>
@@ -252,12 +257,6 @@ const Dashboard = () => {
                         </Link>
                         <Link to="/appeals/view" className={classes.link}>
                             <UseCase icon={AppealIcon} type="View Appeals" />
-                        </Link>
-                        <Link to="/appeals/create" className={classes.link}>
-                            <UseCase icon={AppealIcon} type="Create Appeals" />
-                        </Link>
-                        <Link to="/petitions/create" className={classes.link}>
-                            <UseCase icon={PetitionIcon} type="Create Petitions" />
                         </Link>
                     </div>
                 </div>

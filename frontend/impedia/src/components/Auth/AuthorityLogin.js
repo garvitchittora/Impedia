@@ -2,8 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import LoginPage from './LoginPage';
 import AuthorityLoginPic from '../../assets/Login/authLogin.svg'
+import  { useHistory} from 'react-router-dom';
 
 const AuthorityLogin = () => {
+    const history = useHistory();
 
     const [EmailValues, setEmailValues] = React.useState('');
     const [PasswordValues, setPasswordValues] = React.useState('');
@@ -22,13 +24,13 @@ const AuthorityLogin = () => {
         .then((res)=>{
             let data = res.data;
             if(res.status === 200 || res.status === 201){
-                alert("Login Successfully")
+                localStorage.setItem('key',data.authKey);
+                console.log(data.authKey);
+
+                return history.push("/authority/dashboard");
             }else{
                 alert("Failed")
             } 
-
-            localStorage.setItem('key',data.authKey);
-            console.log(data.authKey);
         })
         .catch((err)=>{
             if(err.response.status === 400 || err.response.status === 403)

@@ -19,6 +19,7 @@ import back2 from '../../assets/Login/login-2.svg';
 import back3 from '../../assets/Login/login-3(2).svg';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import LoginSidePic from '../../assets/Login/loginSidePic.svg';
+import  { useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     loginPage: {
@@ -167,6 +168,7 @@ const useStyles = makeStyles(theme => ({
 
 const StudentRegister = () => {
     const classes = useStyles();
+    const history = useHistory();
 
     const [EmailValues, setEmailValues] = React.useState('');
     const [SemValues, setSemValues] = React.useState('');
@@ -220,7 +222,7 @@ const StudentRegister = () => {
         .then((res)=>{
             console.log(res);
             if(res.status === 200 || res.status === 201){
-                alert("Student Registered Successfully")
+                return history.push("/student/dashboard");
             }else{
                 alert("Failed")
             } 
