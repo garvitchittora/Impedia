@@ -6,7 +6,7 @@ import {
 import LogOutIcon from '@material-ui/icons/PowerSettingsNew';
 import ImpediaLogo from '../../../assets/Logo-Impedia.png';
 import DashBoardLine from '../../../assets/Admin/dashboardLine.svg';
-import Recents from './Recents';
+import Recents from '../../Recents/Recents';
 import UseCase from './UseCase';
 import AddAuthIcon from '../../../assets/Admin/addAuth.svg';
 import DomainIcon from '../../../assets/Admin/domainIcon.svg';

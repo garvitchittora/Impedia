@@ -6,7 +6,7 @@ import {
 import LogOutIcon from '@material-ui/icons/PowerSettingsNew';
 import ImpediaLogo from '../../../assets/Logo-Impedia.png';
 import DashBoardLine from '../../../assets/Admin/dashboardLine.svg';
-import Recents from './Recents';
+import Recents from '../../Recents/Recents';
 import UseCase from './UseCase';
 import AddAuthIcon from '../../../assets/Admin/addAuth.svg';
 import AppealIcon from '../../../assets/Admin/appealIcon.svg';
@@ -142,14 +142,9 @@ const useStyles = makeStyles(theme => ({
 const Dashboard = () => {
     const classes = useStyles();
     const [appeals, setAppeals] = useState([]);
-    const loadingAppeal = appeals.length === 0;
     const [petitions, setPetitions] = useState([]);
-    const loadingPetition = petitions.length === 0;
 
-    useEffect(() => {
-        let active = true;
-
-        (async () => {
+    useEffect(async () => {
             const AdminToken = localStorage.getItem("key");
             const config = {
                 headers: {
@@ -159,7 +154,6 @@ const Dashboard = () => {
             const res = await axios.get("/authority/appeals", config)
             const dataGroups = res.data;
 
-            if (active) {
                 setAppeals(() => {
                     return dataGroups.map((option) => {
                         return option;
@@ -170,18 +164,10 @@ const Dashboard = () => {
                         // }
                     })
                 });
-            }
-        })();
-    
-        return () => {
-          active = false;
-        };
-    }, [loadingAppeal]);
 
-    useEffect(() => {
-        let active = true;
-    
-        (async () => {
+    }, []);
+
+    useEffect(async () => { 
             const AdminToken = localStorage.getItem("key");
             const config = {
                 headers: {
@@ -192,19 +178,13 @@ const Dashboard = () => {
             const dataGroups = res.data;
             console.log(dataGroups);
 
-            if (active) {
                 setPetitions(() => {
                     return dataGroups.map((option) => {
                         return option;
                     })
                 });
-            }
-        })();
-    
-        return () => {
-          active = false;
-        };
-    }, [loadingPetition]);
+
+    }, []);
 
     return (
         <div className={classes.dashboardPage}>
