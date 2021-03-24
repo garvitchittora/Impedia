@@ -7,7 +7,24 @@ const Authority = require("../models/Authority");
 const Group = require("../models/Group");
 const Student = require("../models/Student");
 
-const adminAuth = (req, res) => {
+//* FOR TESTING ONLY! REMOVE LATER
+const addAdmin = async (req, res) => {
+  const { email, name, password } = req.body;
+  const passwordHash = await bcrypt.hash(password, 10);
+  const admin = new Admin({
+    _id: "AD" + new mongoose.mongo.ObjectID(),
+    email,
+    name,
+    password: passwordHash,
+  });
+  const saved = await admin.save();
+  if (!saved) console.log("Shit fucked up");
+  res.status(201).json(saved);
+};
+//* FOR TESTING ONLY! REMOVE LATER
+
+const adminAuth = async (req, res) => {
+  console.log(await bcrypt.hash("password", 10));
   let email = req.body.email;
   let password = req.body.password;
   if (!(email && password)) {
@@ -28,7 +45,7 @@ const adminAuth = (req, res) => {
             sign(
               {
                 email: admin.email,
-                id: admin.id,
+                id: admin._id,
               },
               key,
               (err, token) => {
@@ -92,9 +109,9 @@ const addAuthorities = async (req, res) => {
     const password = "password";
     const passwordHash = await bcrypt.hash(password, 10);
     let user = new Authority({
+      _id: "AU" + new mongoose.mongo.ObjectId(),
       name: email,
       email: email,
-      id: "AU" + new mongoose.mongo.ObjectId(),
       password: passwordHash,
     });
     await user.save();
@@ -116,11 +133,11 @@ const makeAuthorityGroup = async (req, res) => {
   const authorities = await Authority.find().where("email").in(emailIds).exec();
   const authorityIds = [];
   authorities.forEach((authority) => {
-    authorityIds.push(authority.id);
+    authorityIds.push(authority._id);
   });
 
   const group = new Group({
-    id: "GR" + new mongoose.mongo.ObjectId(),
+    _id: "GR" + new mongoose.mongo.ObjectId(),
     name: name,
     members: authorityIds,
   });
@@ -130,17 +147,28 @@ const makeAuthorityGroup = async (req, res) => {
 
 const editAuthorityGroup = async (req, res) => {
   const { user, body } = req;
-  const admin = Admin.find({ id: user.id });
+  const admin = Admin.findById(user.id);
   if (!admin) return res.status(403).json({ error: "Forbidden" });
-  const group = await Group.findOne({ id: body.id });
+  const group = await Group.findById(req.params.id);
+  console.log("Initally:", group);
+
   const { nameUpdate, memberUpdate } = body;
 
   group.members = memberUpdate;
   if (nameUpdate) {
     group.name = nameUpdate;
   }
+  console.log("Finally: ", group);
   await group.save();
   res.status(200).json(group);
+};
+
+const deleteAuthorityGroup = async (req, res) => {
+  const { user } = req;
+  const admin = Admin.findById(user.id);
+  if (!admin) return res.status(403).json({ error: "Forbidden" });
+  const group = await Group.findByIdAndRemove(req.params.id);
+  res.status(204).end();
 };
 
 module.exports = {
@@ -149,4 +177,6 @@ module.exports = {
   addAuthorities,
   makeAuthorityGroup,
   editAuthorityGroup,
+  deleteAuthorityGroup,
+  addAdmin,
 };

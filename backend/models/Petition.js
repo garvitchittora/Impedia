@@ -1,31 +1,34 @@
 const mongoose = require("mongoose");
 
-const petitionSchema = new mongoose.Schema({
-    id: {
-        type: String,
-        required: true,
+const petitionSchema = new mongoose.Schema(
+  {
+    _id: {
+      type: String,
+      required: true,
     },
     title: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     content: {
-        type: String
+      type: String,
     },
     petitionFromId: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     petitionToId: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     signees: [String],
     dateTime: {
-        type: Date,
-        default: Date.now
-    }
-});
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { _id: false }
+);
 
 const Petition = mongoose.model("Petition", petitionSchema);
 module.exports = Petition;
