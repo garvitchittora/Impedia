@@ -130,7 +130,7 @@ const makeAuthorityGroup = async (req, res) => {
 
 const editAuthorityGroup = async (req, res) => {
   const { user, body } = req;
-  const admin = Admin.find({ id: user.id });
+  const admin = await Admin.findOne({ id: user.id });
   if (!admin) return res.status(403).json({ error: "Forbidden" });
   const group = await Group.findOne({ id: body.id });
   const { nameUpdate, memberUpdate } = body;

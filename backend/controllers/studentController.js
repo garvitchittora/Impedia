@@ -69,7 +69,7 @@ const studentAuth = async (req, res) => {
 
 const createAppeal = async (req, res) => {
   const { user, body } = req;
-  const student = Student.find({ id: user.id });
+  const student = await Student.findOne({ id: user.id });
   if (!student)
     return res.status(400).json({ error: "Student does not exist" });
   const appeal = new Appeal({
@@ -81,9 +81,20 @@ const createAppeal = async (req, res) => {
   return res.status(201).end();
 };
 
+const getStudentAppeals = async (req, res) => {
+  const { user } = req;
+  const student = await Student.findOne({ id: user.id });
+  if (!student)
+    return res.status(400).json({ error: "Student does not exist" });
+  
+  const appeals = await Appeal.find({appealFromId: user.id});
+  return res.json(appeals);
+};
+
 module.exports = {
   studentAuth,
   validateStudentRegisterRequest,
   studentRegister,
   createAppeal,
+  getStudentAppeals,
 };
