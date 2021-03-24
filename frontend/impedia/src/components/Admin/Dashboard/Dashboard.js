@@ -143,10 +143,8 @@ const useStyles = makeStyles(theme => ({
 
 const Dashboard = () => {
     const classes = useStyles();
-    const [appeals, setAppeals] = useState([]);
-    const loadingAppeal = appeals.length === 0;
-    const [petitions, setPetitions] = useState([]);
-    const loadingPetition = petitions.length === 0;
+    const [AppealsPetitions, setAppealsPetitions] = useState([]);
+    const loadingAppealsPetitions = AppealsPetitions.length === 0;
 
     useEffect(() => {
         let active = true;
@@ -158,60 +156,17 @@ const Dashboard = () => {
                   authorization: AdminToken,
                 }
             }
-            const res = await axios.get("/student/appeals", config)
+            const res = await axios.get("/admin/appealspetitions", config)
             const dataGroups = res.data;
-
             if (active) {
-                setAppeals(() => {
-                    return dataGroups.map((option) => {
-                        return option;
-                        // let firstLetter = option.name[0].toUpperCase();
-                        // return {
-                        //     firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
-                        //     ...option,
-                        // }
-                    })
-                });
+                setAppealsPetitions(dataGroups);
             }
         })();
     
         return () => {
           active = false;
         };
-    }, [loadingAppeal]);
-
-    useEffect(() => {
-        let active = true;
-    
-        (async () => {
-            const AdminToken = localStorage.getItem("key");
-            const config = {
-                headers: {
-                  authorization: AdminToken,
-                }
-            }
-            const res = await axios.get("/student/petitions", config)
-            const dataGroups = res.data;
-            console.log(dataGroups);
-
-            if (active) {
-                setPetitions(() => {
-                    return dataGroups.map((option) => {
-                        return option;
-                        // let firstLetter = option.name[0].toUpperCase();
-                        // return {
-                        //     firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
-                        //     ...option,
-                        // }
-                    })
-                });
-            }
-        })();
-    
-        return () => {
-          active = false;
-        };
-    }, [loadingPetition]);
+    }, [loadingAppealsPetitions]);
 
     return(
         <div className={classes.dashboardPage}>
@@ -248,8 +203,8 @@ const Dashboard = () => {
                         RECENT
                     </Typography>
 
-                    <Recents type="APPEALS" data={appeals} />
-                    <Recents type="PETITIONS" data={petitions} />
+                    <Recents type="APPEALS" data={loadingAppealsPetitions=== false ? AppealsPetitions.appeals : []} />
+                    <Recents type="PETITIONS" data={loadingAppealsPetitions=== false ? AppealsPetitions.petitions : []} />
                 </div>
 
                 <div className={classes.bodyRight}>
