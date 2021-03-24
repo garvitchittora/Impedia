@@ -96,7 +96,6 @@ const useStyles = makeStyles(theme => ({
 
 const AddGroup = () => {
     const classes = useStyles();
-    const [EmailValues, setEmailValues] = React.useState('');
     const [optionsAuth, setOptionsAuth] = useState([]);
     const [openAuth, setOpenAuth] = useState(false);
     const loadingAuth = openAuth && optionsAuth.length === 0;
@@ -179,10 +178,11 @@ const AddGroup = () => {
     const submitFunction = async (e) => {
         e.preventDefault();
 
-        let emailArray = EmailValues.replaceAll(" ", "").split(",");
-
         const body = {
-            emailIds: emailArray,
+            emailIds: authorityIds.map((authority) => {
+                return authority.email
+            }),
+            name: groupSelected.name
         }
         const AdminToken = localStorage.getItem("key");
         const config = {
@@ -191,18 +191,18 @@ const AddGroup = () => {
             }
         }
         console.log(authorityIds, groupSelected)
-        // axios.post(`/admin/addauthorities`, body, config)
-        //     .then((res) => {
-        //         console.log(res);
-        //         if (res.status === 200 || res.status === 201) {
-        //             alert("Authorities added Successfully")
-        //         } else {
-        //             alert("Failed")
-        //         }
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        // });
+        axios.post(`/admin/authoritygroup`, body, config)
+            .then((res) => {
+                console.log(res);
+                if (res.status === 200 || res.status === 201) {
+                    alert("Group Created Successfully")
+                } else {
+                    alert("Failed")
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+        });
     }
 
     return (
