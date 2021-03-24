@@ -21,6 +21,7 @@ const petitionSchema = new mongoose.Schema(
     petitionToId: {
       type: String,
       required: true,
+      ref: "Authority",
     },
     signees: [String],
     dateTime: {

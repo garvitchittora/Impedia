@@ -21,10 +21,16 @@ const appealSchema = new mongoose.Schema(
     appealToId: {
       type: String,
       required: true,
+      refPath: "onModel",
     },
     dateTime: {
       type: Date,
       default: Date.now,
+    },
+    onModel: {
+      type: String,
+      required: true,
+      enum: ["Group", "Authority"],
     },
   },
   { _id: false }
