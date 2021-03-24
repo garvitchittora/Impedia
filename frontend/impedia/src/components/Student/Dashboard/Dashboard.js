@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     makeStyles,
     Typography
@@ -9,135 +9,133 @@ import DashBoardLine from '../../../assets/Admin/dashboardLine.svg';
 import Recents from './Recents';
 import UseCase from './UseCase';
 import AddAuthIcon from '../../../assets/Admin/addAuth.svg';
-import DomainIcon from '../../../assets/Admin/domainIcon.svg';
-import MakeGroupIcon from '../../../assets/Admin/makeGroup.svg';
 import AppealIcon from '../../../assets/Admin/appealIcon.svg';
 import PetitionIcon from '../../../assets/Admin/petitionIcon.svg';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
-    dashboardPage:{
-        width:"95%",
-        margin:"1% auto"
+    dashboardPage: {
+        width: "95%",
+        margin: "1% auto"
     },
-    dashTopBar:{
-        display:"flex",
-        alignItems:"center"
+    dashTopBar: {
+        display: "flex",
+        alignItems: "center"
     },
-    logo:{
-        width:"250px"
+    logo: {
+        width: "250px"
     },
-    logoAdmin:{
-        flex:"20%",
-        display:"flex",
-        flexDirection:"column",
+    logoAdmin: {
+        flex: "20%",
+        display: "flex",
+        flexDirection: "column",
     },
-    logoForAdmin:{
-        marginLeft:"80px",
-        letterSpacing:"3px",
-        fontSize:"12px",
-        fontWeight:"600",
-        marginTop:"-10px",
-        userSelect:"none"
+    logoForAdmin: {
+        marginLeft: "80px",
+        letterSpacing: "3px",
+        fontSize: "12px",
+        fontWeight: "600",
+        marginTop: "-10px",
+        userSelect: "none"
     },
-    dashboardText:{
-        flex:"80%",
-        fontSize:"25px",
-        fontWeight:"800",
-        letterSpacing:"8px",
-        textAlign:"center",
-        color:"#133B5C",
-        [theme.breakpoints.down("xs")]:{
-            display:"none"
+    dashboardText: {
+        flex: "80%",
+        fontSize: "25px",
+        fontWeight: "800",
+        letterSpacing: "8px",
+        textAlign: "center",
+        color: "#133B5C",
+        [theme.breakpoints.down("xs")]: {
+            display: "none"
         }
     },
-    dashboardTextForMobile:{
-        display:"none",
-        flex:"80%",
-        fontSize:"25px",
-        fontWeight:"800",
-        letterSpacing:"8px",
-        textAlign:"center",
-        color:"#133B5C",
-        margin:"5% 0 0",
-        [theme.breakpoints.down("xs")]:{
-            display:"block"
+    dashboardTextForMobile: {
+        display: "none",
+        flex: "80%",
+        fontSize: "25px",
+        fontWeight: "800",
+        letterSpacing: "8px",
+        textAlign: "center",
+        color: "#133B5C",
+        margin: "5% 0 0",
+        [theme.breakpoints.down("xs")]: {
+            display: "block"
         }
     },
-    logoutButton:{
-        flex:"20%",
-        color:"#FF1E56",
-        fontSize:"18px",
-        fontWeight:"600",
-        display:"flex",
-        alignItems:"center",
-        justifyContent:"flex-end",
-        letterSpacing:"4px",
-        [theme.breakpoints.down("xs")]:{
-            marginRight:"20px"
+    logoutButton: {
+        flex: "20%",
+        color: "#FF1E56",
+        fontSize: "18px",
+        fontWeight: "600",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-end",
+        letterSpacing: "4px",
+        [theme.breakpoints.down("xs")]: {
+            marginRight: "20px"
         }
     },
-    logoutText:{
-        display:"inline",
-        fontWeight:"600",
-        fontSize:"15px",
-        letterSpacing:"3px"
+    logoutText: {
+        display: "inline",
+        fontWeight: "600",
+        fontSize: "15px",
+        letterSpacing: "3px"
     },
-    dashLine:{
-        position:"relative",
-        left:"0",
-        marginTop:"-50px",
-        marginLeft:"-5%",
-        width:"100vw",
-        [theme.breakpoints.down("xs")]:{
-            marginTop:"0"
+    dashLine: {
+        position: "relative",
+        left: "0",
+        marginTop: "-50px",
+        marginLeft: "-5%",
+        width: "100vw",
+        [theme.breakpoints.down("xs")]: {
+            marginTop: "0"
         }
     },
-    recentsHeading:{
-        fontSize:"15px",
-        fontWeight:"800",
-        textAlign:"center",
-        margin:"8px 0",
-        letterSpacing:"5px"
+    recentsHeading: {
+        fontSize: "15px",
+        fontWeight: "800",
+        textAlign: "center",
+        margin: "8px 0",
+        letterSpacing: "5px"
     },
-    dashBoardBody:{
-        display:"flex",
-        justifyContent:"space-between",
-        [theme.breakpoints.down("sm")]:{
-            display:"block"
+    dashBoardBody: {
+        display: "flex",
+        justifyContent: "space-between",
+        [theme.breakpoints.down("sm")]: {
+            display: "block"
         }
     },
-    recents:{
+    recents: {
         // width:"20%",
-        backgroundColor:"rgba(255,164,27,0.8)",
-        padding:"1% 2% 2%",
-        borderRadius:"15px",
-        flex:"20%",
-        maxWidth:"300px",
+        backgroundColor: "rgba(255,164,27,0.8)",
+        padding: "1% 2% 2%",
+        borderRadius: "15px",
+        flex: "20%",
+        maxWidth: "300px",
         // maxHeight:"60vh",
-        [theme.breakpoints.down("sm")]:{
-            maxWidth:"95%",
-            margin:"20px auto",
-            padding:"10px 20px 20px",
+        [theme.breakpoints.down("sm")]: {
+            maxWidth: "95%",
+            margin: "20px auto",
+            padding: "10px 20px 20px",
         },
-        [theme.breakpoints.down("xs")]:{
-            maxWidth:"100%"
+        [theme.breakpoints.down("xs")]: {
+            maxWidth: "100%"
         }
     },
-    bodyRight:{
-        flex:"70% !important",
+    bodyRight: {
+        flex: "70% !important",
         maxWidth: "1000px"
     },
-    adminButtons:{
-        display:"flex",
-        flexWrap:"wrap",
-        justifyContent:"space-around"
+    adminButtons: {
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-around"
     },
-    link:{
-        textTransform:"none",
+    link: {
+        textTransform: "none",
         textDecoration: "none",
-        color:"inherit"
+        color: "inherit"
     }
 }));
 
@@ -213,15 +211,17 @@ const Dashboard = () => {
         };
     }, [loadingPetition]);
 
-    return(
+    return (
         <div className={classes.dashboardPage}>
             <div className={classes.dashTopBar}>
                 <div className={classes.logoAdmin}>
-                    <img src={ImpediaLogo} alt="Impedia" className={classes.logo} />
+                    <Link to="#" className={classes.link}>
+                        <img src={ImpediaLogo} alt="Impedia" className={classes.logo} />
 
-                    <Typography className={classes.logoForAdmin}>
-                        FOR ADMIN
-                    </Typography>
+                        <Typography className={classes.logoForAdmin}>
+                            FOR STUDENT
+                        </Typography>
+                    </Link>
                 </div>
 
                 <Typography className={classes.dashboardText}>
@@ -232,13 +232,13 @@ const Dashboard = () => {
                     <LogOutIcon />
                     <Typography className={classes.logoutText}>
                         Logout
-                    </Typography>
+                        </Typography>
                 </div>
-                
+
             </div>
             {/* Dashboard Text for Mobile Screens */}
             <Typography className={classes.dashboardTextForMobile}>
-                    DASHBOARD
+                DASHBOARD
             </Typography>
             <img src={DashBoardLine} alt="dash-line" className={classes.dashLine} />
 
@@ -254,25 +254,25 @@ const Dashboard = () => {
 
                 <div className={classes.bodyRight}>
                     <div className={classes.adminButtons} >
-                        <Link to="/admin/addauthority" className={classes.link}>
-                            <UseCase icon={AddAuthIcon} type="Add Authority" />
+                        <Link to="/UpdateProfile" className={classes.link}>
+                            <UseCase icon={AddAuthIcon} type="Update Profile" />
                         </Link>
-                        <Link to="/admin/changedomain" className={classes.link}>
-                            <UseCase icon={DomainIcon} type="Set Domain" />
+                        <Link to="/petition/view" className={classes.link}>
+                            <UseCase icon={PetitionIcon} type="View Petitions" />
                         </Link>
-                        <Link to="/admin/AddGroup" className={classes.link}>
-                            <UseCase icon={MakeGroupIcon} type="Authority Groups" />
-                        </Link> 
-                        <Link to="/admin/appeals" className={classes.link}>
-                            <UseCase icon={AppealIcon} type="Appeals" />
+                        <Link to="/appeals/view" className={classes.link}>
+                            <UseCase icon={AppealIcon} type="Create Appeals" />
                         </Link>
-                        <Link to="/admin/petitions" className={classes.link}>
-                            <UseCase icon={PetitionIcon} type="Petitions" />
+                        <Link to="/appeals/create" className={classes.link}>
+                            <UseCase icon={AppealIcon} type="Create Appeals" />
+                        </Link>
+                        <Link to="/petitions/create" className={classes.link}>
+                            <UseCase icon={PetitionIcon} type="Create Petitions" />
                         </Link>
                     </div>
                 </div>
             </div>
-            
+
         </div>
     )
 }

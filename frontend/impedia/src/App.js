@@ -11,6 +11,7 @@ import AddAuthority from './components/Admin/AddAuthority';
 import CreateAppeal from './components/Student/CreateAppeal';
 import AddGroup from './components/Admin/AddGroup';
 import CreatePetition from './components/Student/CreatePetition';
+import StudentDashboard from './components/Student/Dashboard/Dashboard';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route exact path="/login/student" component={StudentLogin} />
           <Route exact path="/register/student" component={StudentRegister} />
           <Route exact path="/admin/dashboard" component={Dashboard} />
+          <Route exact path="/student/dashboard" component={StudentDashboard} />
           <Route exact path="/admin/ChangeDomain" component={ChangeDomain} />
           <Route exact path="/admin/AddAuthority" component={AddAuthority} />
           <Route exact path="/appeals/create" component={CreateAppeal} />

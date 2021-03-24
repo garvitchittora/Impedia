@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useState , useEffect} from 'react';
 import {
     makeStyles,
     Button,
@@ -9,7 +9,7 @@ import axios from 'axios';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import DomainPic from '../../assets/Admin/domainPic.svg';
 import domainIcon from '../../assets/Admin/domainIcon.svg';
-
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     topbar:{
@@ -51,21 +51,37 @@ const useStyles = makeStyles(theme => ({
         fontSize:"30px",
         color:"white",
         userSelect:"none"
+    },
+    linkTag: {
+        textDecoration: "none",
+        color: "inherit"
     }
 }));
 
 const TopBar = (props) => {
     const classes = useStyles();
+    const [link, setLink] = useState();
 
+    useEffect(() => {
+        if(props.actor === "STUDENT"){
+            setLink("/student/dashboard");
+        }else if(props.actor === "ADMIN"){
+            setLink("/admin/dashboard");
+        }else{
+            setLink("/authority/dashboard");
+        }
+    });
     
     return (
         <>
                 <div className={classes.topbar}>
                     <div className={classes.logo}>
-                        <img className={classes.logoImg} src={ImpediaLogo} alt="Impedia Logo" />
-                        <Typography className={classes.logoSubtext}>
-                            FOR {props.actor}
-                        </Typography>
+                        <Link to={link} className={classes.linkTag}>
+                            <img className={classes.logoImg} src={ImpediaLogo} alt="Impedia Logo" />
+                            <Typography className={classes.logoSubtext}>
+                                FOR {props.actor}
+                            </Typography>
+                        </Link>
                     </div>
 
                     <div className={classes.heading}>
