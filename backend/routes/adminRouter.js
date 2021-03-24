@@ -6,6 +6,7 @@ const {
   addAuthorities,
   makeAuthorityGroup,
   editAuthorityGroup,
+  getAppealsAndPetitions,
 } = require("../controllers/adminController");
 const authenticate = require("../utils/authenticate");
 
@@ -17,4 +18,6 @@ adminRouter
   .post(authenticate, makeAuthorityGroup)
   .put(authenticate, editAuthorityGroup)
   .delete(authenticate, editAuthorityGroup);
+adminRouter.get("/appealspetitions", authenticate, getAppealsAndPetitions);
+
 module.exports = adminRouter;

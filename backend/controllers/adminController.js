@@ -6,6 +6,8 @@ const Settings = require("../models/Settings");
 const Authority = require("../models/Authority");
 const Group = require("../models/Group");
 const Student = require("../models/Student");
+const Appeal = require("../models/Appeal");
+const Petition = require("../models/Petition");
 
 const adminAuth = (req, res) => {
   let email = req.body.email;
@@ -143,10 +145,20 @@ const editAuthorityGroup = async (req, res) => {
   res.status(200).json(group);
 };
 
+const getAppealsAndPetitions = async (req, res) => {
+  const { user } = req;
+  const admin = await Admin.findOne({ id: user.id });
+  if (!admin) return res.status(403).json({ error: "Forbidden" });
+  const appeals = await Appeal.find({});
+  const petitions = await Petition.find({});
+  res.status(200).json({appeals: appeals, petitions: petitions});
+};
+
 module.exports = {
   adminAuth,
   setEmailDomain,
   addAuthorities,
   makeAuthorityGroup,
   editAuthorityGroup,
+  getAppealsAndPetitions,
 };
