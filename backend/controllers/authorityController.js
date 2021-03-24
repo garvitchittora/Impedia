@@ -5,6 +5,7 @@ const Admin = require("../models/Admin");
 const { key, sign } = require("../utils/jwt");
 const Group = require("../models/Group");
 const Appeal = require("../models/Appeal");
+const Petition = require("../models/Petition");
 
 const getAuthorities = async (req, res) => {
   const { id } = req.user;
@@ -63,8 +64,23 @@ const getAuthorityAppeals = async (req, res) => {
   return res.json(appeals);
 };
 
+const getAuthorityPetitions = async (req, res) => {
+  const { user } = req;
+  const authority = await Authority.findOne({ id: user.id });
+  if (!authority)
+    return res.status(400).json({ error: "Authority does not exist" });
+  const inGroups = await Group.find({members: user.id});
+  let ids = [user.id];
+  inGroups.forEach((group) => {
+    ids.push(group.id);
+  })
+  const petitions = await Petition.find().where("petitionToId").in(ids).exec();
+  return res.json(petitions);
+};
+
 module.exports = {
   authorityAuth,
   getAuthorities,
   getAuthorityAppeals,
+  getAuthorityPetitions,
 };
