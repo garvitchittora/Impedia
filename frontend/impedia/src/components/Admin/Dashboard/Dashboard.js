@@ -212,7 +212,7 @@ const Dashboard = () => {
                         <Link to="/admin/appeals" className={classes.link}>
                             <UseCase icon={AppealIcon} type="Appeals" />
                         </Link>
-                        <Link to="admin//petitions" className={classes.link}>
+                        <Link to="/admin/petitions" className={classes.link}>
                             <UseCase icon={PetitionIcon} type="Petitions" />
                         </Link>
                     </div>
