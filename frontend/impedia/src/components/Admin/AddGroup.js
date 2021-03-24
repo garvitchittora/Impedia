@@ -190,10 +190,9 @@ const AddGroup = () => {
                 authorization: AdminToken,
             }
         }
-        console.log(authorityIds, groupSelected)
+
         axios.post(`/admin/authoritygroup`, body, config)
             .then((res) => {
-                console.log(res);
                 if (res.status === 200 || res.status === 201) {
                     alert("Group Created Successfully")
                 } else {
