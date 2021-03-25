@@ -20,5 +20,13 @@ const groupSchema = new mongoose.Schema(
   { _id: false }
 );
 
+groupSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
+
 const Group = mongoose.model("Group", groupSchema);
 module.exports = Group;

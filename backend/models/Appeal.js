@@ -36,5 +36,13 @@ const appealSchema = new mongoose.Schema(
   { _id: false }
 );
 
+appealSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
+
 const Appeal = mongoose.model("Appeal", appealSchema);
 module.exports = Appeal;
