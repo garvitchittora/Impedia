@@ -1,15 +1,31 @@
 const mongoose = require("mongoose");
 
-const groupSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true,
+const groupSchema = new mongoose.Schema(
+  {
+    _id: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    members: [
+      {
+        type: "String",
+        ref: "Authority",
+      },
+    ],
   },
-  name: {
-    type: String,
-    required: true,
+  { _id: false }
+);
+
+groupSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
   },
-  members: [String],
 });
 
 const Group = mongoose.model("Group", groupSchema);

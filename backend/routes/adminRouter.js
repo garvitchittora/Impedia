@@ -6,18 +6,21 @@ const {
   addAuthorities,
   makeAuthorityGroup,
   editAuthorityGroup,
+  deleteAuthorityGroup,
   getAppealsAndPetitions,
+  addAdmin,
 } = require("../controllers/adminController");
 const authenticate = require("../utils/authenticate");
 
+adminRouter.post("/add", addAdmin);
 adminRouter.post("/auth", adminAuth);
 adminRouter.post("/setemaildomain", authenticate, setEmailDomain);
 adminRouter.post("/addauthorities", authenticate, addAuthorities);
+adminRouter.route("/authoritygroup").post(authenticate, makeAuthorityGroup);
 adminRouter
-  .route("/authoritygroup")
-  .post(authenticate, makeAuthorityGroup)
+  .route("/authoritygroup/:id")
   .put(authenticate, editAuthorityGroup)
-  .delete(authenticate, editAuthorityGroup);
+  .delete(authenticate, deleteAuthorityGroup);
 adminRouter.get("/appealspetitions", authenticate, getAppealsAndPetitions);
 
 module.exports = adminRouter;
