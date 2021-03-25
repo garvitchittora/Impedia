@@ -59,7 +59,10 @@ const useStyles = makeStyles(theme => ({
         borderRadius:"25px",
         [theme.breakpoints.down("md")]:{
            width:"50px"
-        }
+        },
+        [theme.breakpoints.down("sm")]:{
+            display:"none"
+         }
     },
     button:{
         margin:"auto",

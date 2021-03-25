@@ -4,11 +4,18 @@ import {
     TextField,
     CircularProgress,
     Button,
-    Typography
+    Typography,
+    Collapse,
+    IconButton
 } from '@material-ui/core';
 import {
-    Autocomplete
+    Autocomplete,
+    Alert,
+    AlertTitle
 } from '@material-ui/lab';
+import {
+    Close as CloseIcon
+ } from '@material-ui/icons';
 import axios from 'axios';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import DomainPic from '../../assets/Admin/addAuthoritiesPage.svg';
@@ -17,6 +24,14 @@ import TopBar from '../TopBar/TopBar';
 
 
 const useStyles = makeStyles(theme => ({
+    Alert:{
+        width:"80vw",
+        position:"fixed",
+        top:"5%",
+        margin:"auto",
+        left:"10vw",
+        zIndex:"100"
+    },
     appealToText:{
         fontWeight:"600",
         fontSize:"20px"
@@ -60,6 +75,9 @@ const useStyles = makeStyles(theme => ({
             width: "50px"
         }
     },
+    authIds:{
+        margin:"20px 0"
+    },
     button: {
         margin: "auto",
         [theme.breakpoints.down("sm")]: {
@@ -92,9 +110,12 @@ const useStyles = makeStyles(theme => ({
     fieldWrapper:{
         marginBottom: "20px",
     },
+    disableName:{
+        opacity:"0.4"
+    }
 }));
 
-const AddGroup = () => {
+const EditGroup = () => {
     const classes = useStyles();
     const [optionsAuth, setOptionsAuth] = useState([]);
     const [openAuth, setOpenAuth] = useState(false);
@@ -102,9 +123,13 @@ const AddGroup = () => {
     const [openGroup, setOpenGroup] = useState(false);
     const [optionsGroup, setOptionsGroup] = useState([]);
     const [allGroupsData, setAllGroupsData] = useState([]);
+    const [initVals,setInitVals] = useState([]);
     const loadingGroup = openGroup && optionsGroup.length === 0;
-    const [authorityIds, setAuthorityIds] = useState();
+    const [authorityIds, setAuthorityIds] = useState([]);
     const [groupSelected, setGroupSelected] = useState();
+    const [reload,setReload] = useState(false);
+    const [sucessAlert,setSuccessAlert] = useState(false);
+    const [failureAlert,setFailureAlert] = useState(false);
 
     useEffect(() => {
         let active = true;
@@ -137,10 +162,12 @@ const AddGroup = () => {
             }
         })();
 
+        setReload(false);
+
         return () => {
             active = false;
         };
-    }, [loadingGroup]);
+    }, [loadingGroup, reload]);
 
     useEffect(() => {
         let active = true;
@@ -172,19 +199,49 @@ const AddGroup = () => {
             }
         })();
 
+        setReload(false);
+
         return () => {
             active = false;
         };
-    }, [loadingAuth])
+    }, [loadingAuth, reload])
+
+    useEffect(()=>{
+        setInitVals(()=>{
+            if(allGroupsData === [])
+                return []
+
+            if(!groupSelected || typeof groupSelected === "undefined"){
+                return []
+            }
+            const ag = allGroupsData.find((obj)=> obj.id===groupSelected.id);
+            if(!ag)
+                return []
+            
+            return ag.members.map((option) => {
+                let firstLetter = option.email[0].toUpperCase();
+                return {
+                    firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
+                    optionName: typeof option.name !== "undefined" ? (option.name + " | " + option.email) : (option.email),
+                    ...option,
+                }
+            })
+        })
+    },[groupSelected])
+
+    useEffect(()=>{
+        setAuthorityIds(initVals)
+    },[initVals])
 
     const submitFunction = async (e) => {
         e.preventDefault();
+        console.log(authorityIds);
 
         const body = {
-            emailIds: authorityIds.map((authority) => {
-                return authority.email
+            memberUpdate: authorityIds.map((authority) => {
+                return authority.id
             }),
-            name: groupSelected.name
+            nameUpdate: groupSelected.name
         }
         const AdminToken = localStorage.getItem("key");
         const config = {
@@ -193,43 +250,90 @@ const AddGroup = () => {
             }
         }
 
-        axios.post(`/admin/authoritygroup`, body, config)
+        axios.put(`/admin/authoritygroup/${groupSelected.id}`, body, config)
             .then((res) => {
                 if (res.status === 200 || res.status === 201) {
-                    alert("Group Created Successfully")
+                    setSuccessAlert(true);
                 } else {
-                    alert("Failed")
+                    setFailureAlert(true);
                 }
             })
             .catch((err) => {
                 console.log(err);
         });
+        setReload(true);
+        setGroupSelected("");
     }
 
-    console.log(allGroupsData);
 
     return (
         <>
             <div className={classes.setDomainPage}>
-                <TopBar useCase="Add Group" actor="ADMIN" />
+
+                {/* Alerts */}
+                <div className={classes.Alert}>
+                    <Collapse in={sucessAlert}>
+                        <Alert
+                        action={
+                            <IconButton
+                            aria-label="close"
+                            color="inherit"
+                            size="small"
+                            onClick={() => {
+                                setSuccessAlert(false);
+                            }}
+                            >
+                            <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                        severity="success"
+                        variant="filled"
+                        >
+                        <AlertTitle><strong>Successful !</strong></AlertTitle>
+                            The Authority Group was successfully updated.
+                        </Alert>
+                    </Collapse>
+                </div>   
+
+                <div className={classes.Alert}>
+                        <Collapse in={failureAlert}>
+                            <Alert
+                            action={
+                                <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setFailureAlert(false);
+                                }}
+                                >
+                                <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                            severity="error"
+                            >
+                            <AlertTitle><strong>Error !</strong></AlertTitle>
+                                Some Error occurred. Please try again.
+                            </Alert>
+                        </Collapse>
+                    </div>       
+                {/* Alerts End */}
+                <TopBar useCase="Edit Group" actor="ADMIN" />
 
                 <div className={classes.Domainbody}>
 
                     <div className={classes.domainArea}>
                         <div className={classes.formWrapper}>
                             <div className={classes.domainTextArea}>
-                                <div className={classes.icon} >
-                                    <img src={addAuthIcon} alt="doamin" className={classes.domainIcon} />
-                                </div>
                                 <div className={classes.textField}>
                                     <div className={classes.fieldWrapper}>
                                     <Typography className={classes.appealToText}>
                                         Select Authority Group:
                                     </Typography>
                                         <Autocomplete
-                                            freeSolo
                                             id="group"
                                             disableClearable
+                                            key={reload}
                                             getOptionSelected={(option, value) => option.name === value.name}
                                             getOptionLabel={(option) => option.name}
                                             loading={loadingGroup}
@@ -263,12 +367,28 @@ const AddGroup = () => {
                                         />
                                     </div>
                                     <div className={classes.fieldWrapper}>
-                                    <Typography className={classes.appealToText}>
-                                        Select Authorities to add:
-                                    </Typography>
+                                        <TextField 
+                                            fullWidth
+                                            variant="filled"
+                                            key={reload}
+                                            error
+                                            label="Group Name"
+                                            helperText="Edit the Group Name here"
+                                            className={typeof groupSelected ==="undefined" ? classes.disableName : ""}
+                                            value={typeof groupSelected !=="undefined" ? groupSelected.name : " "}
+                                            onChange={(e)=>{
+                                                setGroupSelected((prev)=>({
+                                                    ...prev,
+                                                    name:e.target.value
+                                                }))
+                                            }}
+                                        />
+
                                         <Autocomplete
+                                            className={classes.authIds}
                                             multiple
                                             id="authority"
+                                            value={authorityIds}
                                             open={openAuth}
                                             onOpen={() => {
                                                 setOpenAuth(true);
@@ -286,8 +406,11 @@ const AddGroup = () => {
                                                 <TextField
                                                     {...params}
                                                     error
-                                                    label="Authority"
+                                                    multiline
+                                                    rowsMax={10}
+                                                    label="Authorities"
                                                     variant="filled"
+                                                    helperText="Add / Delete Authorities from the Group"
                                                     InputProps={{
                                                         ...params.InputProps,
                                                         endAdornment: (
@@ -309,7 +432,7 @@ const AddGroup = () => {
 
                         <div className={classes.button}>
                             <Button variant="contained" className={classes.submitButton} onClick={submitFunction}>
-                                ADD
+                                UPDATE
                             </Button>
                         </div>
                     </div>
@@ -325,4 +448,4 @@ const AddGroup = () => {
     )
 }
 
-export default AddGroup;
+export default EditGroup;

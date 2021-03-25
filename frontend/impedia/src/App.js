@@ -9,7 +9,7 @@ import Dashboard from './components/Admin/Dashboard/Dashboard';
 import ChangeDomain from './components/Admin/ChangeDomain';
 import AddAuthority from './components/Admin/AddAuthority';
 import CreateAppeal from './components/Student/CreateAppeal';
-import AddGroup from './components/Admin/AddGroup';
+import EditGroup from './components/Admin/EditGroup';
 import CreatePetition from './components/Student/CreatePetition';
 import StudentDashboard from './components/Student/Dashboard/Dashboard';
 import AuthorityDashboard from './components/Authority/Dashboard/Dashboard';
@@ -38,7 +38,7 @@ function App() {
           <Route exact path="/admin/AddAuthority" component={AddAuthority} />
           <Route exact path="/student/appeals/create" component={CreateAppeal} />
           <Route exact path="/student/petitions/create" component={CreatePetition} />
-          <Route exact path="/admin/AddGroup" component={AddGroup} />
+          <Route exact path="/admin/AddGroup" component={EditGroup} />
           <Route exact path="/admin/appeals" component={AdminAllAppeals} />
           <Route exact path="/authority/appeals" component={AuthorityAllAppeals} />
           <Route exact path="/student/appeals" component={StudentAllAppeals} />
