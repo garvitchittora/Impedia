@@ -2,10 +2,6 @@ import React from 'react';
 import {
     makeStyles,
     Button,
-    Typography,
-    FormControl,
-    InputLabel,
-    FilledInput,
     TextField
 } from '@material-ui/core';
 import {
@@ -13,7 +9,6 @@ import {
     createFilterOptions
 } from '@material-ui/lab';
 import axios from 'axios';
-import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import DomainPic from '../../assets/Admin/addAuthoritiesPage.svg';
 import addAuthIcon from '../../assets/Admin/addAuth.svg';
 import TopBar from '../TopBar/TopBar';

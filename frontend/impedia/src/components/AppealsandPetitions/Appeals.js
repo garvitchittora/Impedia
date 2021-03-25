@@ -1,9 +1,7 @@
-import React,{ useState , useEffect} from 'react';
+import React from 'react';
 import {
     makeStyles,
-    Button,
     Typography,
-    TextField
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown/with-html';
@@ -19,7 +17,11 @@ const useStyles = makeStyles(theme => ({
         flexDirection:"column",
         padding:"20px 20px",
         borderRadius:"15px",
-        margin:"5% auto"
+        margin:"5% auto",
+        cursor:"pointer",
+        '&:hover':{
+            boxShadow: "rgba(255, 30, 86, 0.9) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px"
+        }
     },
     mentions:{
         display:"flex",
@@ -27,7 +29,10 @@ const useStyles = makeStyles(theme => ({
         justifyContent:"space-between",
         width:"80%",
         margin:"auto",
-        fontSize:"20px"
+        fontSize:"20px",
+        [theme.breakpoints.down("md")]:{
+            flexDirection:"column",
+        }
     },
     mentionHelper:{
         color:"black",
@@ -70,7 +75,8 @@ const useStyles = makeStyles(theme => ({
         fontWeight:"600",
         width:"95%",
         textAlign:"right",
-        marginTop:"-10px"
+        marginTop:"-20px",
+        marginBottom:"20px"
     }
 }));
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     makeStyles,
     Typography
@@ -6,7 +6,6 @@ import {
 const useStyles = makeStyles(theme => ({
    useCaseCard:{
     background: "linear-gradient(254.87deg, rgba(255, 30, 86, 0.7524) 1.39%, rgba(255, 164, 27, 0.76) 98.69%)",
-    // boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
     boxShadow:" rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px",
     borderRadius: "15px",
     textAlign:"center",

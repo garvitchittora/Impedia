@@ -2,11 +2,9 @@ import React from 'react';
 import {
     makeStyles,
     Button,
-    Typography,
     TextField
 } from '@material-ui/core';
 import axios from 'axios';
-import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import DomainPic from '../../assets/Admin/domainPic.svg';
 import domainIcon from '../../assets/Admin/domainIcon.svg';
 import TopBar from '../TopBar/TopBar';

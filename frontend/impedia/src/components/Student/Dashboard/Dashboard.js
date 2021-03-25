@@ -144,7 +144,7 @@ const Dashboard = () => {
     const [appeals, setAppeals] = useState([]);
     const [petitions, setPetitions] = useState([]);
 
-    useEffect(async () => {
+    useEffect(() => {
             const AdminToken = localStorage.getItem("key");
             const config = {
                 headers: {

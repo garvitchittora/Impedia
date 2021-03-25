@@ -197,10 +197,6 @@ const CreateTemplate = (props) => {
     const handleAPToChange = (e) => {
         props.setAPTo(e.target.value);
     }
-  
-    const handleChangeIndex = (index) => {
-      setValue(index);
-    };
 
     const handleAPChange = (e) => {
         if(e.target.id==="AP-title"){

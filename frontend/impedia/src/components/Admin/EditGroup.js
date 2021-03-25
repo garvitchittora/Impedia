@@ -17,9 +17,7 @@ import {
     Close as CloseIcon
  } from '@material-ui/icons';
 import axios from 'axios';
-import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import DomainPic from '../../assets/Admin/addAuthoritiesPage.svg';
-import addAuthIcon from '../../assets/Admin/addAuth.svg';
 import TopBar from '../TopBar/TopBar';
 
 
@@ -227,7 +225,7 @@ const EditGroup = () => {
                 }
             })
         })
-    },[groupSelected])
+    },[groupSelected, allGroupsData])
 
     useEffect(()=>{
         setAuthorityIds(initVals)

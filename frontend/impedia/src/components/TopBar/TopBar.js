@@ -1,14 +1,9 @@
 import React,{ useState , useEffect} from 'react';
 import {
     makeStyles,
-    Button,
-    Typography,
-    TextField
+    Typography
 } from '@material-ui/core';
-import axios from 'axios';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
-import DomainPic from '../../assets/Admin/domainPic.svg';
-import domainIcon from '../../assets/Admin/domainIcon.svg';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -70,7 +65,7 @@ const TopBar = (props) => {
         }else{
             setLink("/authority/dashboard");
         }
-    });
+    },[props.actor]);
     
     return (
         <>

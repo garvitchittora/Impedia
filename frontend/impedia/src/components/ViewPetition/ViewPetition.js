@@ -1,12 +1,8 @@
-import React,{ useState , useEffect} from 'react';
+import React from 'react';
 import {
-    makeStyles,
-    Button,
-    Typography,
-    TextField
+    makeStyles
 } from '@material-ui/core';
 import axios from 'axios';
-import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
