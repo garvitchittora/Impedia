@@ -21,13 +21,21 @@ const petitionSchema = new mongoose.Schema(
     petitionToId: {
       type: String,
       required: true,
-      ref: "Authority",
+      refPath: "onModel",
     },
-    signees: [String],
+    signees: [{
+      type: String,
+      ref: "Student"
+    }],
     dateTime: {
       type: Date,
       default: Date.now,
     },
+    onModel: {
+      type: String,
+      required: true,
+      enum: ["Group", "Authority"],
+    }
   },
   { _id: false }
 );

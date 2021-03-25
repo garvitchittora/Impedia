@@ -6,8 +6,8 @@ const {
   addAuthorities,
   makeAuthorityGroup,
   editAuthorityGroup,
-  addAdmin,
   deleteAuthorityGroup,
+  getAppealsAndPetitions,
 } = require("../controllers/adminController");
 const authenticate = require("../utils/authenticate");
 
@@ -20,4 +20,6 @@ adminRouter
   .route("/authoritygroup/:id")
   .put(authenticate, editAuthorityGroup)
   .delete(authenticate, deleteAuthorityGroup);
+adminRouter.get("/appealspetitions", authenticate, getAppealsAndPetitions);
+
 module.exports = adminRouter;

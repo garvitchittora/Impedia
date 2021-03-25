@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     makeStyles,
     Typography
@@ -6,8 +6,7 @@ import {
 import LogOutIcon from '@material-ui/icons/PowerSettingsNew';
 import ImpediaLogo from '../../../assets/Logo-Impedia.png';
 import DashBoardLine from '../../../assets/Admin/dashboardLine.svg';
-import {appeals, petitions} from './tempData';
-import Recents from './Recents';
+import Recents from '../../Recents/Recents';
 import UseCase from './UseCase';
 import AddAuthIcon from '../../../assets/Admin/addAuth.svg';
 import DomainIcon from '../../../assets/Admin/domainIcon.svg';
@@ -15,6 +14,8 @@ import MakeGroupIcon from '../../../assets/Admin/makeGroup.svg';
 import AppealIcon from '../../../assets/Admin/appealIcon.svg';
 import PetitionIcon from '../../../assets/Admin/petitionIcon.svg';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
 const useStyles = makeStyles(theme => ({
     dashboardPage:{
         width:"95%",
@@ -142,7 +143,21 @@ const useStyles = makeStyles(theme => ({
 
 const Dashboard = () => {
     const classes = useStyles();
+    const [AppealsPetitions, setAppealsPetitions] = useState([]);
 
+    useEffect(() => {
+            const AdminToken = localStorage.getItem("key");
+            const config = {
+                headers: {
+                  authorization: AdminToken,
+                }
+            }
+            axios.get("/admin/appealspetitions", config)
+            .then(res=>res.data)
+            .then(data=>{
+                setAppealsPetitions(data);
+            })
+    }, []);
 
     return(
         <div className={classes.dashboardPage}>
@@ -179,8 +194,8 @@ const Dashboard = () => {
                         RECENT
                     </Typography>
 
-                    <Recents type="APPEALS" data={appeals} />
-                    <Recents type="PETITIONS" data={petitions} />
+                    <Recents type="APPEALS" data={AppealsPetitions.appeals || []} />
+                    <Recents type="PETITIONS" data={AppealsPetitions.petitions || []} />
                 </div>
 
                 <div className={classes.bodyRight}>
@@ -191,7 +206,7 @@ const Dashboard = () => {
                         <Link to="/admin/changedomain" className={classes.link}>
                             <UseCase icon={DomainIcon} type="Set Domain" />
                         </Link>
-                        <Link to="/admin/authoritygroups" className={classes.link}>
+                        <Link to="/admin/AddGroup" className={classes.link}>
                             <UseCase icon={MakeGroupIcon} type="Authority Groups" />
                         </Link> 
                         <Link to="/admin/appeals" className={classes.link}>

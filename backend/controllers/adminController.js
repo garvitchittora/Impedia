@@ -6,22 +6,8 @@ const Settings = require("../models/Settings");
 const Authority = require("../models/Authority");
 const Group = require("../models/Group");
 const Student = require("../models/Student");
-
-//! FOR TESTING ONLY! REMOVE LATER
-const addAdmin = async (req, res) => {
-  const { email, name, password } = req.body;
-  const passwordHash = await bcrypt.hash(password, 10);
-  const admin = new Admin({
-    _id: "AD" + new mongoose.mongo.ObjectID(),
-    email,
-    name,
-    password: passwordHash,
-  });
-  const saved = await admin.save();
-  if (!saved) console.log("Shit fucked up");
-  res.status(201).json(saved);
-};
-// ! FOR TESTING ONLY! REMOVE LATER
+const Appeal = require("../models/Appeal");
+const Petition = require("../models/Petition");
 
 const adminAuth = async (req, res) => {
   console.log(await bcrypt.hash("password", 10));
@@ -147,10 +133,9 @@ const makeAuthorityGroup = async (req, res) => {
 
 const editAuthorityGroup = async (req, res) => {
   const { user, body } = req;
-  const admin = Admin.findById(user.id);
+  const admin = await Admin.findById(user.id);
   if (!admin) return res.status(403).json({ error: "Forbidden" });
   const group = await Group.findById(req.params.id);
-  console.log("Initally:", group);
 
   const { nameUpdate, memberUpdate } = body;
 
@@ -165,10 +150,19 @@ const editAuthorityGroup = async (req, res) => {
 
 const deleteAuthorityGroup = async (req, res) => {
   const { user } = req;
-  const admin = Admin.findById(user.id);
+  const admin = await Admin.findById(user.id);
   if (!admin) return res.status(403).json({ error: "Forbidden" });
   const group = await Group.findByIdAndRemove(req.params.id);
   res.status(204).end();
+};
+
+const getAppealsAndPetitions = async (req, res) => {
+  const { user } = req;
+  const admin = await Admin.findById(user.id);
+  if (!admin) return res.status(403).json({ error: "Forbidden" });
+  const appeals = await Appeal.find({});
+  const petitions = await Petition.find({});
+  res.status(200).json({appeals: appeals, petitions: petitions});
 };
 
 module.exports = {
@@ -178,5 +172,5 @@ module.exports = {
   makeAuthorityGroup,
   editAuthorityGroup,
   deleteAuthorityGroup,
-  addAdmin,
+  getAppealsAndPetitions,
 };

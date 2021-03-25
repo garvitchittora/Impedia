@@ -4,16 +4,16 @@ import axios from 'axios';
 import CreateTemplate from './CreateTemplate/CreateTemplate';
 
 
-const CreateAppeal = () => {
+const CreatePetition = () => {
 
     const [openAlert, setOpenAlert] = useState(false);
     const [openErrorAlert, setOpenErrorAlert] = useState(false);
-    const [newAppeal, setNewAppeal] = useState({
+    const [newPetition, setNewPetition] = useState({
         title:"Sample Title",
         content:"Sample Content"
     })
 
-    const [appealTo, setAppealTo] = useState("");
+    const [petitionTo, setPetitionTo] = useState("");
 
     const[sendToId,setId] = useState();
 
@@ -29,11 +29,11 @@ const CreateAppeal = () => {
             }
 
             const body = {
-                ...newAppeal,
-                appealToId: sendToId.id,
+                ...newPetition,
+                petitionToId: sendToId.id,
             }
 
-            axios.post("/student/createappeal", body, config)
+            axios.post("/student/createpetition", body, config)
             .then((res) => {
                 console.log(res);
                 if(res.status === 201){
@@ -49,11 +49,11 @@ const CreateAppeal = () => {
     return (
         <>
            <CreateTemplate 
-               type="Appeal"
-               newAP={newAppeal}
-               setNewAP={setNewAppeal}
-               APTo={appealTo}
-               setAPTo={setAppealTo}
+               type="Petition"
+               newAP={newPetition}
+               setNewAP={setNewPetition}
+               APTo={petitionTo}
+               setAPTo={setPetitionTo}
                sendToId={sendToId}
                setId={setId}
                openAlert={openAlert}
@@ -66,4 +66,4 @@ const CreateAppeal = () => {
     )
 }
 
-export default CreateAppeal;
+export default CreatePetition;

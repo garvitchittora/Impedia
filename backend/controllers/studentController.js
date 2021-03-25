@@ -4,6 +4,7 @@ const Student = require("../models/Student");
 const Settings = require("../models/Settings");
 const mongoose = require("mongoose");
 const Appeal = require("../models/Appeal");
+const Petition = require("../models/Petition");
 
 const validateStudentRegisterRequest = async (req, res, next) => {
   const tempStudent = new Student({
@@ -60,7 +61,7 @@ const studentAuth = async (req, res) => {
   const token = await sign(
     {
       email: student.email,
-      id: student.id,
+      id: student._id,
     },
     key
   );
@@ -84,9 +85,47 @@ const createAppeal = async (req, res) => {
   return res.status(201).end();
 };
 
+const getStudentAppeals = async (req, res) => {
+  const { user } = req;
+  const student = await Student.findById(user.id);
+  if (!student)
+    return res.status(400).json({ error: "Student does not exist" });
+  
+  const appeals = await Appeal.find({appealFromId: user.id});
+  return res.json(appeals);
+};
+
+const createPetition = async (req, res) => {
+  const { user, body } = req;
+  const student = await Student.findById(user.id);
+  if (!student)
+    return res.status(400).json({ error: "Student does not exist" });
+  const petition = new Petition({
+    _id: `PE${new mongoose.mongo.ObjectID()}`,
+    petitionFromId: user.id,
+    signees: [user.id],
+    ...body,
+  });
+  await petition.save();
+  return res.status(201).end();
+};
+
+const getPetitions = async (req, res) => {
+  const { user } = req;
+  const student = await Student.findById(user.id);
+  if (!student)
+    return res.status(400).json({ error: "Student does not exist" });
+  
+  const petitions = await Petition.find({});
+  return res.json(petitions);
+};
+
 module.exports = {
   studentAuth,
   validateStudentRegisterRequest,
   studentRegister,
   createAppeal,
+  getStudentAppeals,
+  createPetition,
+  getPetitions,
 };

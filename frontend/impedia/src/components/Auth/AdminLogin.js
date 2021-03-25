@@ -2,8 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import LoginPage from './LoginPage';
 import AdminLoginPic from '../../assets/Login/adminLogin.svg'
+import  { useHistory} from 'react-router-dom'
 
 const AdminLogin = () => {
+    const history = useHistory();
 
     const [EmailValues, setEmailValues] = React.useState('');
     const [PasswordValues, setPasswordValues] = React.useState('');
@@ -21,11 +23,11 @@ const AdminLogin = () => {
         axios.post('/admin/auth',body)
         .then((res)=>{
             if(res.status === 200 || res.status === 201){
-                alert("Login Successful")
+                let data = res.data;
+                localStorage.setItem('key',data.authKey);
+                console.log(data.authKey);
+                return history.push("/admin/dashboard");
             }
-            let data = res.data;
-            localStorage.setItem('key',data.authKey);
-            console.log(data.authKey);
         })
         .catch((err)=>{
             if(err.response.status === 400 || err.response.status === 403)
