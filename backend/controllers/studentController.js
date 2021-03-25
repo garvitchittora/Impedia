@@ -7,7 +7,10 @@ const Appeal = require("../models/Appeal");
 const Petition = require("../models/Petition");
 
 const validateStudentRegisterRequest = async (req, res, next) => {
-  const tempStudent = new Student(req.body);
+  const tempStudent = new Student({
+    _id: "ST" + new mongoose.mongo.ObjectID(),
+    ...req.body,
+  });
   try {
     await tempStudent.validate();
     const email = tempStudent.email;
@@ -37,8 +40,8 @@ const validateStudentRegisterRequest = async (req, res, next) => {
 const studentRegister = async (req, res) => {
   const student = new Student(req.body);
   let givenPassword = req.body.password;
+  student._id = "ST" + new mongoose.mongo.ObjectId();
   student.password = await bcrypt.hash(givenPassword, 10);
-  student.id = "ST" + new mongoose.mongo.ObjectId();
   const studentSave = await student.save();
   res.status(201).json(studentSave);
 };
@@ -58,7 +61,7 @@ const studentAuth = async (req, res) => {
   const token = await sign(
     {
       email: student.email,
-      id: student.id,
+      id: student._id,
     },
     key
   );
@@ -70,50 +73,54 @@ const studentAuth = async (req, res) => {
 
 const createAppeal = async (req, res) => {
   const { user, body } = req;
-  const student = await Student.findOne({ id: user.id });
+  const student = await Student.findById(user.id);
   if (!student)
     return res.status(400).json({ error: "Student does not exist" });
   const appeal = new Appeal({
-    id: `AP${new mongoose.mongo.ObjectID()}`,
+    _id: "AP" + new mongoose.mongo.ObjectID(),
     appealFromId: user.id,
     ...body,
   });
+  if(appeal.appealToId.substring(0, 2) === "AU") appeal.onModel = "Authority";
+  else appeal.onModel = "Group";
   await appeal.save();
   return res.status(201).end();
 };
 
 const getStudentAppeals = async (req, res) => {
   const { user } = req;
-  const student = await Student.findOne({ id: user.id });
+  const student = await Student.findById(user.id);
   if (!student)
     return res.status(400).json({ error: "Student does not exist" });
   
-  const appeals = await Appeal.find({appealFromId: user.id});
+  const appeals = await Appeal.find({appealFromId: user.id}).populate("appealFromId").populate({path: "appealToId", populate: {path: "members"}});
   return res.json(appeals);
 };
 
 const createPetition = async (req, res) => {
   const { user, body } = req;
-  const student = await Student.findOne({ id: user.id });
+  const student = await Student.findById(user.id);
   if (!student)
     return res.status(400).json({ error: "Student does not exist" });
   const petition = new Petition({
-    id: `PE${new mongoose.mongo.ObjectID()}`,
+    _id: `PE${new mongoose.mongo.ObjectID()}`,
     petitionFromId: user.id,
     signees: [user.id],
     ...body,
   });
+  if(petition.petitionToId.substring(0, 2) === "AU") petition.onModel = "Authority";
+  else petition.onModel = "Group";
   await petition.save();
   return res.status(201).end();
 };
 
 const getPetitions = async (req, res) => {
   const { user } = req;
-  const student = await Student.findOne({ id: user.id });
+  const student = await Student.findById(user.id);
   if (!student)
     return res.status(400).json({ error: "Student does not exist" });
   
-  const petitions = await Petition.find({});
+  const petitions = await Petition.find({}).populate("petitionFromId").populate({path: "petitionToId", populate: {path: "members"}}).populate("signees");
   return res.json(petitions);
 };
 

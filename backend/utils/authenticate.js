@@ -10,7 +10,6 @@ const authenticate = (req, res, next) => {
   if (token) {
     try {
       const user = verify(token, key);
-      console.log("The user is", user);
       req.user = user;
       next();
     } catch (e) {
