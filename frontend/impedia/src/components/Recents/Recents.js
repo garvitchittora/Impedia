@@ -3,6 +3,7 @@ import {
     makeStyles,
     Typography
 } from '@material-ui/core';
+import {Link} from 'react-router-dom';
 import UpvoteIcon from '@material-ui/icons/ThumbUp';
 const useStyles = makeStyles(theme => ({
     recentSection:{
@@ -46,6 +47,11 @@ const useStyles = makeStyles(theme => ({
         flex:"25%",
         display:"flex",
         alignItems:"center"
+    },
+    link:{
+        textDecoration:"none",
+        textTransform:"none",
+        color:"inherit"
     }
 }));
 
@@ -65,7 +71,8 @@ const Recents = (props) => {
     },[props.data])
 
     const makeCard = (obj, ind) => {
-        return( <div className={classes.cardData} key={ind}>
+        return( <Link to={`/${props.type}/${obj.id}`} className={classes.link}>
+        <div className={classes.cardData} key={ind}>
             <div className={classes.dataTitle}>
                 {obj.title}
             </div>
@@ -76,6 +83,7 @@ const Recents = (props) => {
                 <UpvoteIcon /> &nbsp; {obj.upvotes}
             </div>
         </div>
+        </Link>
         )
     }
     

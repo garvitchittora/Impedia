@@ -87,6 +87,11 @@ const useStyles = makeStyles(theme => ({
         fontWeight:"600",
         marginTop:"10px",
         marginBottom:"-10px"
+    },
+    link:{
+        textDecoration:"none",
+        textTransform:"none",
+        color:"inherit"
     }
 }));
 
@@ -97,6 +102,7 @@ const Petitions = (props) => {
     const Card = (ap, ind) => {
         console.log(ap);
         return (
+            <Link to={`/petitions/${ap.id}`} className={classes.link}>
             <div className={classes.apCard} key={ind} >
                 <div className={classes.mentions}>
                     <Typography className={classes.from} color="secondary">
@@ -125,6 +131,7 @@ const Petitions = (props) => {
                     </Typography>
                 </div>
             </div>
+            </Link>
         )
     }
     
