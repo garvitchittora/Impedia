@@ -34,6 +34,21 @@ const validateStudentRegisterRequest = async (req, res, next) => {
   }
 };
 
+const getProfile = async (req, res) => {
+  const { user } = req;
+  const student = await Student.findOne({ id: user.id });
+  if (!student) return res.status(404).end();
+  res.status(200).json(student);
+};
+
+const updateProfile = async (req, res) => {
+  const { user } = req;
+  const student = await Student.findOneAndUpdate({ id: user.id }, req.body);
+  if (!student) return res.status(404).end();
+  console.log(student);
+  res.status(200).json(student);
+};
+
 const studentRegister = async (req, res) => {
   const student = new Student(req.body);
   let givenPassword = req.body.password;
@@ -87,8 +102,8 @@ const getStudentAppeals = async (req, res) => {
   const student = await Student.findOne({ id: user.id });
   if (!student)
     return res.status(400).json({ error: "Student does not exist" });
-  
-  const appeals = await Appeal.find({appealFromId: user.id});
+
+  const appeals = await Appeal.find({ appealFromId: user.id });
   return res.json(appeals);
 };
 
@@ -112,7 +127,7 @@ const getPetitions = async (req, res) => {
   const student = await Student.findOne({ id: user.id });
   if (!student)
     return res.status(400).json({ error: "Student does not exist" });
-  
+
   const petitions = await Petition.find({});
   return res.json(petitions);
 };
@@ -125,4 +140,6 @@ module.exports = {
   getStudentAppeals,
   createPetition,
   getPetitions,
+  getProfile,
+  updateProfile,
 };

@@ -8,9 +8,17 @@ const {
   getStudentAppeals,
   createPetition,
   getPetitions,
+  getProfile,
+  updateProfile,
 } = require("../controllers/studentController");
 const authenticate = require("../utils/authenticate");
 
+studentRouter
+  .route("/profile")
+  .get(authenticate, getProfile)
+  .put(authenticate, updateProfile);
+studentRouter.get("/appeals", authenticate, getStudentAppeals);
+studentRouter.get("/petitions", authenticate, getPetitions);
 studentRouter.post("/auth", studentAuth);
 studentRouter.post(
   "/register",
@@ -18,8 +26,6 @@ studentRouter.post(
   studentRegister
 );
 studentRouter.post("/createappeal", authenticate, createAppeal);
-studentRouter.get("/appeals", authenticate, getStudentAppeals);
 studentRouter.post("/createpetition", authenticate, createPetition);
-studentRouter.get("/petitions", authenticate, getPetitions)
 
 module.exports = studentRouter;
