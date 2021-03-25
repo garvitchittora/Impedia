@@ -8,11 +8,17 @@ import {
     FilledInput,
     TextField
 } from '@material-ui/core';
+import {
+    Autocomplete,
+    createFilterOptions
+} from '@material-ui/lab';
 import axios from 'axios';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import DomainPic from '../../assets/Admin/addAuthoritiesPage.svg';
 import addAuthIcon from '../../assets/Admin/addAuth.svg';
 import TopBar from '../TopBar/TopBar';
+
+const filter = createFilterOptions();
 
 
 const useStyles = makeStyles(theme => ({
@@ -43,7 +49,7 @@ const useStyles = makeStyles(theme => ({
         alignItems:"center",
     },
     textField:{
-        width: "90%",
+        width: "90% !important",
         margin:"auto 5%",
     },
     domainIcon:{
@@ -90,21 +96,13 @@ const useStyles = makeStyles(theme => ({
 const StudentRegister = () => {
     const classes = useStyles();
 
-    const [EmailValues, setEmailValues] = React.useState('');
-
-    const handleChange = (event) => {
-        if (event.target.name === "email") {
-            setEmailValues(event.target.value);
-        }
-    }
+    const [authEmails, setAuthEmails] = React.useState();
 
     const submitFunction = async (e) => {
         e.preventDefault();
-        
-        let emailArray = EmailValues.replaceAll(" ","").split(",");
 
         const body = {
-            emailIds: emailArray,
+            emailIds: authEmails,
         }
         const AdminToken = localStorage.getItem("key");
         const config = {
@@ -139,18 +137,66 @@ const StudentRegister = () => {
                                 <div className={classes.icon} >
                                     <img src={addAuthIcon} alt="doamin" className={classes.domainIcon} />
                                 </div>
-                                    <TextField
-                                        error
-                                        id="email"
-                                        name="email"
-                                        label="Emails"
-                                        variant="filled"
-                                        onChange={handleChange}
-                                        multiline
-                                        rows={4}
-                                        helperText="for multiple emails type emails separate by comma (,)"
+                                    <Autocomplete
                                         className={classes.textField}
-                                    />
+                                        fullWidth
+                                        multiple
+                                        onChange={(event, newValue) => {
+                                            if (typeof newValue === 'string') {
+                                                setAuthEmails(newValue);
+                                            } else if (newValue && newValue.inputValue) {
+                                            // Create a new value from the user input
+                                                setAuthEmails(newValue.inputValue);
+                                            } else {
+                                                setAuthEmails(newValue);
+                                            }
+                                        }}
+                                        filterOptions={(options, params) => {
+                                            const filtered = filter(options, params);
+
+                                            // Suggest the creation of a new value
+                                            if (params.inputValue !== '') {
+                                            filtered.push({
+                                                inputValue: params.inputValue,
+                                                title: `Add "${params.inputValue}"`,
+                                            });
+                                            }
+
+                                            return filtered;
+                                        }}
+                                        selectOnFocus
+                                        clearOnBlur
+                                        handleHomeEndKeys
+                                        id="tags-filled"
+                                        options={[]}
+                                        getOptionLabel={(option) => {
+                                            // Value selected with enter, right from the input
+                                            if (typeof option === 'string') {
+                                            return option;
+                                            }
+                                            // Add "xxx" option created dynamically
+                                            if (option.inputValue) {
+                                            return option.inputValue;
+                                            }
+                                            // Regular option
+                                            return option;
+                                        }}
+                                        renderOption={(option) => option.title}
+                                        style={{ width: 300 }}
+                                        freeSolo
+                                        renderInput={(params) => (
+                                            <TextField 
+                                                error 
+                                                fullWidth 
+                                                {...params} 
+                                                label="Add Authorities" 
+                                                variant="filled" 
+                                                multiline
+                                                rowsMax={10}
+                                                helperText={`Type the email ID and click on 'Add ... or press Enter' |\n Multiple IDs allowed*`}
+                                            />
+                                        )}
+                                        />
                             </div>
                         </div>
                         

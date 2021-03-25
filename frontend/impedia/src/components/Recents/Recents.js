@@ -78,7 +78,7 @@ const Recents = (props) => {
         </div>
         )
     }
-    console.log(props.data);
+    
     return(
         <div className={classes.recentSection}>
             <Typography className={classes.recentsHeading} >

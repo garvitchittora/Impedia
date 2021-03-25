@@ -94,10 +94,10 @@ const Petitions = (props) => {
             <div className={classes.apCard} key={ind} >
                 <div className={classes.mentions}>
                     <Typography className={classes.from} color="secondary">
-                        <span className={classes.mentionHelper}>FROM:</span> {ap.petitionFromId}
+                        <span className={classes.mentionHelper}>FROM:</span> {`${ap.petitionFromId.name} | ${ap.petitionFromId.email}`}
                     </Typography>
                     <Typography className={classes.to} color="secondary">
-                    <span className={classes.mentionHelper}>TO:</span> {ap.petitionToId}
+                    <span className={classes.mentionHelper}>TO:</span> {`${ap.petitionFromId.name}`}
                     </Typography>
                 </div>
                     <div className={classes.upvotes}>

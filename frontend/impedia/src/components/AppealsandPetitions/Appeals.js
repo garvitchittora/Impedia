@@ -83,10 +83,10 @@ const Appeals = (props) => {
             <div className={classes.apCard} key={ind} >
                 <div className={classes.mentions}>
                     <Typography className={classes.from} color="secondary">
-                        <span className={classes.mentionHelper}>FROM:</span> {ap.appealFromId}
+                        <span className={classes.mentionHelper}>FROM:</span> {`${ap.appealFromId.name} | ${ap.appealFromId.email}`}
                     </Typography>
                     <Typography className={classes.to} color="secondary">
-                    <span className={classes.mentionHelper}>TO:</span> {ap.appealToId}
+                    <span className={classes.mentionHelper}>TO:</span> {`${ap.appealToId.name}`}
                     </Typography>
                 </div>
                 <div className={classes.body}>

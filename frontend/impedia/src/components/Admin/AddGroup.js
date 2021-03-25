@@ -101,6 +101,7 @@ const AddGroup = () => {
     const loadingAuth = openAuth && optionsAuth.length === 0;
     const [openGroup, setOpenGroup] = useState(false);
     const [optionsGroup, setOptionsGroup] = useState([]);
+    const [allGroupsData, setAllGroupsData] = useState([]);
     const loadingGroup = openGroup && optionsGroup.length === 0;
     const [authorityIds, setAuthorityIds] = useState();
     const [groupSelected, setGroupSelected] = useState();
@@ -123,6 +124,7 @@ const AddGroup = () => {
             const dataGroups = res.data;
 
             if (active) {
+                setAllGroupsData(dataGroups);
                 setOptionsGroup(() => {
                     return dataGroups.map((option) => {
                         let firstLetter = option.name[0].toUpperCase();
@@ -203,6 +205,8 @@ const AddGroup = () => {
                 console.log(err);
         });
     }
+
+    console.log(allGroupsData);
 
     return (
         <>
