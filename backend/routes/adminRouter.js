@@ -8,6 +8,7 @@ const {
   editAuthorityGroup,
   deleteAuthorityGroup,
   getAppealsAndPetitions,
+  addAdmin,
 } = require("../controllers/adminController");
 const authenticate = require("../utils/authenticate");
 

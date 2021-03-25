@@ -9,6 +9,22 @@ const Student = require("../models/Student");
 const Appeal = require("../models/Appeal");
 const Petition = require("../models/Petition");
 
+// FOR TESTING ONLY! REMOVE LATER
+const addAdmin = async (req, res) => {
+  const { email, name, password } = req.body;
+  const passwordHash = await bcrypt.hash(password, 10);
+  const admin = new Admin({
+    _id: "AD" + new mongoose.mongo.ObjectID(),
+    email,
+    name,
+    password: passwordHash,
+  });
+  const saved = await admin.save();
+  if (!saved) console.log("Shit");
+  res.status(201).json(saved);
+};
+// FOR TESTING ONLY! REMOVE LATER
+
 const adminAuth = async (req, res) => {
   console.log(await bcrypt.hash("password", 10));
   let email = req.body.email;
@@ -160,8 +176,8 @@ const getAppealsAndPetitions = async (req, res) => {
   const { user } = req;
   const admin = await Admin.findById(user.id);
   if (!admin) return res.status(403).json({ error: "Forbidden" });
-  const appeals = await Appeal.find({});
-  const petitions = await Petition.find({});
+  const appeals = await Appeal.find({}).populate("appealFromId").populate({path: "appealToId", populate: {path: "members"}});
+  const petitions = await Petition.find({}).populate("petitionFromId").populate({path: "petitionToId", populate: {path: "members"}}).populate("signees");
   res.status(200).json({appeals: appeals, petitions: petitions});
 };
 
@@ -173,4 +189,5 @@ module.exports = {
   editAuthorityGroup,
   deleteAuthorityGroup,
   getAppealsAndPetitions,
+  addAdmin,
 };

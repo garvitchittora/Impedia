@@ -81,6 +81,8 @@ const createAppeal = async (req, res) => {
     appealFromId: user.id,
     ...body,
   });
+  if(appeal.appealToId.substring(0, 2) === "AU") appeal.onModel = "Authority";
+  else appeal.onModel = "Group";
   await appeal.save();
   return res.status(201).end();
 };
@@ -91,7 +93,7 @@ const getStudentAppeals = async (req, res) => {
   if (!student)
     return res.status(400).json({ error: "Student does not exist" });
   
-  const appeals = await Appeal.find({appealFromId: user.id});
+  const appeals = await Appeal.find({appealFromId: user.id}).populate("appealFromId").populate({path: "appealToId", populate: {path: "members"}});
   return res.json(appeals);
 };
 
@@ -106,6 +108,8 @@ const createPetition = async (req, res) => {
     signees: [user.id],
     ...body,
   });
+  if(petition.petitionToId.substring(0, 2) === "AU") petition.onModel = "Authority";
+  else petition.onModel = "Group";
   await petition.save();
   return res.status(201).end();
 };
@@ -116,7 +120,7 @@ const getPetitions = async (req, res) => {
   if (!student)
     return res.status(400).json({ error: "Student does not exist" });
   
-  const petitions = await Petition.find({});
+  const petitions = await Petition.find({}).populate("petitionFromId").populate({path: "petitionToId", populate: {path: "members"}}).populate("signees");
   return res.json(petitions);
 };
 

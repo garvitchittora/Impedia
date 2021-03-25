@@ -53,7 +53,7 @@ const authorityAuth = async (req, res) => {
 
 const getAuthorityAppeals = async (req, res) => {
   const { user } = req;
-  const authority = await Authority.findById(id);
+  const authority = await Authority.findById(user.id);
   if (!authority)
     return res.status(400).json({ error: "Authority does not exist" });
   const inGroups = await Group.find({members: user.id});
@@ -61,13 +61,13 @@ const getAuthorityAppeals = async (req, res) => {
   inGroups.forEach((group) => {
     ids.push(group._id);
   })
-  const appeals = await Appeal.find().where("appealToId").in(ids).exec();
+  const appeals = await Appeal.find().where("appealToId").in(ids).populate("appealFromId").populate({path: "appealToId", populate: {path: "members"}}).exec();
   return res.json(appeals);
 };
 
 const getAuthorityPetitions = async (req, res) => {
   const { user } = req;
-  const authority = await Authority.findById(id);
+  const authority = await Authority.findById(user.id);
   if (!authority)
     return res.status(400).json({ error: "Authority does not exist" });
   const inGroups = await Group.find({members: user.id});
@@ -75,7 +75,7 @@ const getAuthorityPetitions = async (req, res) => {
   inGroups.forEach((group) => {
     ids.push(group._id);
   })
-  const petitions = await Petition.find().where("petitionToId").in(ids).exec();
+  const petitions = await Petition.find().where("petitionToId").in(ids).populate("petitionFromId").populate({path: "petitionToId", populate: {path: "members"}}).populate("signees").exec();
   return res.json(petitions);
 };
 
