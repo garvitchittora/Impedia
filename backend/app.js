@@ -8,6 +8,8 @@ const studentRouter = require("./routes/studentRouter");
 const authorityRouter = require("./routes/authorityRouter");
 const adminRouter = require("./routes/adminRouter");
 const groupRouter = require("./routes/groupRouter");
+const appealRouter = require("./routes/appealRouter");
+const petitionRouter = require("./routes/petitionRouter");
 
 // Adding parsing middlewares
 app.use(express.json());
@@ -31,6 +33,8 @@ app.use("/student", studentRouter);
 app.use("/authority", authorityRouter);
 app.use("/admin", adminRouter);
 app.use("/group", groupRouter);
+app.use("/appeal", appealRouter);
+app.use("/petition", petitionRouter);
 
 // Adding dummy routes
 app.get("/", (req, res) => {
