@@ -86,11 +86,12 @@ const useStyles = makeStyles(theme => ({
     commentsSection:{
         border:"2px solid #AAA",
         flex:"15%",
-        height:"70vh",
+        minHeight:"70vh",
         margin:"0 10px",
         borderRadius:"10px",
         display:"flex",
         flexDirection:"column",
+        alignSelf:"stretch",
         [theme.breakpoints.down("sm")]:{
             width:"90vw",
             margin:"5vh auto"
@@ -147,7 +148,7 @@ const ViewAppeal = (props) => {
                                 FROM : <span className={classes.colored}>{`${data.appealFromId.email} | ${data.appealFromId.name}`}</span>
                             </div>
                             <div className={classes.fromto}>
-                                TO : <span className={classes.colored}>{`${data.appealToId.email} | ${data.appealToId.name}`}</span>
+                                TO : <span className={classes.colored}>{`${data.appealToId.email||"Group"} | ${data.appealToId.name}`}</span>
                             </div>
                         </div>
                         <div className={classes.extrainfo}>

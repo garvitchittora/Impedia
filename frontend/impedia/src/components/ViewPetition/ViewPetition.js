@@ -4,14 +4,28 @@ import {
     TextField,
     InputAdornment,
     Collapse,
-    Chip
+    Chip,
+    Dialog,
+    DialogTitle,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    Button,
+    Fab,
+    IconButton
 } from '@material-ui/core';
 import {
     Telegram as SendIcon,
     ThumbUp as UpvoteIcon,
     KeyboardArrowDown as DownIcon,
-    ExpandLess as UpIcon
+    ExpandLess as UpIcon,
+    Create as SignIcon,
+    Close as CloseIcon
 } from '@material-ui/icons';
+import {
+    Alert,
+    AlertTitle
+} from '@material-ui/lab';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import TopBar from '../TopBar/TopBar';
@@ -21,6 +35,14 @@ import gfm from 'remark-gfm';
 const useStyles = makeStyles(theme => ({
     container:{
         margin:"2% 0"
+    },
+    Alert:{
+        width:"80vw",
+        position:"fixed",
+        top:"5%",
+        margin:"auto",
+        left:"10vw",
+        zIndex:"100"
     },
     body:{
         width:"95vw",
@@ -53,6 +75,7 @@ const useStyles = makeStyles(theme => ({
         whiteSpace:"nowrap",
         textOverflow:"ellipsis",
         margin:"10px 0",
+        textAlign:"center",
         [theme.breakpoints.down("xs")]:{
             maxWidth:"80vw"
         }
@@ -93,11 +116,12 @@ const useStyles = makeStyles(theme => ({
     commentsSection:{
         border:"2px solid #AAA",
         flex:"15%",
-        height:"70vh",
+        minHeight:"70vh",
         margin:"0 10px",
         borderRadius:"10px",
         display:"flex",
         flexDirection:"column",
+        alignSelf:"stretch",
         [theme.breakpoints.down("sm")]:{
             width:"90vw",
             margin:"5vh auto"
@@ -128,6 +152,21 @@ const useStyles = makeStyles(theme => ({
     signeesDown:{
         margin:"5px 0",
         listStyle:"none"
+    },
+    signPetition:{
+        position:"absolute",
+        marginLeft:"-45px",
+        marginTop:"-45px",
+        // backgroundColor:"#FFAC41",
+        boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+        cursor:"pointer",
+        userSelect:"none"
+    },
+    signIcon:{
+        // userSelect:"none",
+        // '&:active':{
+        //     userSelect:"none"
+        // }
     }
 }));
 
@@ -139,6 +178,16 @@ const ViewAppeal = (props) => {
 
     const [data, setData] = useState([]);
     const [open,setOpen] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [sucessAlert,setSuccessAlert] = useState(false);
+    const [failureAlert,setFailureAlert] = useState(false);
+
+    const handleDialogOpen = () => {
+        setDialogOpen(true);
+      };
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+      };
 
     const SigneeCard = (data) => {
         return (<li key={data.id}>
@@ -169,10 +218,63 @@ const ViewAppeal = (props) => {
             setData(data);
         })
     },[])
+
+    const submitSign = () => {
+        handleDialogClose();
+        setSuccessAlert(true);
+    }
     
     return (data.length === 0 ? ("Loading") : (
         <>
             <div className={classes.container}>
+                {/* Alerts */}
+                <div className={classes.Alert}>
+                        <Collapse in={sucessAlert}>
+                            <Alert
+                            action={
+                                <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setSuccessAlert(false);
+                                }}
+                                >
+                                <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                            severity="success"
+                            variant="filled"
+                            >
+                            <AlertTitle><strong>Successful !</strong></AlertTitle>
+                                You signed for this Petition.
+                            </Alert>
+                        </Collapse>
+                    </div>   
+
+                    <div className={classes.Alert}>
+                            <Collapse in={failureAlert}>
+                                <Alert
+                                action={
+                                    <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setFailureAlert(false);
+                                    }}
+                                    >
+                                    <CloseIcon fontSize="inherit" />
+                                    </IconButton>
+                                }
+                                severity="error"
+                                >
+                                <AlertTitle><strong>Error !</strong></AlertTitle>
+                                    Some Error occurred. Please try again.
+                                </Alert>
+                            </Collapse>
+                        </div>       
+                    {/* Alerts End */}
                 <TopBar useCase="Petition" />
 
                 <div className={classes.body} >
@@ -182,7 +284,7 @@ const ViewAppeal = (props) => {
                                 FROM : <span className={classes.colored}>{`${data.petitionFromId.email} | ${data.petitionFromId.name}`}</span>
                             </div>
                             <div className={classes.fromto}>
-                                TO : <span className={classes.colored}>{`${data.petitionToId.email} | ${data.petitionToId.name}`}</span>
+                                TO : <span className={classes.colored}>{`${data.petitionToId.email||"Group"} | ${data.petitionToId.name}`}</span>
                             </div>
                         </div>
                         <div className={classes.extrainfo}>
@@ -199,6 +301,34 @@ const ViewAppeal = (props) => {
                             </div>
                         </div>
                         <div className={classes.contentBody}>
+                            {/* <div className={classes.signPetition} onClick={handleDialogOpen}> */}
+                                {/* <SignIcon className={classes.signIcon}/> */}
+                                <Fab color="secondary" aria-label="edit" className={classes.signPetition} onClick={handleDialogOpen}>
+                                    <SignIcon className={classes.signIcon}/>
+                                </Fab>
+                            {/* </div> */}
+                            <Dialog
+                                open={dialogOpen}
+                                onClose={handleDialogClose}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                            >
+                                <DialogTitle id="alert-dialog-title">{"Are you sure you want to sign this petition?"}</DialogTitle>
+                                <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                    Once you sign a petition, you cannot unsign it! Note that you will be visible publicly in the Signees List. 
+                                    Click on Agree if you wish to continue.
+                                </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                <Button onClick={handleDialogClose} color="secondary">
+                                    Disagree
+                                </Button>
+                                <Button onClick={submitSign} color="secondary" autoFocus>
+                                    Agree
+                                </Button>
+                                </DialogActions>
+                            </Dialog>
                             <div className={classes.title}>
                                 {data.title}
                             </div>
