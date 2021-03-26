@@ -4,24 +4,27 @@
   "description": "A Centralized Appeal Management System",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "cross-env NODE_ENV=production node server.js",
+    "dev": "cross-env NODE_ENV=development nodemon server.js",
+    "dev-test": "cross-env NODE_ENV=test jest --runInBand --verbose false --watch",
+    "test": "cross-env NODE_ENV=test jest --runInBand",
+    "coverage": "cross-env NODE_ENV=test jest --coverage --runInBand"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/garvitchittora/software-engineering-project.git"
+    "url": "git+https://github.com/garvitchittora/impedia.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/garvitchittora/software-engineering-project/issues"
+    "url": "https://github.com/garvitchittora/impedia/issues"
   },
-  "homepage": "https://github.com/garvitchittora/software-engineering-project#readme",
+  "homepage": "https://github.com/garvitchittora/impedia#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
@@ -29,6 +32,8 @@
     "mongoose-unique-validator": "^2.0.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.1.3"
   }
 }
