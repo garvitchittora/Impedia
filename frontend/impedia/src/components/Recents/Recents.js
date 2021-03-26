@@ -76,12 +76,11 @@ const Recents = (props) => {
             <div className={classes.dataTitle}>
                 {obj.title}
             </div>
-            <div className={classes.seperator}>
-                |
+            {props.type==="PETITIONS" &&  (<><div className={classes.seperator}>
             </div>
             <div className={classes.upvotes}>
-                <UpvoteIcon /> &nbsp; {obj.upvotes}
-            </div>
+                <UpvoteIcon /> &nbsp; {obj.signees.length}
+            </div></>)}
         </div>
         </Link>
         )
