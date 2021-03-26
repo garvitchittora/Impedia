@@ -39,14 +39,16 @@ const validateStudentRegisterRequest = async (req, res, next) => {
 
 const getProfile = async (req, res) => {
   const { user } = req;
-  const student = await Student.findOne({ id: user.id });
+  const student = await Student.findById(user.id);
+  console.log(student);
   if (!student) return res.status(404).end();
   res.status(200).json(student);
 };
 
 const updateProfile = async (req, res) => {
   const { user } = req;
-  const student = await Student.findOneAndUpdate({ id: user.id }, req.body);
+  const student = await Student.findByIdAndUpdate(user.id, req.body);
+  console.log(student);
   if (!student) return res.status(404).end();
   console.log(student);
   res.status(200).json(student);
