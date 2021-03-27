@@ -5,11 +5,25 @@ const Petition = require("../models/Petition");
 
 const getPetitionById = async (req, res) => {
   const { user } = req;
-  const petition = await Petition.findById(req.params.id)
-    .populate("petitionToId")
-    .populate("petitionFromId")
-    .populate("signees")
-    .exec();
+  const petition = await Petition.findById(req.params.id);
+  if (!petition) return res.status(404).end();
+
+  if (petition.onModel === "Group") {
+    await petition
+      .populate("petitionFromId")
+      .populate({
+        path: "petitionToId",
+        populate: { path: "members" },
+      })
+      .populate("signees")
+      .execPopulate();
+  } else {
+    await petition
+      .populate("petitionFromId")
+      .populate("petitionToId")
+      .populate("signees")
+      .execPopulate();
+  }
   res.status(200).json(petition);
 };
 
