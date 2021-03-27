@@ -13,4 +13,22 @@ const getPetitionById = async (req, res) => {
   res.status(200).json(petition);
 };
 
-module.exports = { getPetitionById };
+const signPetition = async (req, res) => {
+  const { user } = req;
+  const student = await Student.findById(user.id);
+  if (!student) return res.status(401).json({ error: "Invalid User" });
+
+  const petition = await Petition.findById(req.params.id);
+  if (!petition) return res.status(404).end();
+
+  const signed = petition.signees.find((signee) => signee == student._id);
+  if (signed)
+    return res
+      .status(400)
+      .json({ error: "You have already signed the petition" });
+  petition.signees.push(student._id);
+  await petition.save();
+  return res.status(204).end();
+};
+
+module.exports = { getPetitionById, signPetition };
