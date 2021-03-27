@@ -12,7 +12,8 @@ import {
     DialogContentText,
     Button,
     Fab,
-    IconButton
+    IconButton,
+    Badge
 } from '@material-ui/core';
 import {
     Telegram as SendIcon,
@@ -31,6 +32,7 @@ import { Link } from 'react-router-dom';
 import TopBar from '../TopBar/TopBar';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
+import {useCookies} from 'react-cookie';
 
 const useStyles = makeStyles(theme => ({
     container:{
@@ -175,9 +177,10 @@ const ViewAppeal = (props) => {
 
     const petitionId = props.routerProps.match.params.id;
     // console.log(appealId);
-
+    const [cookies] = useCookies(['user']);
     const [data, setData] = useState([]);
     const [open,setOpen] = useState(false);
+    const [signed, setSigned] = useState();
     const [dialogOpen, setDialogOpen] = useState(false);
     const [sucessAlert,setSuccessAlert] = useState(false);
     const [failureAlert,setFailureAlert] = useState(false);
@@ -205,7 +208,7 @@ const ViewAppeal = (props) => {
     }
 
     useEffect(()=>{
-        const Token = localStorage.getItem("key");
+        const Token = cookies.user['key'];
             const config = {
                 headers: {
                   authorization: Token,
@@ -216,6 +219,8 @@ const ViewAppeal = (props) => {
         .then(data=>{
             console.log(data);
             setData(data);
+            let signeeMail = data.signees.map((signee)=>signee.email)
+            // if(signeeMail.find())
         })
     },[])
 
@@ -275,7 +280,7 @@ const ViewAppeal = (props) => {
                             </Collapse>
                         </div>       
                     {/* Alerts End */}
-                <TopBar useCase="Petition" />
+                <TopBar useCase="Petition" actor={cookies.user['type']} />
 
                 <div className={classes.body} >
                     <div className={classes.APsection}>
@@ -303,9 +308,11 @@ const ViewAppeal = (props) => {
                         <div className={classes.contentBody}>
                             {/* <div className={classes.signPetition} onClick={handleDialogOpen}> */}
                                 {/* <SignIcon className={classes.signIcon}/> */}
-                                <Fab color="secondary" aria-label="edit" className={classes.signPetition} onClick={handleDialogOpen}>
-                                    <SignIcon className={classes.signIcon}/>
-                                </Fab>
+                                <Badge badgeContent={signed} color="error">
+                                    <Fab color="secondary" disabled aria-label="edit" className={classes.signPetition} onClick={handleDialogOpen}>
+                                        <SignIcon className={classes.signIcon}/>
+                                    </Fab>
+                                </Badge>
                             {/* </div> */}
                             <Dialog
                                 open={dialogOpen}

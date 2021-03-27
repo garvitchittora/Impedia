@@ -3,9 +3,13 @@ import axios from 'axios';
 import LoginPage from './LoginPage';
 import StudentLoginPic from '../../assets/Login/studentLogin.svg'
 import  { useHistory} from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 const StudentLogin = () => {
     const history = useHistory();
+    
+    const [cookies, setCookie] = useCookies(['user']);
+
     const [EmailValues, setEmailValues] = React.useState('');
     const [PasswordValues, setPasswordValues] = React.useState('');
 
@@ -26,6 +30,7 @@ const StudentLogin = () => {
             if(res.status === 200 || res.status === 201){
                 localStorage.setItem('key',data.authKey);
                 console.log(data.authKey);
+                setCookie('user', {key: data.authKey, type:"STUDENT"}, { path: '/' });
                 return history.push("/student/dashboard");
             }else{
                 alert("Failed")

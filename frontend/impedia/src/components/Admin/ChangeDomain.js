@@ -8,6 +8,7 @@ import axios from 'axios';
 import DomainPic from '../../assets/Admin/domainPic.svg';
 import domainIcon from '../../assets/Admin/domainIcon.svg';
 import TopBar from '../TopBar/TopBar';
+import {useCookies} from 'react-cookie';
 
 
 const useStyles = makeStyles(theme => ({
@@ -84,6 +85,8 @@ const useStyles = makeStyles(theme => ({
 
 const ChangeDomain = () => {
     const classes = useStyles();
+    
+    const [cookies] = useCookies(['user']);
 
     const re = new RegExp(/^(((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9][a-z0-9\-]{0,60}|[a-z0-9-]{1,30}\.[a-z]{2,})$/); 
 
@@ -106,10 +109,10 @@ const ChangeDomain = () => {
             return;
         }
 
-        const AdminToken = localStorage.getItem("key");
+        const Token = cookies.user['key'];
         const config = {
             headers: {
-              authorization: AdminToken,
+              authorization: Token,
             }
         }
 

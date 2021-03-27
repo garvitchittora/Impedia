@@ -3,6 +3,7 @@ import { Redirect } from "react-router";
 import { makeStyles, FilledInput } from "@material-ui/core";
 import axios from "axios";
 import TopBar from "../TopBar/TopBar";
+import {useCookies} from 'react-cookie';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -29,11 +30,12 @@ const useStyles = makeStyles((theme) => ({
 
 const UpdateProfile = () => {
   const classes = useStyles();
+  const [cookies] = useCookies(['user'])
   const [key, setKey] = useState("");
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    setKey(localStorage.getItem("key"));
+    setKey(cookies.user['key']);
   }, []);
 
   useEffect(() => {

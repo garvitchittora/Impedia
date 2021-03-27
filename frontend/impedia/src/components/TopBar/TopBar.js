@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     logoSubtext:{
         marginLeft:"80px",
         letterSpacing:"3px",
-        fontSize:"15px",
+        fontSize:"12px",
         fontWeight:"600",
         marginTop:"-10px"
     },

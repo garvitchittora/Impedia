@@ -12,6 +12,7 @@ import axios from 'axios';
 import DomainPic from '../../assets/Admin/addAuthoritiesPage.svg';
 import addAuthIcon from '../../assets/Admin/addAuth.svg';
 import TopBar from '../TopBar/TopBar';
+import {useCookies} from 'react-cookie';
 
 const filter = createFilterOptions();
 
@@ -94,6 +95,8 @@ const useStyles = makeStyles(theme => ({
 const StudentRegister = () => {
     const classes = useStyles();
 
+    const [cookies] = useCookies(['user']);
+
     const [authEmails, setAuthEmails] = React.useState();
 
     const submitFunction = async (e) => {
@@ -102,10 +105,10 @@ const StudentRegister = () => {
         const body = {
             emailIds: authEmails,
         }
-        const AdminToken = localStorage.getItem("key");
+        const Token = cookies.user['key'];
         const config = {
             headers: {
-              authorization: AdminToken,
+              authorization: Token,
             }
         }
 

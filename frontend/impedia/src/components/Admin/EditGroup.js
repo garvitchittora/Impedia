@@ -19,6 +19,7 @@ import {
 import axios from 'axios';
 import DomainPic from '../../assets/Admin/addAuthoritiesPage.svg';
 import TopBar from '../TopBar/TopBar';
+import {useCookies} from 'react-cookie';
 
 
 const useStyles = makeStyles(theme => ({
@@ -129,6 +130,9 @@ const EditGroup = () => {
     const [sucessAlert,setSuccessAlert] = useState(false);
     const [failureAlert,setFailureAlert] = useState(false);
 
+    
+    const [cookies] = useCookies(['user']);
+
     useEffect(() => {
         let active = true;
 
@@ -137,10 +141,10 @@ const EditGroup = () => {
         }
 
         (async () => {
-            const AdminToken = localStorage.getItem("key");
+            const Token = cookies.user['key'];
             const config = {
                 headers: {
-                    authorization: AdminToken,
+                    authorization: Token,
                 }
             }
             const res = await axios.get("/group", config)
@@ -175,10 +179,10 @@ const EditGroup = () => {
         }
 
         (async () => {
-            const AdminToken = localStorage.getItem("key");
+            const Token = cookies.user['key'];
             const config = {
                 headers: {
-                    authorization: AdminToken,
+                    authorization: Token,
                 }
             }
             const res = await axios.get("/authority", config)
@@ -241,10 +245,10 @@ const EditGroup = () => {
             }),
             nameUpdate: groupSelected.name
         }
-        const AdminToken = localStorage.getItem("key");
+        const Token = cookies.user['key'];
         const config = {
             headers: {
-                authorization: AdminToken,
+                authorization: Token,
             }
         }
 

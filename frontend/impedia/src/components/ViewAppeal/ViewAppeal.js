@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import TopBar from '../TopBar/TopBar';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
+import {useCookies} from 'react-cookie';
 
 const useStyles = makeStyles(theme => ({
     container:{
@@ -120,9 +121,10 @@ const ViewAppeal = (props) => {
     console.log(appealId);
 
     const [data, setData] = useState([]);
+    const [cookies] = useCookies(['user']);
 
     useEffect(()=>{
-        const Token = localStorage.getItem("key");
+        const Token = cookies.user['key'];
             const config = {
                 headers: {
                   authorization: Token,
@@ -139,7 +141,7 @@ const ViewAppeal = (props) => {
     return (data.length === 0 ? ("Loading") : (
         <>
             <div className={classes.container}>
-                <TopBar useCase="Appeal" />
+                <TopBar useCase="Appeal" actor={cookies.user['type']}/>
 
                 <div className={classes.body} >
                     <div className={classes.APsection}>

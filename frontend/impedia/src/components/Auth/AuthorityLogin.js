@@ -3,9 +3,12 @@ import axios from 'axios';
 import LoginPage from './LoginPage';
 import AuthorityLoginPic from '../../assets/Login/authLogin.svg'
 import  { useHistory} from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 const AuthorityLogin = () => {
     const history = useHistory();
+    
+    const [cookies, setCookie] = useCookies(['user']);
 
     const [EmailValues, setEmailValues] = React.useState('');
     const [PasswordValues, setPasswordValues] = React.useState('');
@@ -25,6 +28,7 @@ const AuthorityLogin = () => {
             let data = res.data;
             if(res.status === 200 || res.status === 201){
                 localStorage.setItem('key',data.authKey);
+                setCookie('user', {key: data.authKey, type:"AUTHORITY"}, { path: '/' });
                 console.log(data.authKey);
 
                 return history.push("/authority/dashboard");

@@ -27,6 +27,7 @@ import axios from 'axios';
 import TopBar from '../../TopBar/TopBar';
 import ReactMarkdown from 'react-markdown/with-html';
 import gfm from 'remark-gfm';
+import {useCookies} from 'react-cookie';
 
 
 const useStyles = makeStyles(theme => ({
@@ -110,6 +111,7 @@ const useStyles = makeStyles(theme => ({
 const CreateTemplate = (props) => {
     const classes = useStyles();
 
+    const [cookies] = useCookies(['user']);
     // const [props.openAlert, props.setOpenAlert] = useState(false);
     // const [props.openErrorAlert, props.setOpenErrorAlert] = useState(false);
     const [value, setValue] = useState(0);
@@ -128,10 +130,10 @@ const CreateTemplate = (props) => {
         }
     
         (async () => {
-            const AdminToken = localStorage.getItem("key");
+            const Token = cookies.user['key'];
             const config = {
                 headers: {
-                  authorization: AdminToken,
+                  authorization: Token,
                 }
             }
             const res = await axios.get("/group", config)
@@ -163,10 +165,10 @@ const CreateTemplate = (props) => {
           }
 
         (async () => {
-            const AdminToken = localStorage.getItem("key");
+            const Token = cookies.user['key'];
             const config = {
                 headers: {
-                  authorization: AdminToken,
+                  authorization: Token,
                 }
             }
             const res = await axios.get("/authority", config)

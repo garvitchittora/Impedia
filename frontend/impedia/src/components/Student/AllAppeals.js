@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core';
 import Appeals from '../AppealsandPetitions/Appeals';
 import TopBar from '../TopBar/TopBar';
+import {useCookies} from 'react-cookie';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -21,9 +22,10 @@ const AllAppeals = () => {
     const classes=useStyles();
 
     const [data, setData] = useState([]);
+    const [cookies] = useCookies(['user']);
 
     useEffect(()=>{
-        const Token = localStorage.getItem("key");
+        const Token = cookies.user['key'];
         const config = {
             headers: {
               authorization: Token,

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 import CreateTemplate from "./CreateTemplate/CreateTemplate";
+import {useCookies} from 'react-cookie';
 
 const CreateAppeal = () => {
+  const [cookies] = useCookies(['user']);
   const [openAlert, setOpenAlert] = useState(false);
   const [openErrorAlert, setOpenErrorAlert] = useState(false);
   const [newAppeal, setNewAppeal] = useState({
@@ -19,10 +21,10 @@ const CreateAppeal = () => {
     e.preventDefault();
 
     if (typeof sendToId !== "undefined" && sendToId !== null) {
-      const AdminToken = localStorage.getItem("key");
+      const Token = cookies.user['key'];
       const config = {
         headers: {
-          authorization: AdminToken,
+          authorization: Token,
         },
       };
 
