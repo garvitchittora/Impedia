@@ -10,6 +10,7 @@ const adminRouter = require("./routes/adminRouter");
 const groupRouter = require("./routes/groupRouter");
 const appealRouter = require("./routes/appealRouter");
 const petitionRouter = require("./routes/petitionRouter");
+const replyRouter = require("./routes/replyRouter");
 
 // Adding parsing middlewares
 app.use(express.json());
@@ -35,6 +36,7 @@ app.use("/admin", adminRouter);
 app.use("/group", groupRouter);
 app.use("/appeal", appealRouter);
 app.use("/petition", petitionRouter);
+app.use("/reply", replyRouter);
 
 // Adding dummy routes
 app.get("/", (req, res) => {

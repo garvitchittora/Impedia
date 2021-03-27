@@ -99,7 +99,9 @@ const createAppeal = async (req, res) => {
     ...body,
   });
   if (appeal.appealToId.substring(0, 2) === "AU") appeal.onModel = "Authority";
-  else appeal.onModel = "Group";
+  else if (appeal.appealToId.substring(0, 2) === "GR") appeal.onModel = "Group";
+  else return res.status(400).json({ error: "Invalid appealToId" });
+
   await appeal.save();
   return res.status(201).end();
 };
@@ -127,9 +129,10 @@ const createPetition = async (req, res) => {
     signees: [user.id],
     ...body,
   });
-  if (petition.petitionToId.substring(0, 2) === "AU")
-    petition.onModel = "Authority";
-  else petition.onModel = "Group";
+  if (petition.petitionToId.substring(0, 2) === "AU") petition.onModel = "Authority";
+  else if (petition.petitionToId.substring(0, 2) === "GR") petition.onModel = "Group";
+  else return res.status(400).json({ error: "Invalid petitionToId" });
+
   await petition.save();
   return res.status(201).end();
 };

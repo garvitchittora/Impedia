@@ -1,7 +1,6 @@
-const Authority = require("../models/Authority");
 const Student = require("../models/Student");
-const Appeal = require("../models/Appeal");
 const Petition = require("../models/Petition");
+const Reply = require("../models/Reply");
 
 const getPetitionById = async (req, res) => {
   const { user } = req;
@@ -45,4 +44,23 @@ const signPetition = async (req, res) => {
   return res.status(204).end();
 };
 
-module.exports = { getPetitionById, signPetition };
+const getPetitionReplies = async(req, res) => {
+  let idQueue = [req.params.id];
+  let petitionReplies = [];
+  while(idQueue.length > 0) {
+    let currId = idQueue.shift();
+    let replies = await Reply.find({replyToId: currId}).populate({path: "replyToId", populate: {path: "replyById"}}).populate("replyById");
+    replies.forEach(reply => {
+      petitionReplies.push(reply);
+      idQueue.push(reply._id);
+    })
+  }
+  petitionReplies.sort((a, b) => (a.dateTime > b.dateTime) ? 1 : -1);
+  return res.json(petitionReplies);
+}
+
+module.exports = {
+  getPetitionById,
+  signPetition,
+  getPetitionReplies,
+};

@@ -1,8 +1,8 @@
 const Authority = require("../models/Authority");
 const Student = require("../models/Student");
 const Appeal = require("../models/Appeal");
-const Petition = require("../models/Petition");
 const Admin = require("../models/Admin");
+const Reply = require("../models/Reply");
 
 const getAppealById = async (req, res) => {
   const { user } = req;
@@ -48,4 +48,29 @@ const getAppealById = async (req, res) => {
   }
 };
 
-module.exports = { getAppealById };
+const getAppealReplies = async(req, res) => {
+  const { user } = req;
+  const appeal = await Appeal.findById(req.params.id).populate("appealToId");
+
+  if(!(appeal.appealFromId === user.id || user.id.substring(0, 2) === "AD" || appeal.appealToId._id === user.id || appeal.appealToId.members?.includes(user.id))) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  let idQueue = [req.params.id];
+  let appealReplies = [];
+  while(idQueue.length > 0) {
+    let currId = idQueue.shift();
+    let replies = await Reply.find({replyToId: currId}).populate({path: "replyToId", populate: {path: "replyById"}}).populate("replyById");
+    replies.forEach(reply => {
+      appealReplies.push(reply);
+      idQueue.push(reply._id);
+    })
+  }
+  appealReplies.sort((a, b) => (a.dateTime > b.dateTime) ? 1 : -1);
+  return res.json(appealReplies);
+}
+
+module.exports = {
+  getAppealById,
+  getAppealReplies,
+};

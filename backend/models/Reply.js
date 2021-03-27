@@ -9,10 +9,12 @@ const replySchema = new mongoose.Schema(
     replyById: {
       type: String,
       required: true,
+      refPath: "onByModel"
     },
     replyToId: {
       type: String,
       required: true,
+      refPath: "onToModel"
     },
     content: {
       type: String,
@@ -24,6 +26,16 @@ const replySchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    onByModel: {
+      type: String,
+      required: true,
+      enum: ["Student", "Authority", "Admin"],
+    },
+    onToModel: {
+      type: String,
+      required: true,
+      enum: ["Reply", "Appeal", "Petition"],
+    }
   },
   { _id: false }
 );
