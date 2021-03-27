@@ -16,6 +16,7 @@ import PetitionIcon from '../../../assets/Admin/petitionIcon.svg';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import  { useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     dashboardPage:{
@@ -146,9 +147,13 @@ const Dashboard = () => {
     const classes = useStyles();
     const [AppealsPetitions, setAppealsPetitions] = useState([]);
     const [cookies] = useCookies(['user'])
+    const history = useHistory();
 
     useEffect(() => {
-            // const AdminToken = localStorage.getItem("key");
+            if(! cookies.user){
+                return history.push("/");
+            }
+
             const Token = cookies.user['key'];
             const config = {
                 headers: {

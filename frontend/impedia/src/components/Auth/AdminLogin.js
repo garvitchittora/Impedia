@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import LoginPage from './LoginPage';
 import AdminLoginPic from '../../assets/Login/adminLogin.svg'
-import  { useHistory} from 'react-router-dom'
+import  { useHistory} from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 const AdminLogin = () => {
