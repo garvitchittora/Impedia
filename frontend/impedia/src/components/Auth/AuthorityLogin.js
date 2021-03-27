@@ -28,7 +28,7 @@ const AuthorityLogin = () => {
             let data = res.data;
             if(res.status === 200 || res.status === 201){
                 localStorage.setItem('key',data.authKey);
-                setCookie('user', {key: data.authKey, type:"AUTHORITY"}, { path: '/' });
+                setCookie('user', {key: data.authKey, type:"AUTHORITY", email:EmailValues}, { path: '/' });
                 console.log(data.authKey);
 
                 return history.push("/authority/dashboard");

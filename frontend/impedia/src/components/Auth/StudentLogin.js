@@ -30,7 +30,7 @@ const StudentLogin = () => {
             if(res.status === 200 || res.status === 201){
                 localStorage.setItem('key',data.authKey);
                 console.log(data.authKey);
-                setCookie('user', {key: data.authKey, type:"STUDENT"}, { path: '/' });
+                setCookie('user', {key: data.authKey, type:"STUDENT", email:EmailValues}, { path: '/' });
                 return history.push("/student/dashboard");
             }else{
                 alert("Failed")

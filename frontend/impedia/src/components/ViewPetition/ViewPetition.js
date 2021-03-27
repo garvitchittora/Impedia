@@ -21,7 +21,8 @@ import {
     KeyboardArrowDown as DownIcon,
     ExpandLess as UpIcon,
     Create as SignIcon,
-    Close as CloseIcon
+    Close as CloseIcon,
+    AirlineSeatReclineExtraOutlined
 } from '@material-ui/icons';
 import {
     Alert,
@@ -151,6 +152,10 @@ const useStyles = makeStyles(theme => ({
     updownIcon:{
         cursor:"pointer"
     },
+    chipLi:{
+        display:"inline-block",
+        marginRight:"10px"
+    },
     signeesDown:{
         margin:"5px 0",
         listStyle:"none"
@@ -181,6 +186,9 @@ const ViewAppeal = (props) => {
     const [data, setData] = useState([]);
     const [open,setOpen] = useState(false);
     const [signed, setSigned] = useState();
+    const [signMsg, setSignMsg] = useState();
+    const [actor, setActor] = useState();
+    const [reload, setReload] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [sucessAlert,setSuccessAlert] = useState(false);
     const [failureAlert,setFailureAlert] = useState(false);
@@ -193,7 +201,7 @@ const ViewAppeal = (props) => {
       };
 
     const SigneeCard = (data) => {
-        return (<li key={data.id}>
+        return (<li key={data.id} className={classes.chipLi}>
             <Chip
             //   icon={icon}
               label={data.email}
@@ -219,14 +227,41 @@ const ViewAppeal = (props) => {
         .then(data=>{
             console.log(data);
             setData(data);
-            let signeeMail = data.signees.map((signee)=>signee.email)
-            // if(signeeMail.find())
+            setActor(cookies.user['type']);
+            let userId = cookies.user['email'];
+            let signeeMail = data.signees.map((signee)=>signee.email);
+            if(signeeMail.findIndex((el) => el===userId) >=0 ){
+                setSigned(true);
+                setSignMsg("Signed");
+            }else{
+                setSigned(false);
+                setSignMsg();
+            }
         })
-    },[])
+    },[reload])
 
     const submitSign = () => {
         handleDialogClose();
-        setSuccessAlert(true);
+        const Token = cookies.user['key'];
+            const config = {
+                headers: {
+                  Authorization: Token,
+                }
+            }
+        console.log(config);
+        
+        axios.post(`/petition/${petitionId}/sign`,{},config)
+        .then(res=>{
+            if(res.status === 200 || res.status === 201 || res.status===204){
+                setSuccessAlert(true);
+                setReload(true);
+            }
+            else{
+                setFailureAlert(true);
+            }
+        })
+        
+        
     }
     
     return (data.length === 0 ? ("Loading") : (
@@ -280,7 +315,7 @@ const ViewAppeal = (props) => {
                             </Collapse>
                         </div>       
                     {/* Alerts End */}
-                <TopBar useCase="Petition" actor={cookies.user['type']} />
+                <TopBar useCase="Petition" actor={actor} />
 
                 <div className={classes.body} >
                     <div className={classes.APsection}>
@@ -306,14 +341,13 @@ const ViewAppeal = (props) => {
                             </div>
                         </div>
                         <div className={classes.contentBody}>
-                            {/* <div className={classes.signPetition} onClick={handleDialogOpen}> */}
-                                {/* <SignIcon className={classes.signIcon}/> */}
-                                <Badge badgeContent={signed} color="error">
-                                    <Fab color="secondary" disabled aria-label="edit" className={classes.signPetition} onClick={handleDialogOpen}>
+                                {actor === "STUDENT" && (
+                                <Badge badgeContent={signMsg} color="error">
+                                    <Fab color="secondary" disabled={signed} aria-label="edit" className={classes.signPetition} onClick={handleDialogOpen}>
                                         <SignIcon className={classes.signIcon}/>
                                     </Fab>
                                 </Badge>
-                            {/* </div> */}
+                                )}
                             <Dialog
                                 open={dialogOpen}
                                 onClose={handleDialogClose}

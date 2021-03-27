@@ -28,7 +28,7 @@ const AdminLogin = () => {
             if(res.status === 200 || res.status === 201){
                 let data = res.data;
                 localStorage.setItem('key',data.authKey);
-                setCookie('user', {key: data.authKey, type:"ADMIN"}, { path: '/' });
+                setCookie('user', {key: data.authKey, type:"ADMIN", email:EmailValues}, { path: '/' });
                 console.log(data.authKey);
                 return history.push("/admin/dashboard");
             }
