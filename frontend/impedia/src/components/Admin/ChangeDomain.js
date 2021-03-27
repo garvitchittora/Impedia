@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
     makeStyles,
     Button,
@@ -9,7 +9,7 @@ import DomainPic from '../../assets/Admin/domainPic.svg';
 import domainIcon from '../../assets/Admin/domainIcon.svg';
 import TopBar from '../TopBar/TopBar';
 import {useCookies} from 'react-cookie';
-
+import  { useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     setDomainPage:{
@@ -85,13 +85,17 @@ const useStyles = makeStyles(theme => ({
 
 const ChangeDomain = () => {
     const classes = useStyles();
-    
     const [cookies] = useCookies(['user']);
-
     const re = new RegExp(/^(((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9][a-z0-9\-]{0,60}|[a-z0-9-]{1,30}\.[a-z]{2,})$/); 
-
     const [DomainValues, setDomainValues] = React.useState('');
     const [validDomain, setValidDomain] = React.useState(true);
+    const history = useHistory();
+
+    useEffect(() => {
+        if(! cookies.user || cookies.user["type"] != "ADMIN"){
+            return history.push("/login/admin");
+        }
+    }, []);
 
     const handleDomainChange = (e) => {
         setDomainValues(e.target.value);

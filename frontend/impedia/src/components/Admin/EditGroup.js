@@ -20,7 +20,7 @@ import axios from 'axios';
 import DomainPic from '../../assets/Admin/addAuthoritiesPage.svg';
 import TopBar from '../TopBar/TopBar';
 import {useCookies} from 'react-cookie';
-
+import  { useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     Alert:{
@@ -129,9 +129,14 @@ const EditGroup = () => {
     const [reload,setReload] = useState(false);
     const [sucessAlert,setSuccessAlert] = useState(false);
     const [failureAlert,setFailureAlert] = useState(false);
-
-    
     const [cookies] = useCookies(['user']);
+    const history = useHistory();
+
+    useEffect(() => {
+        if(! cookies.user || cookies.user["type"] != "ADMIN"){
+            return history.push("/login/admin");
+        }
+    }, []);
 
     useEffect(() => {
         let active = true;

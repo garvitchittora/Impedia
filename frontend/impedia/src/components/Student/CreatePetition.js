@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import CreateTemplate from './CreateTemplate/CreateTemplate';
 import {useCookies} from 'react-cookie';
-
+import  { useHistory} from 'react-router-dom';
 
 const CreatePetition = () => {
     const [cookies] = useCookies(['user'])
@@ -13,10 +12,15 @@ const CreatePetition = () => {
         title:"Sample Title",
         content:"Sample Content"
     })
-
     const [petitionTo, setPetitionTo] = useState("");
-
     const[sendToId,setId] = useState();
+    const history = useHistory();
+
+    useEffect(() => {
+        if(! cookies.user || cookies.user["type"] != "STUDENT"){
+            return history.push("/login/student");
+        }
+    }, []);
 
     const submitFunction = (e) => {
         e.preventDefault();

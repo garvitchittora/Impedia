@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-
 import axios from "axios";
 import CreateTemplate from "./CreateTemplate/CreateTemplate";
 import {useCookies} from 'react-cookie';
+import  { useHistory} from 'react-router-dom';
 
 const CreateAppeal = () => {
   const [cookies] = useCookies(['user']);
@@ -12,10 +12,15 @@ const CreateAppeal = () => {
     title: "Sample Title",
     content: "Sample Content",
   });
-
   const [appealTo, setAppealTo] = useState("");
-
   const [sendToId, setId] = useState();
+  const history = useHistory();
+
+  useEffect(() => {
+      if(! cookies.user || cookies.user["type"] != "STUDENT"){
+          return history.push("/login/student");
+      }
+  }, []);
 
   const submitFunction = (e) => {
     e.preventDefault();

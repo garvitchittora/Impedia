@@ -150,8 +150,8 @@ const Dashboard = () => {
     const history = useHistory();
 
     useEffect(() => {
-            if(! cookies.user){
-                return history.push("/");
+            if(! cookies.user || cookies.user["type"] != "ADMIN"){
+                return history.push("/login/admin");
             }
 
             const Token = cookies.user['key'];
