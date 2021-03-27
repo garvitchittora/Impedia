@@ -6,6 +6,7 @@ import {
 import Appeals from '../AppealsandPetitions/Appeals';
 import TopBar from '../TopBar/TopBar';
 import {useCookies} from 'react-cookie';
+import  { useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -24,6 +25,13 @@ const AllAppeals = () => {
     const [cookies] = useCookies(['user']);
 
     const [data, setData] = useState([]);
+    const history = useHistory();
+
+    useEffect(() => {
+        if(! cookies.user || cookies.user["type"] != "ADMIN"){
+            return history.push("/login/admin");
+        }
+    }, []);
 
     useEffect(()=>{
         const Token = cookies.user['key'];

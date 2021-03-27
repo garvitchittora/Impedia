@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
     makeStyles,
     Button,
@@ -13,6 +13,7 @@ import DomainPic from '../../assets/Admin/addAuthoritiesPage.svg';
 import addAuthIcon from '../../assets/Admin/addAuth.svg';
 import TopBar from '../TopBar/TopBar';
 import {useCookies} from 'react-cookie';
+import  { useHistory} from 'react-router-dom';
 
 const filter = createFilterOptions();
 
@@ -94,10 +95,15 @@ const useStyles = makeStyles(theme => ({
 
 const StudentRegister = () => {
     const classes = useStyles();
-
     const [cookies] = useCookies(['user']);
-
     const [authEmails, setAuthEmails] = React.useState();
+    const history = useHistory();
+
+    useEffect(() => {
+        if(! cookies.user || cookies.user["type"] != "ADMIN"){
+            return history.push("/login/admin");
+        }
+    }, []);
 
     const submitFunction = async (e) => {
         e.preventDefault();
