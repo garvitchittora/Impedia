@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import LoginPage from './LoginPage';
 import AdminLoginPic from '../../assets/Login/adminLogin.svg'
@@ -14,6 +14,12 @@ const AdminLogin = () => {
     const [PasswordValues, setPasswordValues] = React.useState('');
 
     const [openAlert, setOpenAlert] = React.useState(false);
+
+    useEffect(() => {
+        if(cookies.user  && cookies.user["type"] === "ADMIN"){
+            return history.push("/admin/dashboard");
+        }
+    }, []);
 
     const submitFunction = async (e) => {
         e.preventDefault();

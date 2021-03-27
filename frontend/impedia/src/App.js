@@ -22,12 +22,14 @@ import AdminAllPetitions from "./components/Admin/AllPetitions";
 import AuthorityAllPetitions from "./components/Authority/AllPetitions";
 import StudentAllPetitions from "./components/Student/AllPetitions";
 import UpdateProfile from "./components/Profile/UpdateProfile";
+import Home from "./components/Home/Home";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Switch>
+          <Route exact path="/" component={Home} />
           <Route exact path="/login/admin" component={AdminLogin} />
           <Route exact path="/login/authority" component={AuthorityLogin} />
           <Route exact path="/login/student" component={StudentLogin} />
