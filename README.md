@@ -3,7 +3,6 @@
 </h1>
 
 <h3 align="center">A centralized appeal management system.</h3>
-<br>
 
 ---
 
