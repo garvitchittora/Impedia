@@ -8,8 +8,8 @@ const Group = require("../models/Group");
 const Appeal = require("../models/Appeal");
 const Petition = require("../models/Petition");
 
+//* tested
 const adminAuth = async (req, res) => {
-  console.log(await bcrypt.hash("password", 10));
   let email = req.body.email;
   let password = req.body.password;
   if (!(email && password)) {
@@ -59,8 +59,11 @@ const adminAuth = async (req, res) => {
 
 const setEmailDomain = async (req, res) => {
   const id = req.user.id;
-  if (!(id.substring(0, 2) === "AD"))
+  if (!id || !(id.substring(0, 2) === "AD"))
     return res.status(403).json({ error: "Forbidden" });
+
+  const admin = await Admin.findById(id);
+  if (!admin) return res.status(403).json({ error: "Forbidden" });
 
   const { domain } = req.body;
   if (!domain)
@@ -159,9 +162,14 @@ const getAppealsAndPetitions = async (req, res) => {
   const { user } = req;
   const admin = await Admin.findById(user.id);
   if (!admin) return res.status(403).json({ error: "Forbidden" });
-  const appeals = await Appeal.find({}).populate("appealFromId").populate({path: "appealToId", populate: {path: "members"}});
-  const petitions = await Petition.find({}).populate("petitionFromId").populate({path: "petitionToId", populate: {path: "members"}}).populate("signees");
-  res.status(200).json({appeals: appeals, petitions: petitions});
+  const appeals = await Appeal.find({})
+    .populate("appealFromId")
+    .populate({ path: "appealToId", populate: { path: "members" } });
+  const petitions = await Petition.find({})
+    .populate("petitionFromId")
+    .populate({ path: "petitionToId", populate: { path: "members" } })
+    .populate("signees");
+  res.status(200).json({ appeals: appeals, petitions: petitions });
 };
 
 module.exports = {
