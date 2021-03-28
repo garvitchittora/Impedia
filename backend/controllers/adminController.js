@@ -5,25 +5,8 @@ const Admin = require("../models/Admin");
 const Settings = require("../models/Settings");
 const Authority = require("../models/Authority");
 const Group = require("../models/Group");
-const Student = require("../models/Student");
 const Appeal = require("../models/Appeal");
 const Petition = require("../models/Petition");
-
-// FOR TESTING ONLY! REMOVE LATER
-const addAdmin = async (req, res) => {
-  const { email, name, password } = req.body;
-  const passwordHash = await bcrypt.hash(password, 10);
-  const admin = new Admin({
-    _id: "AD" + new mongoose.mongo.ObjectID(),
-    email,
-    name,
-    password: passwordHash,
-  });
-  const saved = await admin.save();
-  if (!saved) console.log("Shit");
-  res.status(201).json(saved);
-};
-// FOR TESTING ONLY! REMOVE LATER
 
 const adminAuth = async (req, res) => {
   console.log(await bcrypt.hash("password", 10));
@@ -189,5 +172,4 @@ module.exports = {
   editAuthorityGroup,
   deleteAuthorityGroup,
   getAppealsAndPetitions,
-  addAdmin,
 };

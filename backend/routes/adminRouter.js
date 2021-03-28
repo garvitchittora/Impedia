@@ -8,11 +8,9 @@ const {
   editAuthorityGroup,
   deleteAuthorityGroup,
   getAppealsAndPetitions,
-  addAdmin,
 } = require("../controllers/adminController");
 const authenticate = require("../utils/authenticate");
 
-adminRouter.post("/add", addAdmin);
 adminRouter.post("/auth", adminAuth);
 adminRouter.post("/setemaildomain", authenticate, setEmailDomain);
 adminRouter.post("/addauthorities", authenticate, addAuthorities);

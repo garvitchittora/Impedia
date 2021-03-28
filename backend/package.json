@@ -8,7 +8,8 @@
     "dev": "cross-env NODE_ENV=development nodemon server.js",
     "dev-test": "cross-env NODE_ENV=test jest --runInBand --verbose false --watch",
     "test": "cross-env NODE_ENV=test jest --runInBand",
-    "coverage": "cross-env NODE_ENV=test jest --coverage --runInBand"
+    "coverage": "cross-env NODE_ENV=test jest --coverage --runInBand",
+    "generate-admin": "cross-env NODE_ENV=production node scripts/generateAdmin.js"
   },
   "repository": {
     "type": "git",

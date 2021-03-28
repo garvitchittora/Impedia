@@ -63,9 +63,9 @@ and navigate to `localhost:3000` in your browser. The Backend API will be runnin
 
 # Getting Started
 
-First you have to generate admin credentials. Open another terminal in the backend and run
+First you have to generate admin credentials. Open another terminal in the backend folder and run
 ```sh
-node scripts/generateAdmin.js
+npm run generate-admin
 ```
 This will generate Admin credentials you can use to login as an admin.
 
