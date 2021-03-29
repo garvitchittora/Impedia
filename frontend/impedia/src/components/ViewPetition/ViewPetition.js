@@ -154,7 +154,7 @@ const useStyles = makeStyles(theme => ({
     },
     chipLi:{
         display:"inline-block",
-        marginRight:"10px"
+        margin:"10px 10px 0 0"
     },
     signeesDown:{
         margin:"5px 0",
