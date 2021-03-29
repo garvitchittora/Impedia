@@ -52,7 +52,7 @@ const getAppealReplies = async(req, res) => {
   const { user } = req;
   const appeal = await Appeal.findById(req.params.id).populate("appealToId");
 
-  if(!(appeal.appealFromId === user.id || user.id.substring(0, 2) === "AD" || appeal.appealToId._id === user.id || appeal.appealToId.members?.includes(user.id))) {
+  if(!(appeal.appealFromId === user.id || user.id.substring(0, 2) === "AD" || appeal.appealToId._id === user.id || appeal.appealToId.members.includes(user.id))) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
