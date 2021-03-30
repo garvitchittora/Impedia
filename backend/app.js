@@ -11,6 +11,7 @@ const groupRouter = require("./routes/groupRouter");
 const appealRouter = require("./routes/appealRouter");
 const petitionRouter = require("./routes/petitionRouter");
 const replyRouter = require("./routes/replyRouter");
+const errorHandler = require("./utils/errorHandler");
 
 // Adding parsing middlewares
 app.use(express.json());
@@ -21,14 +22,6 @@ app.use(
 );
 app.use(cors());
 
-// Adding db connection logs
-db.once("open", function () {
-  console.log("Connected to MongoDB");
-});
-db.on("error", function (err) {
-  console.log(err);
-});
-
 // Adding router middleware
 app.use("/student", studentRouter);
 app.use("/authority", authorityRouter);
@@ -37,10 +30,19 @@ app.use("/group", groupRouter);
 app.use("/appeal", appealRouter);
 app.use("/petition", petitionRouter);
 app.use("/reply", replyRouter);
+app.use(errorHandler);
+
+// Adding db connection logs
+db.once("open", function () {
+  console.log("Connected to MongoDB");
+});
+db.on("error", function (err) {
+  console.log(err);
+});
 
 // Adding dummy routes
-app.get("/", (req, res) => {
-  res.send("Impedia API working successfully.");
-});
+// app.get("/", (req, res) => {
+//   res.send("Impedia API working successfully.");
+// });
 
 module.exports = app;

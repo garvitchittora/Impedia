@@ -57,6 +57,7 @@ const adminAuth = async (req, res) => {
   }
 };
 
+//*tested
 const setEmailDomain = async (req, res) => {
   const id = req.user.id;
   if (!id || !(id.substring(0, 2) === "AD"))
@@ -82,18 +83,23 @@ const setEmailDomain = async (req, res) => {
   res.status(200).end();
 };
 
+//* tested
 const addAuthorities = async (req, res) => {
   const id = req.user.id;
   if (!(id.substring(0, 2) === "AD"))
     return res.status(403).json({ error: "Forbidden" });
+
+  const admin = await Admin.findById(id);
+  if (!admin) return res.status(403).json({ error: "Forbidden" });
+
   const { emailIds } = req.body;
   if (!emailIds)
     return res
       .status(400)
       .json({ error: "Please enter the required information" });
 
-  await emailIds.forEach(async (email) => {
-    // const password = email + String(Math.floor(Math.random() * 10000))
+  for (let email of emailIds) {
+    console.log(email);
     const password = "password";
     const passwordHash = await bcrypt.hash(password, 10);
     let user = new Authority({
@@ -103,15 +109,20 @@ const addAuthorities = async (req, res) => {
       password: passwordHash,
     });
     await user.save();
-  });
+  }
 
   res.status(201).end();
 };
 
+//* tested
 const makeAuthorityGroup = async (req, res) => {
   const id = req.user.id;
   if (!(id.substring(0, 2) === "AD"))
     return res.status(403).json({ error: "Forbidden" });
+
+  const admin = await Admin.findById(id);
+  if (!admin) return res.status(403).json({ error: "Forbidden" });
+
   const { name, emailIds } = req.body;
   if (!emailIds || !name)
     return res
@@ -133,6 +144,7 @@ const makeAuthorityGroup = async (req, res) => {
   res.status(201).json(groupSave);
 };
 
+//* tested
 const editAuthorityGroup = async (req, res) => {
   const { user, body } = req;
   const admin = await Admin.findById(user.id);
@@ -141,15 +153,24 @@ const editAuthorityGroup = async (req, res) => {
 
   const { nameUpdate, memberUpdate } = body;
 
-  group.members = memberUpdate;
+  if (memberUpdate) {
+    let membersId = [];
+    for (let email of memberUpdate) {
+      const authority = await Authority.findOne({ email });
+      membersId.push(authority._id);
+    }
+
+    group.members = membersId;
+  }
+
   if (nameUpdate) {
     group.name = nameUpdate;
   }
-  console.log("Finally: ", group);
   await group.save();
   res.status(200).json(group);
 };
 
+//* tested
 const deleteAuthorityGroup = async (req, res) => {
   const { user } = req;
   const admin = await Admin.findById(user.id);
