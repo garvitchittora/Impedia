@@ -79,9 +79,28 @@ const getAuthorityPetitions = async (req, res) => {
   return res.json(petitions);
 };
 
+const getProfile = async (req, res) => {
+  const { user } = req;
+  const authority = await Authority.findById(user.id);
+  console.log(authority);
+  if (!authority) return res.status(404).end();
+  res.status(200).json(authority);
+};
+
+const updateProfile = async (req, res) => {
+  const { user } = req;
+  const authority = await Authority.findByIdAndUpdate(user.id, req.body);
+  console.log(authority);
+  if (!authority) return res.status(404).end();
+  console.log(authority);
+  res.status(200).json(authority);
+};
+
 module.exports = {
   authorityAuth,
   getAuthorities,
   getAuthorityAppeals,
   getAuthorityPetitions,
+  getProfile,
+  updateProfile,
 };
