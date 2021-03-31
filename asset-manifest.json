@@ -1,0 +1,43 @@
+{
+  "files": {
+    "main.css": "/Impedia/static/css/main.d11f7825.chunk.css",
+    "main.js": "/Impedia/static/js/main.6afa701b.chunk.js",
+    "main.js.map": "/Impedia/static/js/main.6afa701b.chunk.js.map",
+    "runtime-main.js": "/Impedia/static/js/runtime-main.a3558a97.js",
+    "runtime-main.js.map": "/Impedia/static/js/runtime-main.a3558a97.js.map",
+    "static/js/2.b4977611.chunk.js": "/Impedia/static/js/2.b4977611.chunk.js",
+    "static/js/2.b4977611.chunk.js.map": "/Impedia/static/js/2.b4977611.chunk.js.map",
+    "static/js/3.31bc2750.chunk.js": "/Impedia/static/js/3.31bc2750.chunk.js",
+    "static/js/3.31bc2750.chunk.js.map": "/Impedia/static/js/3.31bc2750.chunk.js.map",
+    "index.html": "/Impedia/index.html",
+    "static/css/main.d11f7825.chunk.css.map": "/Impedia/static/css/main.d11f7825.chunk.css.map",
+    "static/js/2.b4977611.chunk.js.LICENSE.txt": "/Impedia/static/js/2.b4977611.chunk.js.LICENSE.txt",
+    "static/media/Logo-Impedia.6a6f9d18.png": "/Impedia/static/media/Logo-Impedia.6a6f9d18.png",
+    "static/media/addAuth.1692be72.svg": "/Impedia/static/media/addAuth.1692be72.svg",
+    "static/media/addAuthoritiesPage.9d6078c1.svg": "/Impedia/static/media/addAuthoritiesPage.9d6078c1.svg",
+    "static/media/admin.d659f762.svg": "/Impedia/static/media/admin.d659f762.svg",
+    "static/media/adminLogin.f808c7c8.svg": "/Impedia/static/media/adminLogin.f808c7c8.svg",
+    "static/media/appealIcon.ef86a7ea.svg": "/Impedia/static/media/appealIcon.ef86a7ea.svg",
+    "static/media/authLogin.d75d8b31.svg": "/Impedia/static/media/authLogin.d75d8b31.svg",
+    "static/media/authority.74938f29.svg": "/Impedia/static/media/authority.74938f29.svg",
+    "static/media/dashboardLine.b2f2347c.svg": "/Impedia/static/media/dashboardLine.b2f2347c.svg",
+    "static/media/domainIcon.ed7dfdd3.svg": "/Impedia/static/media/domainIcon.ed7dfdd3.svg",
+    "static/media/domainPic.a4ef0b5a.svg": "/Impedia/static/media/domainPic.a4ef0b5a.svg",
+    "static/media/impediaBanner.de828d3b.svg": "/Impedia/static/media/impediaBanner.de828d3b.svg",
+    "static/media/login-1.c452a5c8.svg": "/Impedia/static/media/login-1.c452a5c8.svg",
+    "static/media/login-2.8f010eb9.svg": "/Impedia/static/media/login-2.8f010eb9.svg",
+    "static/media/login-3(2).c4565eea.svg": "/Impedia/static/media/login-3(2).c4565eea.svg",
+    "static/media/login-3.5e1ed724.svg": "/Impedia/static/media/login-3.5e1ed724.svg",
+    "static/media/loginSidePic.8e909f85.svg": "/Impedia/static/media/loginSidePic.8e909f85.svg",
+    "static/media/makeGroup.5acff876.svg": "/Impedia/static/media/makeGroup.5acff876.svg",
+    "static/media/petitionIcon.102db0a6.svg": "/Impedia/static/media/petitionIcon.102db0a6.svg",
+    "static/media/student.a3370c6a.svg": "/Impedia/static/media/student.a3370c6a.svg",
+    "static/media/studentLogin.464cd302.svg": "/Impedia/static/media/studentLogin.464cd302.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a3558a97.js",
+    "static/js/2.b4977611.chunk.js",
+    "static/css/main.d11f7825.chunk.css",
+    "static/js/main.6afa701b.chunk.js"
+  ]
+}
