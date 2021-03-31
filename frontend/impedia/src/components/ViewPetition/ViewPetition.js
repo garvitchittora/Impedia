@@ -118,7 +118,7 @@ const useStyles = makeStyles(theme => ({
     },
     commentsSection:{
         border:"2px solid #AAA",
-        flex:"15%",
+        flex:"25%",
         minHeight:"70vh",
         margin:"0 10px",
         borderRadius:"10px",
@@ -321,7 +321,7 @@ const ViewAppeal = (props) => {
                     <div className={classes.APsection}>
                         <div className={classes.mentions}>
                             <div className={classes.fromto}>
-                                FROM : <span className={classes.colored}>{`${data.petitionFromId.email} | ${data.petitionFromId.name}`}</span>
+                                FROM : <span className={classes.colored}>{`${data.petitionFromId.email || ""} | ${data.petitionFromId.name}`}</span>
                             </div>
                             <div className={classes.fromto}>
                                 TO : <span className={classes.colored}>{`${data.petitionToId.email||"Group"} | ${data.petitionToId.name}`}</span>

@@ -109,8 +109,9 @@ const StudentRegister = () => {
         e.preventDefault();
 
         const body = {
-            emailIds: authEmails,
+            emailIds: authEmails.map((id)=>id.inputValue),
         }
+        console.log(body);
         const Token = cookies.user['key'];
         const config = {
             headers: {
@@ -132,6 +133,8 @@ const StudentRegister = () => {
         });
     }
 
+    console.log(authEmails);
+
     return (
         <>
             <div className={classes.setDomainPage}>
@@ -149,6 +152,7 @@ const StudentRegister = () => {
                                         fullWidth
                                         multiple
                                         onChange={(event, newValue) => {
+                                            console.log(newValue);
                                             if (typeof newValue === 'string') {
                                                 setAuthEmails(newValue);
                                             } else if (newValue && newValue.inputValue) {

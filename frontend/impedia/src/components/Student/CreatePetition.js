@@ -43,6 +43,10 @@ const CreatePetition = () => {
                 console.log(res);
                 if(res.status === 201){
                     setOpenAlert(true);
+                    setNewPetition({
+                        title:"Sample Title",
+                        content:"Sample Content"
+                      })
                 }
             })
         }

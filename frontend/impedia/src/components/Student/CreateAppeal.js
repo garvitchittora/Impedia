@@ -42,6 +42,10 @@ const CreateAppeal = () => {
         console.log(res);
         if (res.status === 201) {
           setOpenAlert(true);
+          setNewAppeal({
+            title:"Sample Title",
+            content:"Sample Content"
+          })
         }
       });
     } else {

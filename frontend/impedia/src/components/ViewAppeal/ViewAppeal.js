@@ -86,7 +86,7 @@ const useStyles = makeStyles(theme => ({
     },
     commentsSection:{
         border:"2px solid #AAA",
-        flex:"15%",
+        flex:"25%",
         minHeight:"70vh",
         margin:"0 10px",
         borderRadius:"10px",
