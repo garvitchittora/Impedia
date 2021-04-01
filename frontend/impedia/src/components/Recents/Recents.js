@@ -71,7 +71,7 @@ const Recents = (props) => {
     },[props.data])
 
     const makeCard = (obj, ind) => {
-        return( <Link to={`/${props.type}/${obj.id}`} className={classes.link}>
+        return( <Link to={`/${props.type.toLowerCase()}/${obj.id}`} className={classes.link}>
         <div className={classes.cardData} key={ind}>
             <div className={classes.dataTitle}>
                 {obj.title}
