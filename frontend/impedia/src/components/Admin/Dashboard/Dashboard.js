@@ -181,13 +181,15 @@ const Dashboard = () => {
                 <Typography className={classes.dashboardText}>
                     DASHBOARD
                 </Typography>
-
-                <div className={classes.logoutButton} >
-                    <LogOutIcon />
-                    <Typography className={classes.logoutText}>
-                        Logout
-                    </Typography>
-                </div>
+                
+                <Link to="/logout" className={classes.link}>
+                    <div className={classes.logoutButton} >
+                        <LogOutIcon />
+                        <Typography className={classes.logoutText}>
+                            Logout
+                        </Typography>
+                    </div>
+                </Link>
                 
             </div>
             {/* Dashboard Text for Mobile Screens */}

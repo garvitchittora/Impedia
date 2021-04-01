@@ -23,6 +23,7 @@ import AuthorityAllPetitions from "./components/Authority/AllPetitions";
 import StudentAllPetitions from "./components/Student/AllPetitions";
 import UpdateProfile from "./components/Profile/UpdateProfile";
 import Home from "./components/Home/Home";
+import Logout from './components/Logout';
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path="/appeals/:id" render={(props) => <ViewAppeal routerProps={props} />} />
           <Route path="/petitions/:id" render={(props) => <ViewPetition routerProps={props} />} />
           <Route exact path="/student/updateprofile" component={UpdateProfile} />
+          <Route exact path="/logout" component={Logout} />
         </Switch>
       </BrowserRouter>
     </>
