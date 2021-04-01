@@ -5,6 +5,8 @@ const Admin = require("../models/Admin");
 const Authority = require("../models/Authority");
 const Student = require("../models/Student");
 const Group = require("../models/Group");
+const Appeal = require("../models/Appeal");
+const Petition = require("../models/Petition");
 const { key, sign } = require("../utils/jwt");
 
 const initialAdmins = [
@@ -24,6 +26,32 @@ const initialAuthorities = [
   "rkala@iiita.ac.in",
   "vkc@iiita.ac.in",
   "mjaved@iiita.ac.in",
+];
+
+const initialAppeals = [
+  {
+    title: "Postponement of the submission date",
+    content:
+      "We are burdened with lots of assignments and we are not machines. Postpone the date",
+  },
+  {
+    title: "Internet issues caused delay in submission",
+    content:
+      "I was late by a minute due to some connection issues while submitting and was not given marks.",
+  },
+];
+
+const initialPetitions = [
+  {
+    title: "Fee reduction",
+    content:
+      "Bad economy, no money and you are providing minimal services. Hence reduce fee",
+  },
+  {
+    title: "Virtual DJ party",
+    content:
+      "Organise a virtual party because there is no other option left and lyf suks.",
+  },
 ];
 
 const fakeTokens = async () => {
@@ -181,15 +209,49 @@ const createGroups = async (name, emails) => {
   return groupSave;
 };
 
+const createAppeal = async (student, appealToId, data) => {
+  const appeal = new Appeal({
+    _id: "AP" + new mongoose.mongo.ObjectID(),
+    appealFromId: student._id,
+    appealToId,
+    ...data,
+  });
+  if (appeal.appealToId.substring(0, 2) === "AU") appeal.onModel = "Authority";
+  else if (appeal.appealToId.substring(0, 2) === "GR") appeal.onModel = "Group";
+
+  const saved = await appeal.save();
+  return saved;
+};
+
+const createPetition = async (student, petitionToId, data) => {
+  const petition = new Petition({
+    _id: "PE" + new mongoose.mongo.ObjectID(),
+    petitionFromId: student._id,
+    petitionToId,
+    signees: [student._id],
+    ...data,
+  });
+  if (petition.petitionToId.substring(0, 2) === "AU")
+    petition.onModel = "Authority";
+  else if (petition.petitionToId.substring(0, 2) === "GR")
+    petition.onModel = "Group";
+  const saved = await petition.save();
+  return saved;
+};
+
 module.exports = {
   initialAdmins,
+  initialAuthorities,
+  initialStudents,
+  initialAppeals,
+  initialPetitions,
   loginAdmin,
   addAdmin,
   invalidToken,
   addAuthority,
-  initialAuthorities,
   loginStudent,
-  initialStudents,
   fakeTokens,
   createGroups,
+  createAppeal,
+  createPetition,
 };
