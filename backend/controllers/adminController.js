@@ -159,7 +159,6 @@ const editAuthorityGroup = async (req, res) => {
       const authority = await Authority.findOne({ email });
       membersId.push(authority._id);
     }
-
     group.members = membersId;
   }
 
@@ -179,6 +178,7 @@ const deleteAuthorityGroup = async (req, res) => {
   res.status(204).end();
 };
 
+//* tested
 const getAppealsAndPetitions = async (req, res) => {
   const { user } = req;
   const admin = await Admin.findById(user.id);

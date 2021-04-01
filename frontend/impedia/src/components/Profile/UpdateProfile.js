@@ -10,7 +10,6 @@ import {
 import axios from "axios";
 import TopBar from "../TopBar/TopBar";
 import { useCookies } from "react-cookie";
-// import UpdatePhoto from "../../assets/Profile/updatesred.svg";
 import ProfileDetails from "../../assets/Profile/prof_details.svg";
 import { Alert } from "@material-ui/lab";
 
@@ -21,11 +20,6 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     margin: "2% 0",
-  },
-  appeals: {
-    width: "95vw",
-    maxWidth: "1000px",
-    margin: "5% auto",
   },
   submitButton: {
     background:
