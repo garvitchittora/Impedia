@@ -13,7 +13,8 @@ import {
     Button,
     Fab,
     IconButton,
-    Badge
+    Badge,
+    FormControlLabel
 } from '@material-ui/core';
 import {
     Telegram as SendIcon,
@@ -22,12 +23,16 @@ import {
     ExpandLess as UpIcon,
     Create as SignIcon,
     Close as CloseIcon,
-    AirlineSeatReclineExtraOutlined
+    Reply as ReplyIcon,
+    Cancel as CancelIcon,
+    ThumbUp as Support,
+    ThumbDown as NoSupport
 } from '@material-ui/icons';
 import {
     Alert,
     AlertTitle
 } from '@material-ui/lab';
+import CommentBg from '../../assets/Comments/background.svg';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import TopBar from '../TopBar/TopBar';
@@ -53,7 +58,7 @@ const useStyles = makeStyles(theme => ({
         display:"flex",
         justifyContent:"space-around",
         alignItems:"flex-start",
-        [theme.breakpoints.down("sm")]:{
+        [theme.breakpoints.down("md")]:{
             flexDirection:"column"
         }
     },
@@ -62,7 +67,7 @@ const useStyles = makeStyles(theme => ({
         justifyContent:"space-around",
         fontWeight:"600",
         marginBottom:"20px",
-        [theme.breakpoints.down("sm")]:{
+        [theme.breakpoints.down("md")]:{
             flexDirection:"column"
         }
     },
@@ -97,7 +102,7 @@ const useStyles = makeStyles(theme => ({
         margin:"0 10px",
         height:"100%",
         bottom:"0",
-        [theme.breakpoints.down("sm")]:{
+        [theme.breakpoints.down("md")]:{
             width:"90vw"
         }
     },
@@ -125,7 +130,9 @@ const useStyles = makeStyles(theme => ({
         display:"flex",
         flexDirection:"column",
         alignSelf:"stretch",
-        [theme.breakpoints.down("sm")]:{
+        background: `url(${CommentBg})`,
+        backgroundSize:"cover",
+        [theme.breakpoints.down("md")]:{
             width:"90vw",
             margin:"5vh auto"
         }
@@ -139,7 +146,42 @@ const useStyles = makeStyles(theme => ({
         borderBottom:"2px solid black"
     },
     newComment:{
-        alignSelf:"flex-end"
+        alignSelf:"flex-end",
+        fontWeight:"600",
+        width:"100%"
+    },
+    replyingTo:{
+        fontSize:"12px",
+        backgroundColor:"rgba(174,174,174,0.6)",
+        margin:"auto",
+        borderTopLeftRadius:"10px",
+        borderTopRightRadius:"10px",
+        padding:"5px",
+        overflow:"hidden",
+        maxWidth:"350px",
+        whiteSpace:"nowrap",
+        textOverflow:"ellipsis"
+    },
+    replyIcon:{
+        fontSize:"12px"
+    },
+    replySectionNewComment:{
+        display:"flex"
+    },
+    cancelReplyIcon:{
+        cursor:"pointer"
+    },
+    supportOption:{
+        display:"flex",
+        flexDirection:"row",
+        justifyContent:"space-around",
+        // backgroundColor:"#e2e2e2"
+    },
+    support:{
+        color:"green"
+    },
+    nosupport:{
+        color:"red"
     },
     sendIcon:{
         cursor:"pointer"
@@ -192,6 +234,8 @@ const ViewAppeal = (props) => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [sucessAlert,setSuccessAlert] = useState(false);
     const [failureAlert,setFailureAlert] = useState(false);
+    const [newComment, setNewComment] = useState("");
+    const [supportValue, setSupportValue] = useState("support");
 
     const handleDialogOpen = () => {
         setDialogOpen(true);
@@ -248,7 +292,6 @@ const ViewAppeal = (props) => {
                   Authorization: Token,
                 }
             }
-        console.log(config);
         
         axios.post(`/petition/${petitionId}/sign`,{},config)
         .then(res=>{
@@ -262,6 +305,30 @@ const ViewAppeal = (props) => {
         })
         
         
+    }
+
+    const submitComment = () => {
+        const Token = cookies.user['key'];
+            const config = {
+                headers: {
+                  Authorization: Token,
+                }
+            }
+        const body={
+            content:newComment,
+            replyToId: petitionId,
+            support: supportValue === "support" ? true : false
+        }
+
+        axios.post(`/reply`,body,config)
+        .then(res=>{
+            if(res.status === 200 || res.status === 201 || res.status===204){
+                setNewComment("");
+            }
+            // else{
+            //     setFailureAlert(true);
+            // }
+        })
     }
     
     return (data.length === 0 ? ("Loading") : (
@@ -382,8 +449,15 @@ const ViewAppeal = (props) => {
                         <div className={classes.commentHeading}>
                             COMMENTS
                         </div>
-                        <TextField 
-                            className={classes.newComment} 
+                        <div className={classes.newComment}>
+                            <div className={classes.replySectionNewComment}>
+                                <div className={classes.replyingTo}>
+                                    <ReplyIcon className={classes.replyIcon}/> The message was something rubbish.. blah blah blah blah blah blah   
+                                </div>
+                                <CancelIcon className={classes.cancelReplyIcon}/>
+                            </div>
+
+                            <TextField 
                             variant="filled"
                             fullWidth
                             label="New Comment"
@@ -391,10 +465,34 @@ const ViewAppeal = (props) => {
                             multiline
                             rows={3}
                             rowsMax={5}
+                            value={newComment}
+                            onChange={(e)=>{setNewComment(e.target.value)}}
                             InputProps={{
-                                endAdornment: <InputAdornment position="end"><SendIcon className={classes.sendIcon}/></InputAdornment>,
+                                endAdornment: <InputAdornment position="end"><SendIcon className={classes.sendIcon} onClick={submitComment}/></InputAdornment>,
                             }}
-                        />
+                            />
+
+                            <div className={classes.supportOption} >
+                                <FormControlLabel 
+                                    value="support" 
+                                    control={
+                                        <Support 
+                                            className={supportValue==="support"?classes.support:""}
+                                            onClick={()=>{setSupportValue("support")}}
+                                        />
+                                    } 
+                                />
+                                <FormControlLabel 
+                                    value="no-support" 
+                                    control={
+                                        <NoSupport 
+                                            className={supportValue==="no-support"?classes.nosupport:""}
+                                            onClick={()=>{setSupportValue("no-support")}}
+                                        />
+                                    } 
+                                />
+                            </div>  
+                        </div>
                     </div>
                 </div>
             </div>
