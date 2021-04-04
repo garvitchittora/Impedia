@@ -26,6 +26,7 @@ const initialAuthorities = [
   "rkala@iiita.ac.in",
   "vkc@iiita.ac.in",
   "mjaved@iiita.ac.in",
+  "ayadav@iiita.ac.in",
 ];
 
 const initialAppeals = [
@@ -175,15 +176,28 @@ const addAuthority = async (authority) => {
   return savedAuthorities;
 };
 
+const loginAuthority = async (authorityData) => {
+  let authority = await Authority.findOne({ email: authorityData });
+  const token = await sign(
+    {
+      email: authority.email,
+      id: authority._id,
+    },
+    key
+  );
+  return { authority, token };
+};
+
 const loginStudent = async (studentData) => {
   const passwordHash = await bcrypt.hash(studentData.password, 10);
   let student = new Student({
-    _id: new mongoose.mongo.ObjectID(),
+    _id: "ST" + new mongoose.mongo.ObjectID(),
     ...studentData,
     password: passwordHash,
   });
   await student.save();
-  const token = await jwt.sign(
+
+  const token = await sign(
     {
       email: student.email,
       id: student._id,
@@ -246,6 +260,7 @@ module.exports = {
   initialAppeals,
   initialPetitions,
   loginAdmin,
+  loginAuthority,
   addAdmin,
   invalidToken,
   addAuthority,
