@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
+const Appeal = require("../models/Appeal");
+const Petition = require("../models/Petition");
 const Reply = require("../models/Reply");
+const {sendNewReplyEmail} = require("../utils/sendEmail");
 
 const addReply = async (req, res) => {
     const { user, body } = req;
@@ -21,6 +24,17 @@ const addReply = async (req, res) => {
     else return res.status(400).json({ error: "Invalid replyToId" });
 
     await reply.save();
+    const populated = await Reply.findById(reply._id).populate({path: "replyToId", populate: {path: "replyById"}}).populate("replyById");
+    if(populated.onToModel === "Reply") {
+      sendNewReplyEmail(populated.replyToId.replyById.email, populated.onToModel, populated.replyToId.content.substring(0,20), populated.replyById.name, populated.content.substring(0,40));
+    } else if (populated.onToModel === "Appeal") {
+      const appeal = await Appeal.findById(populated.replyToId).populate("appealFromId").exec();
+      sendNewReplyEmail(appeal.appealFromId.email, populated.onToModel, populated.replyToId.title.substring(0,20), populated.replyById.name, populated.content.substring(0,40));
+    } else {
+      const petition = await Petition.findById(populated.replyToId).populate("petitionFromId").exec();
+      sendNewReplyEmail(petition.petitionFromId.email, populated.onToModel, populated.replyToId.title.substring(0,20), populated.replyById.name, populated.content.substring(0,40)); 
+    }
+    
     return res.status(201).end();
 };
 

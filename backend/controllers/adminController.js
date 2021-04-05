@@ -7,6 +7,7 @@ const Authority = require("../models/Authority");
 const Group = require("../models/Group");
 const Appeal = require("../models/Appeal");
 const Petition = require("../models/Petition");
+const {sendNewAuthorityEmail} = require("../utils/sendEmail");
 
 //* tested
 const adminAuth = async (req, res) => {
@@ -109,6 +110,7 @@ const addAuthorities = async (req, res) => {
       password: passwordHash,
     });
     await user.save();
+    sendNewAuthorityEmail(email, password);
   }
 
   res.status(201).end();
