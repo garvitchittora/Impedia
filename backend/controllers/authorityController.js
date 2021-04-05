@@ -95,6 +95,7 @@ const getAuthorityPetitions = async (req, res) => {
   return res.json(petitions);
 };
 
+//*tested
 const getProfile = async (req, res) => {
   const { user } = req;
   const authority = await Authority.findById(user.id);
@@ -103,6 +104,7 @@ const getProfile = async (req, res) => {
   res.status(200).json(authority);
 };
 
+//*tested
 const updateProfile = async (req, res) => {
   const { user, body } = req;
   const authority = await Authority.findByIdAndUpdate(
