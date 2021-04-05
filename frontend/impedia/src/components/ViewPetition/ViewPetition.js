@@ -33,6 +33,7 @@ import {
     AlertTitle
 } from '@material-ui/lab';
 import CommentBg from '../../assets/Comments/background.svg';
+import ViewComments from '../Comments/ViewComments';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import TopBar from '../TopBar/TopBar';
@@ -123,7 +124,7 @@ const useStyles = makeStyles(theme => ({
     },
     commentsSection:{
         border:"2px solid #AAA",
-        flex:"25%",
+        flex:"30%",
         minHeight:"70vh",
         margin:"0 10px",
         borderRadius:"10px",
@@ -132,21 +133,28 @@ const useStyles = makeStyles(theme => ({
         alignSelf:"stretch",
         background: `url(${CommentBg})`,
         backgroundSize:"cover",
+        maxHeight:"150vh",
         [theme.breakpoints.down("md")]:{
+            maxHeight:"80vh",
             width:"90vw",
             margin:"5vh auto"
         }
     },
     commentHeading:{
         width:"80%",
-        margin:"0 auto auto",
+        alignSelf:"flex-start",
+        margin:"0 auto",
         padding:"10px",
         fontWeight:"800",
         textAlign:"center",
         borderBottom:"2px solid black"
     },
+    comments:{
+        alignSelf:"stretch"
+    },
     newComment:{
         alignSelf:"flex-end",
+        marginTop:"auto",
         fontWeight:"600",
         width:"100%"
     },
@@ -236,6 +244,8 @@ const ViewAppeal = (props) => {
     const [failureAlert,setFailureAlert] = useState(false);
     const [newComment, setNewComment] = useState("");
     const [supportValue, setSupportValue] = useState("support");
+    const [comments, setComments] = useState([]);
+    const [replyTo, setReplyTo] = useState();
 
     const handleDialogOpen = () => {
         setDialogOpen(true);
@@ -284,6 +294,21 @@ const ViewAppeal = (props) => {
         })
     },[reload])
 
+    useEffect(()=>{
+        const Token = cookies.user['key'];
+        const config = {
+            headers: {
+              authorization: Token,
+            }
+        }
+        axios.get(`/petition/${petitionId}/replies`, config)
+        .then(res=>res.data)
+        .then(data=>{
+            console.log(data);
+            setComments(data);
+        })
+    },[reload])
+
     const submitSign = () => {
         handleDialogClose();
         const Token = cookies.user['key'];
@@ -297,7 +322,7 @@ const ViewAppeal = (props) => {
         .then(res=>{
             if(res.status === 200 || res.status === 201 || res.status===204){
                 setSuccessAlert(true);
-                setReload(true);
+                setReload((prev)=>!prev);
             }
             else{
                 setFailureAlert(true);
@@ -316,7 +341,7 @@ const ViewAppeal = (props) => {
             }
         const body={
             content:newComment,
-            replyToId: petitionId,
+            replyToId: replyTo ? replyTo.id : petitionId,
             support: supportValue === "support" ? true : false
         }
 
@@ -324,6 +349,8 @@ const ViewAppeal = (props) => {
         .then(res=>{
             if(res.status === 200 || res.status === 201 || res.status===204){
                 setNewComment("");
+                setReplyTo();
+                setReload((prev)=>!prev);
             }
             // else{
             //     setFailureAlert(true);
@@ -449,13 +476,16 @@ const ViewAppeal = (props) => {
                         <div className={classes.commentHeading}>
                             COMMENTS
                         </div>
+
+                        <ViewComments className={classes.comments} comments={comments} setReplyTo={setReplyTo}/>
+
                         <div className={classes.newComment}>
-                            <div className={classes.replySectionNewComment}>
+                            {replyTo ? (<div className={classes.replySectionNewComment}>
                                 <div className={classes.replyingTo}>
-                                    <ReplyIcon className={classes.replyIcon}/> The message was something rubbish.. blah blah blah blah blah blah   
+                                    <ReplyIcon className={classes.replyIcon}/> {`${replyTo.replyById['name']} | ${replyTo.content}`} 
                                 </div>
-                                <CancelIcon className={classes.cancelReplyIcon}/>
-                            </div>
+                                <CancelIcon className={classes.cancelReplyIcon} onClick={() => {setReplyTo()}}/>
+                            </div>) : ("") }
 
                             <TextField 
                             variant="filled"

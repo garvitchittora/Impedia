@@ -121,6 +121,7 @@ const EditGroup = () => {
   const loadingGroup = openGroup && optionsGroup.length === 0;
   const [authorityIds, setAuthorityIds] = useState([]);
   const [groupSelected, setGroupSelected] = useState();
+  const [newGroupName, setNewGroupName] = useState("");
   const [reload, setReload] = useState(false);
   const [sucessAlert, setSuccessAlert] = useState(false);
   const [failureAlert, setFailureAlert] = useState(false);
@@ -233,6 +234,7 @@ const EditGroup = () => {
         };
       });
     });
+    setNewGroupName(typeof groupSelected !== "undefined" ? groupSelected.name : "")
   }, [groupSelected, allGroupsData]);
 
   useEffect(() => {
@@ -245,11 +247,12 @@ const EditGroup = () => {
 
     const body = {
       memberUpdate: authorityIds.map((authority) => {
-        return authority.id;
+        return authority.email;
       }),
-      nameUpdate: groupSelected.name,
+      nameUpdate: newGroupName,
     };
     const Token = cookies.user["key"];
+    console.log(Token);
     const config = {
       headers: {
         authorization: Token,
@@ -395,17 +398,8 @@ const EditGroup = () => {
                           ? classes.disableName
                           : ""
                       }
-                      value={
-                        typeof groupSelected !== "undefined"
-                          ? groupSelected.name
-                          : " "
-                      }
-                      onChange={(e) => {
-                        setGroupSelected((prev) => ({
-                          ...prev,
-                          name: e.target.value,
-                        }));
-                      }}
+                      value={newGroupName}
+                      onChange={(e) => {setNewGroupName(e.target.value)}}
                     />
 
                     <Autocomplete
