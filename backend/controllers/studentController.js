@@ -5,6 +5,9 @@ const Settings = require("../models/Settings");
 const mongoose = require("mongoose");
 const Appeal = require("../models/Appeal");
 const Petition = require("../models/Petition");
+const Group = require("../models/Group");
+const Authority = require("../models/Authority");
+const {sendNewAppealEmail, sendNewPetitionEmail} = require("../utils/sendEmail");
 
 const validateStudentRegisterRequest = async (req, res, next) => {
   const tempStudent = new Student({
@@ -98,8 +101,18 @@ const createAppeal = async (req, res) => {
     appealFromId: user.id,
     ...body,
   });
-  if (appeal.appealToId.substring(0, 2) === "AU") appeal.onModel = "Authority";
-  else if (appeal.appealToId.substring(0, 2) === "GR") appeal.onModel = "Group";
+  if (appeal.appealToId.substring(0, 2) === "AU") {
+    appeal.onModel = "Authority";
+    const authority = await Authority.findById(appeal.appealToId);
+    sendNewAppealEmail(authority, student, appeal);
+  }
+  else if (appeal.appealToId.substring(0, 2) === "GR") {
+    appeal.onModel = "Group";
+    const group = await Group.findById(appeal.appealToId).populate("members").exec();
+    group.members.forEach(authority => {
+      sendNewAppealEmail(authority, student, appeal);
+    })
+  }
   else return res.status(400).json({ error: "Invalid appealToId" });
 
   await appeal.save();
@@ -129,8 +142,18 @@ const createPetition = async (req, res) => {
     signees: [user.id],
     ...body,
   });
-  if (petition.petitionToId.substring(0, 2) === "AU") petition.onModel = "Authority";
-  else if (petition.petitionToId.substring(0, 2) === "GR") petition.onModel = "Group";
+  if (petition.petitionToId.substring(0, 2) === "AU") {
+    petition.onModel = "Authority";
+    const authority = await Authority.findById(petition.petitionToId);
+    sendNewPetitionEmail(authority, student, petition);
+  }
+  else if (petition.petitionToId.substring(0, 2) === "GR") {
+    petition.onModel = "Group";
+    const group = await Group.findById(petition.petitionToId).populate("members").exec();
+    group.members.forEach(authority => {
+      sendNewPetitionEmail(authority, student, petition);
+    })
+  }
   else return res.status(400).json({ error: "Invalid petitionToId" });
 
   await petition.save();
