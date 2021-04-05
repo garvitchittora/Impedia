@@ -21,9 +21,10 @@ import StudentAllAppeals from "./components/Student/AllAppeals";
 import AdminAllPetitions from "./components/Admin/AllPetitions";
 import AuthorityAllPetitions from "./components/Authority/AllPetitions";
 import StudentAllPetitions from "./components/Student/AllPetitions";
-import UpdateProfile from "./components/Profile/UpdateProfile";
+import UpdateStudentProfile from "./components/Student/UpdateProfile";
+import UpdateAuthorityProfile from "./components/Authority/UpdateProfile";
 import Home from "./components/Home/Home";
-import Logout from './components/Logout';
+import Logout from "./components/Logout";
 
 function App() {
   return (
@@ -37,21 +38,60 @@ function App() {
           <Route exact path="/register/student" component={StudentRegister} />
           <Route exact path="/admin/dashboard" component={Dashboard} />
           <Route exact path="/student/dashboard" component={StudentDashboard} />
-          <Route exact path="/authority/dashboard" component={AuthorityDashboard} />
+          <Route
+            exact
+            path="/authority/dashboard"
+            component={AuthorityDashboard}
+          />
           <Route exact path="/admin/ChangeDomain" component={ChangeDomain} />
           <Route exact path="/admin/AddAuthority" component={AddAuthority} />
-          <Route exact path="/student/appeals/create" component={CreateAppeal} />
-          <Route exact path="/student/petitions/create" component={CreatePetition} />
+          <Route
+            exact
+            path="/student/appeals/create"
+            component={CreateAppeal}
+          />
+          <Route
+            exact
+            path="/student/petitions/create"
+            component={CreatePetition}
+          />
           <Route exact path="/admin/AddGroup" component={EditGroup} />
           <Route exact path="/admin/appeals" component={AdminAllAppeals} />
-          <Route exact path="/authority/appeals" component={AuthorityAllAppeals} />
+          <Route
+            exact
+            path="/authority/appeals"
+            component={AuthorityAllAppeals}
+          />
           <Route exact path="/student/appeals" component={StudentAllAppeals} />
           <Route exact path="/admin/petitions" component={AdminAllPetitions} />
-          <Route exact path="/authority/petitions" component={AuthorityAllPetitions} />
-          <Route exact path="/student/petitions" component={StudentAllPetitions} />
-          <Route path="/appeals/:id" render={(props) => <ViewAppeal routerProps={props} />} />
-          <Route path="/petitions/:id" render={(props) => <ViewPetition routerProps={props} />} />
-          <Route exact path="/student/updateprofile" component={UpdateProfile} />
+          <Route
+            exact
+            path="/authority/petitions"
+            component={AuthorityAllPetitions}
+          />
+          <Route
+            exact
+            path="/authority/updateprofile"
+            component={UpdateAuthorityProfile}
+          />
+          <Route
+            exact
+            path="/student/petitions"
+            component={StudentAllPetitions}
+          />
+          <Route
+            path="/appeals/:id"
+            render={(props) => <ViewAppeal routerProps={props} />}
+          />
+          <Route
+            path="/petitions/:id"
+            render={(props) => <ViewPetition routerProps={props} />}
+          />
+          <Route
+            exact
+            path="/student/updateprofile"
+            component={UpdateStudentProfile}
+          />
           <Route exact path="/logout" component={Logout} />
         </Switch>
       </BrowserRouter>

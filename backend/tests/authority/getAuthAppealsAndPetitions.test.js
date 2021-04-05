@@ -113,40 +113,40 @@ describe("get authority appeals", () => {
   });
 });
 
-// describe("get authority petitions", () => {
-//   it("should return all of an authority's petitions", async () => {
-//     const { body } = await api
-//       .get(petitionsUrl)
-//       .set("Authorization", authority.token)
-//       .expect(200);
+describe("get authority petitions", () => {
+  it("should return all of an authority's petitions", async () => {
+    const { body } = await api
+      .get(petitionsUrl)
+      .set("Authorization", authority.token)
+      .expect(200);
 
-//     await petition1
-//       .populate("petitionFromId")
-//       .populate({ path: "petitionToId", populate: { path: "members" } })
-//       .populate("signees")
-//       .execPopulate();
+    await petition1
+      .populate("petitionFromId")
+      .populate({ path: "petitionToId", populate: { path: "members" } })
+      .populate("signees")
+      .execPopulate();
 
-//     await petition2
-//       .populate("petitionFromId")
-//       .populate({ path: "petitionToId", populate: { path: "members" } })
-//       .populate("signees")
-//       .execPopulate();
+    await petition2
+      .populate("petitionFromId")
+      .populate({ path: "petitionToId", populate: { path: "members" } })
+      .populate("signees")
+      .execPopulate();
 
-//     expect(JSON.stringify(body)).toEqual(
-//       JSON.stringify([petition1, petition2].sort())
-//     );
-//   });
+    expect(JSON.stringify(body)).toEqual(
+      JSON.stringify([petition1, petition2].sort())
+    );
+  });
 
-//   it("should return 400 if authority doesn't exist", async () => {
-//     const fake = await fakeTokens();
-//     console.log(savedGroup);
-//     const { body } = await api
-//       .get(petitionsUrl)
-//       .set("Authorization", fake.authority)
-//       .expect(400);
-//     expect(body.error).toBe("Authority does not exist");
-//   });
-// });
+  it("should return 400 if authority doesn't exist", async () => {
+    const fake = await fakeTokens();
+    console.log(savedGroup);
+    const { body } = await api
+      .get(petitionsUrl)
+      .set("Authorization", fake.authority)
+      .expect(400);
+    expect(body.error).toBe("Authority does not exist");
+  });
+});
 
 afterAll(() => {
   mongoose.connection.close();
