@@ -130,11 +130,13 @@ const makeAuthorityGroup = async (req, res) => {
       .json({ error: "Please enter the required information" });
 
   const authorities = await Authority.find().where("email").in(emailIds).exec();
-  const authorityIds = [];
+  let authorityIds = [];
   authorities.forEach((authority) => {
     authorityIds.push(authority._id);
   });
 
+  if (authorityIds.length === 0)
+    return res.status(400).json({ error: "Invalid authority emails" });
   const group = new Group({
     _id: "GR" + new mongoose.mongo.ObjectId(),
     name: name,

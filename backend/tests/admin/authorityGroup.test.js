@@ -28,9 +28,9 @@ beforeEach(async () => {
   await Authority.deleteMany({});
   await Group.deleteMany({});
   await Student.deleteMany({});
+  savedAuthorities = await addAuthority(initialAuthorities);
   savedGroup = await createGroups("First year", initialAuthorities);
   adminData = await loginAdmin(initialAdmins[0]);
-  savedAuthorities = await addAuthority(initialAuthorities);
   student = await loginStudent(initialStudents[0]);
 });
 

@@ -15,6 +15,7 @@ const {
   createPetition,
   initialAppeals,
   initialPetitions,
+  loginAuthority,
 } = require("../testHelper");
 const app = require("../../app");
 const Settings = require("../../models/Settings");
@@ -31,6 +32,7 @@ let adminData,
   student1,
   student2,
   savedGroup,
+  authority,
   appeal1,
   appeal2,
   petition1,
@@ -48,8 +50,11 @@ beforeEach(async () => {
   savedAuthorities = await addAuthority(initialAuthorities);
   savedGroup = await createGroups("First year", initialAuthorities);
   adminData = await loginAdmin(initialAdmins[0]);
+  authority = await loginAuthority(initialAuthorities[0]);
+
   student1 = await loginStudent(initialStudents[0]);
   student2 = await loginStudent(initialStudents[1]);
+
   appeal1 = await createAppeal(
     student1.student,
     savedAuthorities[0]._id,
@@ -62,7 +67,7 @@ beforeEach(async () => {
   );
   petition1 = await createPetition(
     student1.student,
-    savedAuthorities[1]._id,
+    savedAuthorities[0]._id,
     initialPetitions[0]
   );
   petition2 = await createPetition(
@@ -72,52 +77,76 @@ beforeEach(async () => {
   );
 });
 
-const url = "/admin/appealspetitions";
+const appealsUrl = "/authority/appeals/";
+const petitionsUrl = "/authority/petitions/";
 
-describe("admin appeals and petitions controller", () => {
-  it("should return all appeals and petitions", async () => {
-    const res = await api
-      .get(url)
-      .set("Authorization", adminData.token)
+describe("get authority appeals", () => {
+  it("should return all of an authoritys appeals", async () => {
+    const { body } = await api
+      .get(appealsUrl)
+      .set("Authorization", authority.token)
       .expect(200);
 
-    const pa_1 = await appeal1
+    await appeal1
       .populate("appealFromId")
       .populate({ path: "appealToId", populate: { path: "members" } })
       .execPopulate();
 
-    const pa_2 = await appeal2
+    await appeal2
       .populate("appealFromId")
       .populate({ path: "appealToId", populate: { path: "members" } })
       .execPopulate();
 
-    const pp_1 = await petition1
-      .populate("petitionFromId")
-      .populate({ path: "petitionToId", populate: { path: "members" } })
-      .populate("signees")
-      .execPopulate();
-
-    const pp_2 = await petition2
-      .populate("petitionFromId")
-      .populate({ path: "petitionToId", populate: { path: "members" } })
-      .populate("signees")
-      .execPopulate();
-
-    expect(JSON.stringify(res.body)).toBe(
-      JSON.stringify({
-        appeals: [pa_1, pa_2].sort(),
-        petitions: [pp_1, pp_2].sort(),
-      })
+    expect(JSON.stringify(body)).toEqual(
+      JSON.stringify([appeal1, appeal2].sort())
     );
   });
 
-  it("should return 403 when admin does not exist", async () => {
-    let fake = await fakeTokens();
-    const res = await api.get(url).set("Authorization", fake.admin).expect(403);
-
-    expect(res.body.error).toBe("Forbidden");
+  it("should return 400 if authority doesn't exist", async () => {
+    const fake = await fakeTokens();
+    console.log(savedGroup);
+    const { body } = await api
+      .get(appealsUrl)
+      .set("Authorization", fake.authority)
+      .expect(400);
+    expect(body.error).toBe("Authority does not exist");
   });
 });
+
+// describe("get authority petitions", () => {
+//   it("should return all of an authority's petitions", async () => {
+//     const { body } = await api
+//       .get(petitionsUrl)
+//       .set("Authorization", authority.token)
+//       .expect(200);
+
+//     await petition1
+//       .populate("petitionFromId")
+//       .populate({ path: "petitionToId", populate: { path: "members" } })
+//       .populate("signees")
+//       .execPopulate();
+
+//     await petition2
+//       .populate("petitionFromId")
+//       .populate({ path: "petitionToId", populate: { path: "members" } })
+//       .populate("signees")
+//       .execPopulate();
+
+//     expect(JSON.stringify(body)).toEqual(
+//       JSON.stringify([petition1, petition2].sort())
+//     );
+//   });
+
+//   it("should return 400 if authority doesn't exist", async () => {
+//     const fake = await fakeTokens();
+//     console.log(savedGroup);
+//     const { body } = await api
+//       .get(petitionsUrl)
+//       .set("Authorization", fake.authority)
+//       .expect(400);
+//     expect(body.error).toBe("Authority does not exist");
+//   });
+// });
 
 afterAll(() => {
   mongoose.connection.close();

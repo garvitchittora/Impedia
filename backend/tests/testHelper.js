@@ -209,7 +209,7 @@ const loginStudent = async (studentData) => {
 
 const createGroups = async (name, emails) => {
   const authorities = await Authority.find().where("email").in(emails).exec();
-  const authorityIds = [];
+  let authorityIds = [];
   authorities.forEach((authority) => {
     authorityIds.push(authority._id);
   });

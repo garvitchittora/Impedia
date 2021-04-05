@@ -68,6 +68,8 @@ const getAuthorityAppeals = async (req, res) => {
     .populate("appealFromId")
     .populate({ path: "appealToId", populate: { path: "members" } })
     .exec();
+
+  console.log("The found appeals are", appeals);
   return res.json(appeals);
 };
 
