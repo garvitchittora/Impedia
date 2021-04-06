@@ -10,24 +10,24 @@ const studentSchema = new mongoose.Schema(
     name: String,
     email: {
       type: String,
-      required: true,
+      required: [true, "Email field is required"],
       unique: true,
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "Password field is required"],
     },
     section: {
       type: String,
-      required: true,
+      required: [true, "Section field is required"],
     },
     branch: {
       type: String,
-      required: true,
+      required: [true, "Branch field is required"],
     },
     semester: {
       type: Number,
-      required: true,
+      required: [true, "Semester field is required"],
     },
   },
   { _id: false }
@@ -42,6 +42,8 @@ studentSchema.set("toJSON", {
   },
 });
 
-studentSchema.plugin(uniqueValidator);
+studentSchema.plugin(uniqueValidator, {
+  message: "{PATH} {VALUE} already exists",
+});
 const Student = mongoose.model("Student", studentSchema);
 module.exports = Student;

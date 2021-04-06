@@ -10,12 +10,12 @@ const authoritySchema = new mongoose.Schema(
     name: String,
     email: {
       type: String,
-      required: true,
+      required: [true, "Email field is required"],
       unique: true,
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "Password field is required"],
     },
   },
   { _id: false }
@@ -30,6 +30,8 @@ authoritySchema.set("toJSON", {
   },
 });
 
-authoritySchema.plugin(uniqueValidator);
+authoritySchema.plugin(uniqueValidator, {
+  message: "{PATH} '{VALUE}' already exists",
+});
 const Authority = mongoose.model("Authority", authoritySchema);
 module.exports = Authority;

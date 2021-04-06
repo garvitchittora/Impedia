@@ -96,8 +96,8 @@ describe("admin add authority route", () => {
       .set("Authorization", adminData.token)
       .expect(400);
 
-    expect(res.body.error).toBe(
-      "Authority validation failed: email: Error, expected `email` to be unique. Value: `kala@iiita.ac.in`"
+    expect(res.body.error.email).toBe(
+      "email 'kala@iiita.ac.in' already exists"
     );
   });
 

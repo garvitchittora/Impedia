@@ -8,6 +8,7 @@ const Group = require("../models/Group");
 const Appeal = require("../models/Appeal");
 const Petition = require("../models/Petition");
 const { key, sign } = require("../utils/jwt");
+const Settings = require("../models/Settings");
 
 const initialAdmins = [
   {
@@ -111,7 +112,7 @@ const initialStudents = [
   },
   {
     name: "Demo",
-    email: "iit2019115@iiita.ac.in",
+    email: "iit2019142@iiita.ac.in",
     section: "B",
     semester: "4",
     password: "password",
@@ -259,6 +260,19 @@ const createPetition = async (student, petitionToId, data) => {
   return saved;
 };
 
+const setEmailDomain = async (domain) => {
+  const domainSettings = await Settings.findOne({});
+  if (domainSettings) {
+    domainSettings.emailDomain = domain;
+    await domainSettings.save();
+  } else {
+    const setting = new Settings({
+      emailDomain: domain,
+    });
+    await setting.save();
+  }
+};
+
 module.exports = {
   initialAdmins,
   initialAuthorities,
@@ -276,4 +290,5 @@ module.exports = {
   createGroups,
   createAppeal,
   createPetition,
+  setEmailDomain,
 };
