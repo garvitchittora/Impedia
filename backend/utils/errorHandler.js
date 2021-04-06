@@ -9,7 +9,7 @@ const errorHandler = (error, req, res, next) => {
   } else if (error.name === "JsonWebTokenError") {
     return res.status(400).json({ error: "Invalid token" });
   }
-  console.log("SOME WEIRD ERROR", error.message);
+  console.log("SOME WEIRD ERROR", error);
   next(error);
 };
 module.exports = errorHandler;

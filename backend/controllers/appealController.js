@@ -4,6 +4,7 @@ const Appeal = require("../models/Appeal");
 const Admin = require("../models/Admin");
 const Reply = require("../models/Reply");
 
+//* tested
 const getAppealById = async (req, res) => {
   const { user } = req;
   const appeal = await Appeal.findById(req.params.id);
@@ -20,20 +21,25 @@ const getAppealById = async (req, res) => {
   if (!loggedInUser) return res.status(401).json({ error: "Invalid User" });
 
   if (appeal.onModel === "Group") {
-    await appeal.populate("appealFromId").execPopulate();
-    if (
-      loggedInUser._id.substring(0, 2) !== "AD" &&
-      loggedInUser._id !== appeal.appealFromId &&
-      !appeal.appealToId.members.find((element) => element === loggedInUser._id)
-    ) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
     await appeal
+      .populate("appealFromId")
       .populate({
         path: "appealToId",
         populate: { path: "members" },
       })
       .execPopulate();
+    // console.log(appeal);
+
+    if (
+      loggedInUser._id.substring(0, 2) !== "AD" &&
+      loggedInUser._id !== appeal.appealFromId._id &&
+      !appeal.appealToId.members.find(
+        (element) => element.id === loggedInUser._id
+      )
+    ) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
     res.status(200).json(appeal);
   } else {
     if (
@@ -48,27 +54,36 @@ const getAppealById = async (req, res) => {
   }
 };
 
-const getAppealReplies = async(req, res) => {
+const getAppealReplies = async (req, res) => {
   const { user } = req;
   const appeal = await Appeal.findById(req.params.id).populate("appealToId");
 
-  if(!(appeal.appealFromId === user.id || user.id.substring(0, 2) === "AD" || appeal.appealToId._id === user.id || appeal.appealToId.members.includes(user.id))) {
+  if (
+    !(
+      appeal.appealFromId === user.id ||
+      user.id.substring(0, 2) === "AD" ||
+      appeal.appealToId._id === user.id ||
+      appeal.appealToId.members.includes(user.id)
+    )
+  ) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
   let idQueue = [req.params.id];
   let appealReplies = [];
-  while(idQueue.length > 0) {
+  while (idQueue.length > 0) {
     let currId = idQueue.shift();
-    let replies = await Reply.find({replyToId: currId}).populate({path: "replyToId", populate: {path: "replyById"}}).populate("replyById");
-    replies.forEach(reply => {
+    let replies = await Reply.find({ replyToId: currId })
+      .populate({ path: "replyToId", populate: { path: "replyById" } })
+      .populate("replyById");
+    replies.forEach((reply) => {
       appealReplies.push(reply);
       idQueue.push(reply._id);
-    })
+    });
   }
-  appealReplies.sort((a, b) => (a.dateTime > b.dateTime) ? 1 : -1);
+  appealReplies.sort((a, b) => (a.dateTime > b.dateTime ? 1 : -1));
   return res.json(appealReplies);
-}
+};
 
 module.exports = {
   getAppealById,

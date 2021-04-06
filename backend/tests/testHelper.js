@@ -29,6 +29,12 @@ const initialAuthorities = [
   "ayadav@iiita.ac.in",
 ];
 
+const extraAuthorities = [
+  "vkat@iiita.ac.in",
+  "bghoshal@iiita.ac.in",
+  "atiwari@iiita.ac.in",
+];
+
 const initialAppeals = [
   {
     title: "Postponement of the submission date",
@@ -256,6 +262,7 @@ const createPetition = async (student, petitionToId, data) => {
 module.exports = {
   initialAdmins,
   initialAuthorities,
+  extraAuthorities,
   initialStudents,
   initialAppeals,
   initialPetitions,
