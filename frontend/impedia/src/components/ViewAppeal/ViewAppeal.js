@@ -3,8 +3,6 @@ import {
     makeStyles,
     TextField,
     InputAdornment,
-    Badge,
-    RadioGroup,
     FormControlLabel
 } from '@material-ui/core';
 import CommentBg from '../../assets/Comments/background.svg';
@@ -17,7 +15,6 @@ import {
 } from '@material-ui/icons';
 import axios from 'axios';
 import ViewComments from '../Comments/ViewComments';
-import { Link } from 'react-router-dom';
 import TopBar from '../TopBar/TopBar';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';

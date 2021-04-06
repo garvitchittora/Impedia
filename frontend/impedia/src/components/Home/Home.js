@@ -222,15 +222,15 @@ const Home = () => {
         <Grid item md={8}>
           <div className={classes.navWrapper}>
             <div className={classes.navDiv}>
-              <Link to="/login/admin" className={classes.linkTag}>
+              <Link data-testid="admin-login-button" to="/login/admin" className={classes.linkTag}>
                 <Typography className={classes.headingText}>ADMIN</Typography>
               </Link>
-              <Link to="/login/authority" className={classes.linkTag}>
+              <Link data-testid="authority-login-button" to="/login/authority" className={classes.linkTag}>
                 <Typography className={classes.headingText}>
                   AUTHORITY
                 </Typography>
               </Link>
-              <Link to="/login/student" className={classes.linkTag}>
+              <Link data-testid="student-login-button" to="/login/student" className={classes.linkTag}>
                 <Typography className={classes.headingText}>STUDENT</Typography>
               </Link>
             </div>
@@ -268,10 +268,10 @@ const Home = () => {
               the Authorities on the raised issues
             </Typography>
             <div className={classes.SectionLinkWrapper}>
-              <Link to="/login/student" className={classes.SectionLinkTag}>
+              <Link data-testid="student-login-button-2" to="/login/student" className={classes.SectionLinkTag}>
                 <Typography className={classes.SectionLinkText}>LOGIN</Typography>
               </Link>
-              <Link to="/register/student" className={classes.SectionLinkTag}>
+              <Link data-testid="student-register-button" to="/register/student" className={classes.SectionLinkTag}>
                 <Typography className={classes.SectionLinkText}>REGISTER</Typography>
               </Link>
             </div>
@@ -288,7 +288,7 @@ const Home = () => {
               Petitions
             </Typography>
             <div className={classes.SectionLinkWrapper}>
-              <Link to="/login/authority" className={classes.SectionLinkTag}>
+              <Link data-testid="authority-login-button-2" to="/login/authority" className={classes.SectionLinkTag}>
                 <Typography className={classes.SectionLinkText}>LOGIN</Typography>
               </Link>
             </div>
@@ -315,7 +315,7 @@ const Home = () => {
               Add Authority to the platform, Create Authority groups, Edit Authority groups, Change allowed email domain name.
             </Typography>
             <div className={classes.SectionLinkWrapper}>
-              <Link to="/login/admin" className={classes.SectionLinkTag}>
+              <Link data-testid="admin-login-button-2" to="/login/admin" className={classes.SectionLinkTag}>
                 <Typography className={classes.SectionLinkText}>LOGIN</Typography>
               </Link>
             </div>

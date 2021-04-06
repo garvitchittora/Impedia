@@ -275,6 +275,7 @@ const LoginPage = (props) => {
                   variant="contained"
                   color="secondary"
                   type="submit"
+                  id="submit-login"
                 >
                   Login
                 </Button>

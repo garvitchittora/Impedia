@@ -1,2 +1,4 @@
 node_modules/
 strings.js
+.env
+yarn.lock

@@ -26,7 +26,7 @@ const AllAppeals = () => {
     const history = useHistory();
 
     useEffect(() => {
-        if(! cookies.user || cookies.user["type"] != "AUTHORITY"){
+        if(! cookies.user || cookies.user["type"] !== "AUTHORITY"){
             return history.push("/login/authority");
         }
     }, []);
