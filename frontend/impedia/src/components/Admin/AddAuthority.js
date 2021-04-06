@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     makeStyles,
     Button,
@@ -14,6 +14,8 @@ import addAuthIcon from '../../assets/Admin/addAuth.svg';
 import TopBar from '../TopBar/TopBar';
 import {useCookies} from 'react-cookie';
 import  { useHistory} from 'react-router-dom';
+import SuccessAlert from '../Alert/SuccessAlert';
+import ErrorAlert from '../Alert/ErrorAlert';
 
 const filter = createFilterOptions();
 
@@ -96,8 +98,13 @@ const useStyles = makeStyles(theme => ({
 const StudentRegister = () => {
     const classes = useStyles();
     const [cookies] = useCookies(['user']);
-    const [authEmails, setAuthEmails] = React.useState();
+    const [authEmails, setAuthEmails] = useState([]);
     const history = useHistory();
+
+    const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+    const [openErrorAlert, setOpenErrorAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("");
+    const [reload, setReload] = useState(false);
 
     useEffect(() => {
         if(! cookies.user || cookies.user["type"] !== "ADMIN"){
@@ -123,14 +130,26 @@ const StudentRegister = () => {
         .then((res)=>{
             console.log(res);
             if(res.status === 200 || res.status === 201){
-                alert("Authorities added Successfully")
+                setAuthEmails([]);
+                setAlertMessage("Authorities added Successfully !")
+                setOpenSuccessAlert(true);
             }else{
-                alert("Failed")
+                setAlertMessage("There was some error ! Please try again")
+                setOpenErrorAlert(true);
             } 
         })
         .catch((err)=>{
-            console.log(err);
+            console.log(err.response.data);
+            if(err.response.status === 400){
+                setAlertMessage("One or more emails in the list already exist !")
+                setOpenErrorAlert(true)
+            }
+            else{
+                setAlertMessage("There was some error ! Please try again")
+                setOpenErrorAlert(true);
+            }
         });
+        setReload((prev)=>!prev);
     }
 
     console.log(authEmails);
@@ -138,6 +157,8 @@ const StudentRegister = () => {
     return (
         <>
             <div className={classes.setDomainPage}>
+                <SuccessAlert open={openSuccessAlert} setOpen={setOpenSuccessAlert} message={alertMessage} />
+                <ErrorAlert open={openErrorAlert} setOpen={setOpenErrorAlert} message={alertMessage} />
                 <TopBar useCase="Add Authority" actor="ADMIN"/>
 
                 <div className={classes.Domainbody}>
@@ -151,6 +172,7 @@ const StudentRegister = () => {
                                         className={classes.textField}
                                         fullWidth
                                         multiple
+                                        key={reload}
                                         onChange={(event, newValue) => {
                                             console.log(newValue);
                                             if (typeof newValue === 'string') {
