@@ -92,7 +92,7 @@ const ChangeDomain = () => {
     const history = useHistory();
 
     useEffect(() => {
-        if(! cookies.user || cookies.user["type"] != "ADMIN"){
+        if(! cookies.user || cookies.user["type"] !== "ADMIN"){
             return history.push("/login/admin");
         }
     }, []);

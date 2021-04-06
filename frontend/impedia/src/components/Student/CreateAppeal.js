@@ -17,7 +17,7 @@ const CreateAppeal = () => {
   const history = useHistory();
 
   useEffect(() => {
-      if(! cookies.user || cookies.user["type"] != "STUDENT"){
+      if(! cookies.user || cookies.user["type"] !== "STUDENT"){
           return history.push("/login/student");
       }
   }, []);
