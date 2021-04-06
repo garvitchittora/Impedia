@@ -49,7 +49,7 @@ db.on("error", function (err) {
 if(process.env.NODE_ENV === 'production')
 {
   app.get("*", (req, res) => { 
-    res.sendFile(path.join(__dirname , "../client/build/index.html"));
+    res.sendFile(path.join(__dirname , "../frontend/impedia/build/index.html"));
     });
 }
 
