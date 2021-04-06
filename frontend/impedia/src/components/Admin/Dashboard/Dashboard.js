@@ -216,9 +216,12 @@ const Dashboard = () => {
                         <Link to="/admin/changedomain" className={classes.link}>
                             <UseCase icon={DomainIcon} type="Set Domain" />
                         </Link>
-                        <Link to="/admin/AddGroup" className={classes.link}>
-                            <UseCase icon={MakeGroupIcon} type="Authority Groups" />
+                        <Link to="/admin/groups/edit" className={classes.link}>
+                            <UseCase icon={MakeGroupIcon} type="Edit Groups" />
                         </Link> 
+                        <Link to="/admin/groups/add" className={classes.link}>
+                            <UseCase icon={MakeGroupIcon} type="Make Group" />
+                        </Link>
                         <Link to="/admin/appeals" className={classes.link}>
                             <UseCase icon={AppealIcon} type="Appeals" />
                         </Link>
