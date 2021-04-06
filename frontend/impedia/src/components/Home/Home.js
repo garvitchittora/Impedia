@@ -222,7 +222,7 @@ const Home = () => {
         <Grid item md={8}>
           <div className={classes.navWrapper}>
             <div className={classes.navDiv}>
-              <Link to="/login/admin" className={classes.linkTag}>
+              <Link data-testid="admin-login" to="/login/admin" className={classes.linkTag}>
                 <Typography className={classes.headingText}>ADMIN</Typography>
               </Link>
               <Link to="/login/authority" className={classes.linkTag}>

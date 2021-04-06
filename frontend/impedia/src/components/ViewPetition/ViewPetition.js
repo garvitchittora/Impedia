@@ -35,7 +35,6 @@ import {
 import CommentBg from '../../assets/Comments/background.svg';
 import ViewComments from '../Comments/ViewComments';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import TopBar from '../TopBar/TopBar';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
