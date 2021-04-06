@@ -3,6 +3,7 @@ require("express-async-errors");
 const cors = require("cors");
 const app = express();
 const db = require("./db");
+const path = require('path');
 // Importing Routers
 const studentRouter = require("./routes/studentRouter");
 const authorityRouter = require("./routes/authorityRouter");
@@ -22,6 +23,11 @@ app.use(
 );
 app.use(cors());
 
+if(process.env.NODE_ENV === 'production')
+{
+  app.use(express.static(path.join(__dirname, "../client/build")));
+}
+
 // Adding router middleware
 app.use("/student", studentRouter);
 app.use("/authority", authorityRouter);
@@ -39,6 +45,13 @@ db.once("open", function () {
 db.on("error", function (err) {
   console.log(err);
 });
+
+if(process.env.NODE_ENV === 'production')
+{
+  app.get("*", (req, res) => { 
+    res.sendFile(path.join(__dirname , "../client/build/index.html"));
+    });
+}
 
 // Adding dummy routes
 // app.get("/", (req, res) => {

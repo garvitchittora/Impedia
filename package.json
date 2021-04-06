@@ -1,0 +1,21 @@
+{
+  "name": "software-engineering-project",
+  "version": "1.0.0",
+  "description": "<h1 align=\"center\">\r     <a href=\"https://github.com/garvitchittora/Impedia\"><img src=\"https://i.imgur.com/uWemPNc.png\" alt=\"impedia\"></a>\r </h1>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd backend && node server.js",
+    "heroku-postbuild": "npm install --prefix ./backend && npm install --prefix ./frontend/impedia && npm run build --prefix ./frontend/impedia"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/garvitchittora/Impedia.git"
+  },
+  "author": "Team Impedia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/garvitchittora/Impedia/issues"
+  },
+  "homepage": "https://github.com/garvitchittora/Impedia#readme"
+}
