@@ -24,16 +24,16 @@ const initialAdmins = [
 ];
 
 const initialAuthorities = [
-  "rkala@iiita.ac.in",
-  "vkc@iiita.ac.in",
-  "mjaved@iiita.ac.in",
-  "ayadav@iiita.ac.in",
+  "testing123@iiita.ac.in",
+  "testing124@iiita.ac.in",
+  "testing125@iiita.ac.in",
+  "testing126@iiita.ac.in",
 ];
 
 const extraAuthorities = [
-  "vkat@iiita.ac.in",
-  "bghoshal@iiita.ac.in",
-  "atiwari@iiita.ac.in",
+  "testing127@iiita.ac.in",
+  "testing128@iiita.ac.in",
+  "testing129@iiita.ac.in",
 ];
 
 const initialAppeals = [
