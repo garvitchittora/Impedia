@@ -132,6 +132,20 @@ const initialStudents = [
   },
 ];
 
+const initialReplies = [
+  {
+    content: "Full sumpot",
+    support: true,
+  },
+  {
+    content: "No sumpot",
+    support: false,
+  },
+  {
+    content: "Indecisive sumpot",
+  },
+];
+
 const invalidToken = async () => {
   const token = await jwt.sign(
     {
@@ -274,11 +288,12 @@ const setEmailDomain = async (domain) => {
   }
 };
 
-const addReply = async (userid, userType, data) => {
+const addReply = async (userid, userType, replyToId, data) => {
   const reply = new Reply({
     _id: "RE" + new mongoose.mongo.ObjectID(),
     replyById: userid,
     onByModel: userType,
+    replyToId,
     ...data,
   });
 
@@ -311,4 +326,5 @@ module.exports = {
   createPetition,
   setEmailDomain,
   addReply,
+  initialReplies,
 };
