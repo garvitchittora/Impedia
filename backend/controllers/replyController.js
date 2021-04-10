@@ -6,11 +6,21 @@ const { sendNewReplyEmail } = require("../utils/sendEmail");
 
 const addReply = async (req, res) => {
   const { user, body } = req;
-  let userType;
-  if (user.id.substring(0, 2) === "ST") userType = "Student";
-  else if (user.id.substring(0, 2) === "AU") userType = "Authority";
-  else if (user.id.substring(0, 2) === "AD") userType = "Admin";
-  else return res.status(401).json({ error: "Invalid User" });
+
+  let loggedInUser, userType;
+  if (user.id.substring(0, 2) === "ST") {
+    userType = "Student";
+    loggedInUser = await Student.findById(user.id);
+  } else if (user.id.substring(0, 2) === "AU") {
+    userType = "Authority";
+    loggedInUser = await Authority.findById(user.id);
+  } else if (user.id.substring(0, 2) === "AD") {
+    userType = "Admin";
+    loggedInUser = await Admin.findById(user.id);
+  }
+
+  if (!userType || !loggegInUser)
+    return res.status(401).json({ error: "Invalid User" });
 
   const reply = new Reply({
     _id: "RE" + new mongoose.mongo.ObjectID(),
@@ -18,6 +28,7 @@ const addReply = async (req, res) => {
     onByModel: userType,
     ...body,
   });
+
   if (reply.replyToId.substring(0, 2) === "RE") reply.onToModel = "Reply";
   else if (reply.replyToId.substring(0, 2) === "PE")
     reply.onToModel = "Petition";
@@ -25,9 +36,11 @@ const addReply = async (req, res) => {
   else return res.status(400).json({ error: "Invalid replyToId" });
 
   await reply.save();
+
   const populated = await Reply.findById(reply._id)
     .populate({ path: "replyToId", populate: { path: "replyById" } })
     .populate("replyById");
+
   if (populated.onToModel === "Reply") {
     sendNewReplyEmail(
       populated.replyToId.replyById.email,

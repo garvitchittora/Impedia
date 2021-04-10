@@ -7,8 +7,9 @@ const Student = require("../models/Student");
 const Group = require("../models/Group");
 const Appeal = require("../models/Appeal");
 const Petition = require("../models/Petition");
-const { key, sign } = require("../utils/jwt");
+const Reply = require("../models/Reply");
 const Settings = require("../models/Settings");
+const { key, sign } = require("../utils/jwt");
 
 const initialAdmins = [
   {
@@ -273,6 +274,24 @@ const setEmailDomain = async (domain) => {
   }
 };
 
+const addReply = async (userid, userType, data) => {
+  const reply = new Reply({
+    _id: "RE" + new mongoose.mongo.ObjectID(),
+    replyById: userid,
+    onByModel: userType,
+    ...data,
+  });
+
+  if (reply.replyToId.substring(0, 2) === "RE") reply.onToModel = "Reply";
+  else if (reply.replyToId.substring(0, 2) === "PE")
+    reply.onToModel = "Petition";
+  else if (reply.replyToId.substring(0, 2) === "AP") reply.onToModel = "Appeal";
+  else return res.status(400).json({ error: "Invalid replyToId" });
+
+  const saved = await reply.save();
+  return saved;
+};
+
 module.exports = {
   initialAdmins,
   initialAuthorities,
@@ -291,4 +310,5 @@ module.exports = {
   createAppeal,
   createPetition,
   setEmailDomain,
+  addReply,
 };

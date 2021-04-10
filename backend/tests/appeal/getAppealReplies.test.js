@@ -17,6 +17,7 @@ const {
   initialPetitions,
   loginAuthority,
   extraAuthorities,
+  addReply,
 } = require("../testHelper");
 const app = require("../../app");
 const Authority = require("../../models/Authority");
@@ -33,10 +34,10 @@ let adminData,
   savedGroup,
   appeal1,
   appeal2,
-  appeal3,
+  petition1,
+  petition2,
   authority1,
-  authority2,
-  authority3;
+  authority2;
 
 beforeEach(async () => {
   await Admin.deleteMany({});
@@ -55,11 +56,10 @@ beforeEach(async () => {
   student2 = await loginStudent(initialStudents[1]);
   authority1 = await loginAuthority(initialAuthorities[0]);
   authority2 = await loginAuthority(extraAuthorities[0]);
-  authority3 = await loginAuthority(initialAuthorities[1]);
 
   appeal1 = await createAppeal(
     student1.student,
-    savedAuthorities[0]._id,
+    authority1.authority._id,
     initialAppeals[0]
   );
   appeal2 = await createAppeal(
@@ -67,11 +67,17 @@ beforeEach(async () => {
     savedGroup._id,
     initialAppeals[1]
   );
-  appeal3 = await createAppeal(
-    student2.student,
-    authority2.authority._id,
-    initialAppeals[1]
+  petition1 = await createPetition(
+    student1.student,
+    savedAuthorities[0]._id,
+    initialPetitions[0]
   );
+  petition2 = await createPetition(
+    student2.student,
+    savedGroup._id,
+    initialPetitions[1]
+  );
+
   await appeal1
     .populate("appealFromId")
     .populate({ path: "appealToId", populate: { path: "members" } })
@@ -82,13 +88,24 @@ beforeEach(async () => {
     .populate({ path: "appealToId", populate: { path: "members" } })
     .execPopulate();
 
-  await appeal3
-    .populate("appealFromId")
-    .populate({ path: "appealToId", populate: { path: "members" } })
+  await petition1
+    .populate("petitionFromId")
+    .populate({ path: "petitionToId", populate: { path: "members" } })
+    .populate("signees")
+    .execPopulate();
+
+  await petition2
+    .populate("petitionFromId")
+    .populate({ path: "petitionToId", populate: { path: "members" } })
+    .populate("signees")
     .execPopulate();
 });
 
 const url = "/appeal";
+
+it("should run mock test", () => {
+  expect("mock").toBe("mock");
+});
 
 afterAll(() => {
   mongoose.connection.close();
