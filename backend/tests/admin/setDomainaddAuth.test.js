@@ -10,6 +10,7 @@ const api = supertest(app);
 
 let adminData;
 let domain = "iiita.ac.in";
+let newdomain = "iiitb.ac.in";
 
 beforeEach(async () => {
   await Admin.deleteMany({});
@@ -31,6 +32,23 @@ describe("the admin setEmailDomain route", () => {
 
     const settings = await Settings.findOne({});
     expect(settings.emailDomain).toBe(domain);
+  });
+
+  it("should update email domain when passed again", async () => {
+    await api
+      .post(setDomainUrl)
+      .send({ domain })
+      .set("Authorization", adminData.token)
+      .expect(200);
+
+    await api
+      .post(setDomainUrl)
+      .send({ domain: newdomain })
+      .set("Authorization", adminData.token)
+      .expect(200);
+
+    const settings = await Settings.findOne({});
+    expect(settings.emailDomain).toBe(newdomain);
   });
 
   it("should return 400 when domain not given", async () => {
