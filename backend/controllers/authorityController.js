@@ -69,8 +69,6 @@ const getAuthorityAppeals = async (req, res) => {
     .populate("appealFromId")
     .populate({ path: "appealToId", populate: { path: "members" } })
     .exec();
-
-  console.log("The found appeals are", appeals);
   return res.json(appeals);
 };
 
@@ -99,7 +97,6 @@ const getAuthorityPetitions = async (req, res) => {
 const getProfile = async (req, res) => {
   const { user } = req;
   const authority = await Authority.findById(user.id);
-  console.log(authority);
   if (!authority) return res.status(404).end();
   res.status(200).json(authority);
 };
@@ -118,7 +115,6 @@ const updateProfile = async (req, res) => {
   );
 
   if (!authority) return res.status(404).end();
-  console.log(authority);
   res.status(200).json(authority);
 };
 

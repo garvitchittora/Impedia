@@ -105,7 +105,7 @@ const initialStudents = [
     branch: "IT",
   },
   {
-    email: "iit2020102@iiita.ac.in",
+    email: "iit2025102@iiita.ac.in",
     section: "A",
     semester: "2",
     password: "password",
@@ -208,6 +208,21 @@ const loginAuthority = async (authorityData) => {
     key
   );
   return { authority, token };
+};
+
+const addStudent = async (students) => {
+  let savedStudents = [];
+  for (let student of students) {
+    const passwordHash = await bcrypt.hash(student.password, 10);
+    let user = new Student({
+      _id: "ST" + new mongoose.mongo.ObjectId(),
+      ...student
+    });
+    user.password = passwordHash;
+    const saved = await user.save();
+    savedStudents.push(saved);
+  }
+  return savedStudents;
 };
 
 const loginStudent = async (studentData) => {
@@ -327,4 +342,5 @@ module.exports = {
   setEmailDomain,
   addReply,
   initialReplies,
+  addStudent,
 };

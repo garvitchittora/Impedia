@@ -100,7 +100,6 @@ const addAuthorities = async (req, res) => {
       .json({ error: "Please enter the required information" });
 
   for (let email of emailIds) {
-    console.log(email);
     const password = "password";
     const passwordHash = await bcrypt.hash(password, 10);
     let user = new Authority({

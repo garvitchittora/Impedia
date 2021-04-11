@@ -69,7 +69,7 @@ sendPasswordResetEmail = (email, link) => {
     if (error) {
       console.log("Some error occured");
     } else {
-      console.log("Email sent: " + info.response);
+      //console.log("Email sent: " + info.response);
     }
   });
 };
@@ -142,7 +142,7 @@ sendNewAuthorityEmail = (authorityEmail, password) => {
     if (error) {
       console.log("Some error occured");
     } else {
-      console.log("Email sent: " + info.response);
+      //console.log("Email sent: " + info.response);
     }
   });
 };
@@ -219,7 +219,7 @@ sendNewAppealEmail = (authority, student, appeal) => {
     if (error) {
       console.log("Some error occured");
     } else {
-      console.log("Email sent: " + info.response);
+      //console.log("Email sent: " + info.response);
     }
   });
 };
@@ -296,7 +296,7 @@ sendNewPetitionEmail = (authority, student, petition) => {
     if (error) {
       console.log("Some error occured");
     } else {
-      console.log("Email sent: " + info.response);
+      //console.log("Email sent: " + info.response);
     }
   });
 };
@@ -361,7 +361,7 @@ sendNewReplyEmail = (email, type, gist, replier, replyGist) => {
     if (error) {
       console.log("Some error occured");
     } else {
-      console.log("Email sent: " + info.response);
+      //console.log("Email sent: " + info.response);
     }
   });
 };
