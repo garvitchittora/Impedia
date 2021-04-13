@@ -7,6 +7,7 @@ const {
   invalidToken,
   addAuthority,
   initialAuthorities,
+  extraAuthorities,
   initialStudents,
   loginStudent,
   fakeTokens,
@@ -81,6 +82,15 @@ describe("create authority groups", () => {
       .expect(400);
     expect(res.body.error).toBe("Please enter the required information");
   });
+
+  it("should return 400 when no valid authorities", async () => {
+    const res = await api
+      .post(url)
+      .send({ name: "Second year", emailIds: extraAuthorities })
+      .set("Authorization", adminData.token)
+      .expect(400);
+    expect(res.body.error).toBe("Invalid authority emails");
+  });
 });
 
 describe("edit authority groups", () => {
@@ -103,7 +113,6 @@ describe("edit authority groups", () => {
       .expect(200);
 
     let group = await Group.findById(savedGroup._id);
-    console.log(group);
     expect(group.members.length).toBe(2);
 
     expect([...group.members]).toEqual([

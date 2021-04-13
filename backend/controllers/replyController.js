@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const Appeal = require("../models/Appeal");
 const Petition = require("../models/Petition");
 const Reply = require("../models/Reply");
+const Student = require("../models/Student")
+const Authority = require("../models/Authority")
+const Admin = require("../models/Admin")
 const { sendNewReplyEmail } = require("../utils/sendEmail");
 
 const addReply = async (req, res) => {
@@ -19,7 +22,7 @@ const addReply = async (req, res) => {
     loggedInUser = await Admin.findById(user.id);
   }
 
-  if (!userType || !loggegInUser)
+  if (!userType || !loggedInUser)
     return res.status(401).json({ error: "Invalid User" });
 
   const reply = new Reply({
@@ -73,7 +76,7 @@ const addReply = async (req, res) => {
     );
   }
 
-  return res.status(201).end();
+  return res.status(201).json(reply);
 };
 
 module.exports = { addReply };

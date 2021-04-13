@@ -9,6 +9,9 @@ let transporter = nodemailer.createTransport({
 let baseUrl = "http://localhost:3000/";
 
 sendPasswordResetEmail = (email, link) => {
+  if (process.env.NODE_ENV === "test") {
+    return;
+  }
   let text = `A password reset request has been made for your GetAccess Account\n\nPlease ignore this email if this was not requested by you\n\nOpen this link to reset your password: ${link}\nThis link will only be valid for 1 hour.\n\ngetaccess.ai`;
   let html = `<!DOCTYPE html>
             <html lang="en">
@@ -75,6 +78,9 @@ sendPasswordResetEmail = (email, link) => {
 };
 
 sendNewAuthorityEmail = (authorityEmail, password) => {
+  if (process.env.NODE_ENV === "test") {
+    return;
+  }
   let text = `Your organization admin has added you as an authority and thus an Impedia Account has been created for you\n\nHere are your details for logging in:\nEmail: ${authorityEmail}\nPassword: ${password}\n\nYou can log in and start resolving issues made by students addressed to you here: ${
     baseUrl + "login/authority"
   }`;
@@ -148,6 +154,9 @@ sendNewAuthorityEmail = (authorityEmail, password) => {
 };
 
 sendNewAppealEmail = (authority, student, appeal) => {
+  if (process.env.NODE_ENV === "test") {
+    return;
+  }
   let text = `Hi ${authority.name}, an appeal has been addressed to you by ${
     student.name
   } with the title: ${
@@ -225,6 +234,9 @@ sendNewAppealEmail = (authority, student, appeal) => {
 };
 
 sendNewPetitionEmail = (authority, student, petition) => {
+  if (process.env.NODE_ENV === "test") {
+    return;
+  }
   let text = `Hi ${authority.name}, a petition has been addressed to you by ${
     student.name
   } with the title: ${
@@ -302,6 +314,9 @@ sendNewPetitionEmail = (authority, student, petition) => {
 };
 
 sendNewReplyEmail = (email, type, gist, replier, replyGist) => {
+  if (process.env.NODE_ENV === "test") {
+    return;
+  }
   let text = `Hi! You have a new reply to your ${type}, "${gist}...", by ${replier}: "${replyGist}..."\n\nPlease log in to the Impedia Platform and to view it here: ${baseUrl}`;
   let html = `<!DOCTYPE html>
           <html lang="en">

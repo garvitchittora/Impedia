@@ -6,6 +6,7 @@ const {
   setEmailDomain,
   loginAdmin,
   initialAdmins,
+  loginStudent
 } = require("../testHelper");
 const app = require("../../app");
 const Settings = require("../../models/Settings");
@@ -26,6 +27,7 @@ beforeEach(async () => {
   await Student.deleteMany({});
 
   await setEmailDomain("iiita.ac.in");
+  await loginStudent(initialStudents[1]);
 });
 
 const url = "/student/register";
@@ -48,6 +50,16 @@ describe("student register routes", () => {
     );
     const student = await Student.findOne({ email: initialStudents[0].email });
     expect(student).toBeNull();
+  });
+
+  it("should not let the user register if the email is already registered", async () => {
+    const { body } = await api
+      .post(url)
+      .send({ ...initialStudents[0], email: "iit2025102@iiita.ac.in" })
+      .expect(400);
+    expect(body.error).toBe(
+      "Student validation failed: email: email iit2025102@iiita.ac.in already exists"
+    );
   });
 
   it("should not register when required data is missing", async () => {

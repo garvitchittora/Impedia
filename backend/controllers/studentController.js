@@ -17,13 +17,6 @@ const validateStudentRegisterRequest = async (req, res, next) => {
   try {
     await tempStudent.validate();
     const email = tempStudent.email;
-    const foundStudent = await Student.findOne({
-      email,
-    });
-    if (foundStudent)
-      return res.status(409).json({
-        error: "EmailID already exists",
-      });
     const domainSettings = await Settings.findOne({});
     if (domainSettings.emailDomain !== email.split("@")[1]) {
       return res.status(401).json({
@@ -113,7 +106,7 @@ const createAppeal = async (req, res) => {
   else return res.status(400).json({ error: "Invalid appealToId" });
 
   await appeal.save();
-  return res.status(201).end();
+  return res.status(201).json(appeal);
 };
 
 const getStudentAppeals = async (req, res) => {
@@ -154,7 +147,7 @@ const createPetition = async (req, res) => {
   else return res.status(400).json({ error: "Invalid petitionToId" });
 
   await petition.save();
-  return res.status(201).end();
+  return res.status(201).json(petition);
 };
 
 const getPetitions = async (req, res) => {
