@@ -1,6 +1,6 @@
 import React from "react";
 import { render, cleanup, fireEvent } from "@testing-library/react";
-import AdminLogin from "../AdminLogin";
+import AuthorityLogin from "../AuthorityLogin";
 import { BrowserRouter as Router } from "react-router-dom";
 import { mount, configure } from 'enzyme'
 import puppeteer from 'puppeteer'
@@ -12,17 +12,17 @@ afterEach(cleanup);
 it("should take a snapshot", () => {
   const { asFragment } = render(
     <Router>
-      <AdminLogin />
+      <AuthorityLogin />
     </Router>
   );
 
-  expect(asFragment(<AdminLogin />)).toMatchSnapshot();
+  expect(asFragment(<AuthorityLogin />)).toMatchSnapshot();
 });
 
-it("admin login", async () => {
+it("authority login", async () => {
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
-  await page.goto('http://localhost:3000/login/admin');
+  await page.goto('http://localhost:3000/login/authority');
 
   await page.waitForSelector("#email", {
     visible: true,
@@ -30,7 +30,7 @@ it("admin login", async () => {
   await page.click("#email", { clickCount: 1 });
   await page.type(
     "#email",
-    "admin@admin.com",
+    "iit2019142@iiita.ac.in",
   );
   await page.click("#password", { clickCount: 1 });
   await page.type(
@@ -38,13 +38,13 @@ it("admin login", async () => {
     "password",
   );
   await page.click("#submit-login", { clickCount: 1 });
-  await page.waitForSelector("a[href='/admin/addauthority']", {
+  await page.waitForSelector("a[href='/authority/updateprofile']", {
     visible: true,
   });
 
   let pageURL = await page.evaluate(() => {
     console.log(location.pathname)
-		if(location.pathname === "/admin/dashboard"){
+		if(location.pathname === "/authority/dashboard"){
       return true;
     }else{
       return false;
