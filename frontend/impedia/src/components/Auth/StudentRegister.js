@@ -222,7 +222,7 @@ const StudentRegister = () => {
         .then((res)=>{
             console.log(res);
             if(res.status === 200 || res.status === 201){
-                return history.push("/student/dashboard");
+                return history.push("/login/student");
             }else{
                 alert("Failed")
             } 
