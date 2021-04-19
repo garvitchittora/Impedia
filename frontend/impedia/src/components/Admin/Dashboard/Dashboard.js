@@ -75,6 +75,7 @@ const useStyles = makeStyles(theme => ({
         display:"flex",
         alignItems:"center",
         justifyContent:"flex-end",
+        zIndex:"1000",
         letterSpacing:"4px",
         [theme.breakpoints.down("xs")]:{
             marginRight:"20px"
@@ -84,7 +85,8 @@ const useStyles = makeStyles(theme => ({
         display:"inline",
         fontWeight:"600",
         fontSize:"15px",
-        letterSpacing:"3px"
+        letterSpacing:"3px",
+        zIndex:"1000",
     },
     dashLine:{
         position:"relative",

@@ -38,12 +38,13 @@ app.use("/petition", petitionRouter);
 app.use("/reply", replyRouter);
 app.use(errorHandler);
 
+
 // Adding db connection logs
 db.once("open", function () {
-  console.log("Connected to MongoDB");
+  if(process.env.NODE_ENV !== "test") console.log("Connected to MongoDB");
 });
 db.on("error", function (err) {
-  console.log(err);
+  if(process.env.NODE_ENV !== "test") console.log(err);
 });
 
 if(process.env.NODE_ENV === 'production')

@@ -149,6 +149,13 @@ describe("get groups by id", () => {
       .expect(400);
     expect(res.body.error).toBe("Invalid user");
   });
+
+  it("returns 404 for invalid group", async () => {
+    let res = await api
+      .get(`${url}/GR12345`)
+      .set("Authorization", adminData.token)
+      .expect(404);
+  });
 });
 
 afterAll(() => {

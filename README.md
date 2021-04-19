@@ -9,7 +9,8 @@
 <h4 align="center">
   <a href="#About">About</a> •
   <a href="#Installation">Installation</a> •
-  <a href="#Getting-Started">Getting Started</a>
+  <a href="#Getting-Started">Getting Started</a> •
+  <a href="#Testing">Testing</a>
 </h4>
 
 ---
@@ -73,3 +74,22 @@ As an admin you now add emails for authorities of your organization, and they wi
 You can then add your organization domain and then students with emails under that domain would be able to come and register for the platform.
 
 And thats it! Thats all the setup needed, the students can now make appeals/petitions and authorities can respond to them while admin can overlook all activities happening on the platform.
+
+# Testing
+
+The project includes unit tests for testing all the routes and controllers, written using jest and supertest.
+
+```sh
+cd backend
+npm install
+```
+
+Run all tests
+```sh
+npm run test
+```
+
+Get coverage of unit tests
+```sh
+npm run coverage
+```

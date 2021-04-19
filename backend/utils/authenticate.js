@@ -13,7 +13,6 @@ const authenticate = (req, res, next) => {
       req.user = user;
       next();
     } catch (e) {
-      console.log(e.message);
       return res.status(403).json({
         error: "Invalid API Key.",
       });

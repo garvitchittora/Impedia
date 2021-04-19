@@ -7,7 +7,7 @@ mongoose.connect(mongoURL, {
   useFindAndModify: false,
   useCreateIndex: true,
 });
-console.log(mongoURL);
+
 let db = mongoose.connection;
 
 module.exports = db;

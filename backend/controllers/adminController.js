@@ -21,10 +21,6 @@ const adminAuth = async (req, res) => {
     Admin.where({
       email: email,
     }).findOne(function (err, admin) {
-      if (err) {
-        console.log(err);
-        return res.sendStatus(500);
-      }
       if (admin) {
         bcrypt.compare(password, admin.password).then((result) => {
           if (result) {
@@ -35,10 +31,6 @@ const adminAuth = async (req, res) => {
               },
               key,
               (err, token) => {
-                if (err) {
-                  console.log(err);
-                  return res.sendStatus(500);
-                }
                 let authDisplay = {};
                 authDisplay.authKey = token;
                 authDisplay.data = admin;
@@ -100,7 +92,6 @@ const addAuthorities = async (req, res) => {
       .json({ error: "Please enter the required information" });
 
   for (let email of emailIds) {
-    console.log(email);
     const password = "password";
     const passwordHash = await bcrypt.hash(password, 10);
     let user = new Authority({

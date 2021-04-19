@@ -6,8 +6,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node server.js",
     "dev": "cross-env NODE_ENV=development nodemon server.js",
-    "dev-test": "cross-env NODE_ENV=test jest --runInBand --verbose false --watch",
-    "test": "cross-env NODE_ENV=test jest --runInBand",
+    "dev-test": "cross-env NODE_ENV=test jest --verbose --runInBand --watch",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "coverage": "cross-env NODE_ENV=test jest --coverage --runInBand",
     "generate-admin": "cross-env NODE_ENV=production node scripts/generateAdmin.js"
   },

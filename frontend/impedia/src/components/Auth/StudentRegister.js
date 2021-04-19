@@ -16,7 +16,7 @@ import {
  } from '@material-ui/icons';
 import back1 from '../../assets/Login/login-1.svg';
 import back2 from '../../assets/Login/login-2.svg';
-import back3 from '../../assets/Login/login-3(2).svg';
+import back3 from '../../assets/Login/login-32.svg';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import LoginSidePic from '../../assets/Login/loginSidePic.svg';
 import  { useHistory} from 'react-router-dom';
@@ -222,7 +222,7 @@ const StudentRegister = () => {
         .then((res)=>{
             console.log(res);
             if(res.status === 200 || res.status === 201){
-                return history.push("/student/dashboard");
+                return history.push("/login/student");
             }else{
                 alert("Failed")
             } 

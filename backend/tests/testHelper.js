@@ -7,6 +7,8 @@ const Student = require("../models/Student");
 const Group = require("../models/Group");
 const Appeal = require("../models/Appeal");
 const Petition = require("../models/Petition");
+const Reply = require("../models/Reply");
+const Settings = require("../models/Settings");
 const { key, sign } = require("../utils/jwt");
 
 const initialAdmins = [
@@ -23,10 +25,16 @@ const initialAdmins = [
 ];
 
 const initialAuthorities = [
-  "rkala@iiita.ac.in",
-  "vkc@iiita.ac.in",
-  "mjaved@iiita.ac.in",
-  "ayadav@iiita.ac.in",
+  "testing123@iiita.ac.in",
+  "testing124@iiita.ac.in",
+  "testing125@iiita.ac.in",
+  "testing126@iiita.ac.in",
+];
+
+const extraAuthorities = [
+  "testing127@iiita.ac.in",
+  "testing128@iiita.ac.in",
+  "testing129@iiita.ac.in",
 ];
 
 const initialAppeals = [
@@ -97,7 +105,7 @@ const initialStudents = [
     branch: "IT",
   },
   {
-    email: "iit2020102@iiita.ac.in",
+    email: "iit2025102@iiita.ac.in",
     section: "A",
     semester: "2",
     password: "password",
@@ -105,7 +113,7 @@ const initialStudents = [
   },
   {
     name: "Demo",
-    email: "iit2019115@iiita.ac.in",
+    email: "iit2019142@iiita.ac.in",
     section: "B",
     semester: "4",
     password: "password",
@@ -121,6 +129,20 @@ const initialStudents = [
   },
   {
     name: "Missing Data",
+  },
+];
+
+const initialReplies = [
+  {
+    content: "Full sumpot",
+    support: true,
+  },
+  {
+    content: "No sumpot",
+    support: false,
+  },
+  {
+    content: "Indecisive sumpot",
   },
 ];
 
@@ -188,6 +210,21 @@ const loginAuthority = async (authorityData) => {
   return { authority, token };
 };
 
+const addStudent = async (students) => {
+  let savedStudents = [];
+  for (let student of students) {
+    const passwordHash = await bcrypt.hash(student.password, 10);
+    let user = new Student({
+      _id: "ST" + new mongoose.mongo.ObjectId(),
+      ...student
+    });
+    user.password = passwordHash;
+    const saved = await user.save();
+    savedStudents.push(saved);
+  }
+  return savedStudents;
+};
+
 const loginStudent = async (studentData) => {
   const passwordHash = await bcrypt.hash(studentData.password, 10);
   let student = new Student({
@@ -253,9 +290,42 @@ const createPetition = async (student, petitionToId, data) => {
   return saved;
 };
 
+const setEmailDomain = async (domain) => {
+  const domainSettings = await Settings.findOne({});
+  if (domainSettings) {
+    domainSettings.emailDomain = domain;
+    await domainSettings.save();
+  } else {
+    const setting = new Settings({
+      emailDomain: domain,
+    });
+    await setting.save();
+  }
+};
+
+const addReply = async (userid, userType, replyToId, data) => {
+  const reply = new Reply({
+    _id: "RE" + new mongoose.mongo.ObjectID(),
+    replyById: userid,
+    onByModel: userType,
+    replyToId,
+    ...data,
+  });
+
+  if (reply.replyToId.substring(0, 2) === "RE") reply.onToModel = "Reply";
+  else if (reply.replyToId.substring(0, 2) === "PE")
+    reply.onToModel = "Petition";
+  else if (reply.replyToId.substring(0, 2) === "AP") reply.onToModel = "Appeal";
+  else return res.status(400).json({ error: "Invalid replyToId" });
+
+  const saved = await reply.save();
+  return saved;
+};
+
 module.exports = {
   initialAdmins,
   initialAuthorities,
+  extraAuthorities,
   initialStudents,
   initialAppeals,
   initialPetitions,
@@ -269,4 +339,8 @@ module.exports = {
   createGroups,
   createAppeal,
   createPetition,
+  setEmailDomain,
+  addReply,
+  initialReplies,
+  addStudent,
 };

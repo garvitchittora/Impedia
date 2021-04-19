@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles, Typography } from "@material-ui/core";
-import ImpediaBanner from "../../assets/Home/impediaBanner.svg";
 import ImpediaLogo from "../../assets/Logo-Impedia.png";
 import AuthorityImage from "../../assets/Home/authority.svg";
 import StudentImage from "../../assets/Home/student.svg";
 import AdminImage from "../../assets/Home/admin.svg";
 import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
-import GitHubIcon from '@material-ui/icons/GitHub';
+import GitHubIcon from "@material-ui/icons/GitHub";
 
 const useStyles = makeStyles((theme) => ({
   BannerImg: {
@@ -20,20 +19,24 @@ const useStyles = makeStyles((theme) => ({
     "&::after": {
       content: "''",
       display: "block",
-      borderBottom: "solid 3px #FF1E56",  
-      transform: "scaleX(0)", 
+      borderBottom: "solid 3px #FF1E56",
+      transform: "scaleX(0)",
       transition: "transform 250ms ease-in-out",
-      transformOrigin:"100% 50%",
+      transformOrigin: "100% 50%",
     },
-    "&:hover::after":{
+    "&:hover::after": {
       transform: "scaleX(1)",
-      transformOrigin:"0 50%",
-    }
+      transformOrigin: "0 50%",
+    },
+  },
+  footerLink: {
+    textDecoration: "none",
+    color: "inherit",
   },
   headingText: {
     fontWeight: "800",
     fontSize: "16px",
-    letterSpacing:"5px",
+    letterSpacing: "5px",
     color: "#1D1D1D",
     [theme.breakpoints.down("md")]: {
       fontSize: "16px",
@@ -53,83 +56,86 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
     },
   },
-  landing:{
-    display:"flex",
+  landing: {
+    display: "flex",
     // position:"absolute",
-    height:"100vh",
-    width:"98.5vw",
-    marginLeft:"auto",
-    alignItems:"center",
-    overflow:"hidden",
+    height: "100vh",
+    width: "98.5vw",
+    marginLeft: "auto",
+    alignItems: "center",
+    overflow: "hidden",
     [theme.breakpoints.down("sm")]: {
       // flexDirection:"column"
-      display:"block"
-    }
+      display: "block",
+    },
   },
-  logoContainer:{
-    flex:"80%",
-    width:"100%",
-    textAlign:"right",
+  logoContainer: {
+    flex: "80%",
+    width: "100%",
+    textAlign: "right",
     [theme.breakpoints.down("sm")]: {
-      textAlign:"center",
-      marginTop:"30vh"
-    }
+      textAlign: "center",
+      marginTop: "30vh",
+    },
   },
-  tagline:{
-    position:"absolute",
-    zIndex:"-200",
+  tagline: {
+    position: "absolute",
+    zIndex: "-200",
     // width:"1200px",
-    left:"15vw",
+    left: "15vw",
     // marginRight:"60px",
-    letterSpacing:"5px",
-    fontWeight:"600",
+    letterSpacing: "5px",
+    fontWeight: "600",
     [theme.breakpoints.up("sm")]: {
-      left:"23vw"
-    }
+      left: "23vw",
+    },
   },
-  extendedBack:{
-    background:"linear-gradient(87.22deg , #FFAC41 10.57%, rgba(255, 30, 86, 0.74) 133.29%)",
-    padding:"10px 15vw 10px 20px",
-    borderRadius:"20px"
+  extendedBack: {
+    background:
+      "linear-gradient(87.22deg , #FFAC41 10.57%, rgba(255, 30, 86, 0.74) 133.29%)",
+    padding: "10px 15vw 10px 20px",
+    borderRadius: "20px",
     // width:"800px"
   },
-  rotatedContainer:{
+  rotatedContainer: {
     // display:"none",
     // flex:"50%",
-    position:"relative",
-    height:"200vh",
-    width:"95vw",
-    zIndex:"-100",
-    right:"-10vw",
-    textAlign:"center",
-    backgroundColor:"#FFAC41",
-    transform:"rotate(20deg)",
+    position: "relative",
+    height: "200vh",
+    width: "95vw",
+    zIndex: "-100",
+    right: "-10vw",
+    textAlign: "center",
+    backgroundColor: "#FFAC41",
+    transform: "rotate(20deg)",
     [theme.breakpoints.down("sm")]: {
-      display:"none"
-    }
+      display: "none",
+    },
     // transform: "scaleX(10)"
   },
-  textOnRotated:{
-    textAlign:"center",
-    marginTop:"10vh",
-    fontWeight:"600",
-    fontSize:"22px",
+  textOnRotated: {
+    textAlign: "center",
+    marginTop: "10vh",
+    fontWeight: "600",
+    fontSize: "22px",
     [theme.breakpoints.up("md")]: {
-      position:"absolute",
-      width:"30vw",
-      right:"10vw"
-    }
+      position: "absolute",
+      width: "30vw",
+      right: "10vw",
+    },
   },
-  logoImg:{
-    width:"30vw",
-    minWidth:"300px"
+  logoImg: {
+    width: "30vw",
+    minWidth: "300px",
   },
-  roleDesc:{
-    width:"95vw",
-    margin:"2% auto",
-    [theme.breakpoints.down("sm")]:{
-      marginBottom:"20%"
-    }
+  roleDesc: {
+    display: "flex",
+    alignItems: "center",
+    width: "80vw",
+    margin: "4% auto",
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: "20%",
+    },
   },
   SectionWrapper: {
     padding: "50px 20px",
@@ -140,7 +146,7 @@ const useStyles = makeStyles((theme) => ({
   StudentImg: {
     padding: "30px",
     width: "100%",
-    maxWidth:"300px"
+    maxWidth: "300px",
   },
   SectionHeading: {
     fontSize: "24px",
@@ -152,64 +158,60 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "20px",
   },
   SectionText: {
-    fontSize: "20px",
+    fontSize: "18px",
     fontStyle: "normal",
     fontWeight: "500",
     lineHeight: "29px",
     letterSpacing: "0.05em",
     textAlign: "left",
   },
-  SectionHeading2: {
-    fontSize: "24px",
-    fontStyle: "normal",
-    fontWeight: "600",
-    lineHeight: "29.26px",
-    letterSpacing: "0.05em",
-    textAlign: "right",
-    marginBottom: "20px",
-  },
-  SectionText2: {
-    fontSize: "20px",
-    fontStyle: "normal",
-    fontWeight: "500",
-    lineHeight: "29px",
-    letterSpacing: "0.05em",
-    textAlign: "right",
-  },
   SectionTextWrapper: {
+    textAlign: "left",
     padding: "0 40px",
   },
-  SectionLinkWrapper:{
-      display:"flex",
-      flexDirection: "row",
-        justifyContent: "space-evenly",
-        marginTop:"20px",
+  SectionLinkWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    marginTop: "20px",
   },
-  SectionLinkTag:{
+  SectionLinkTag: {
     textDecoration: "none",
     color: "#000000",
-    background: "linear-gradient(87.22deg, #FFAC41 10.57%, rgba(255, 30, 86, 0.74) 133.29%)",
-    padding:"10px 20px",
-    borderRadius:"50px",
+    background:
+      "linear-gradient(87.22deg, #FFAC41 10.57%, rgba(255, 30, 86, 0.74) 133.29%)",
+    padding: "10px 20px",
+    borderRadius: "50px",
+    marginRight: "30px",
+    transition: "all 0.15s ease-in",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14)",
+    "&:hover": {
+      boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.12)",
+      transform: "translateY(-1.5px) scale(1.05)",
+    },
+    "&:active": {
+      boxShadow: "0 1px 15px rgba(0,0,0,0.20), 0 10px 10px rgba(0,0,0,0.12)",
+      transform: "translateY(1px) scale(1)",
+    },
   },
-  SectionLinkText:{
-    fontWeight:"600",
+  SectionLinkText: {
+    fontWeight: "600",
   },
-  footerSection:{
+  footerSection: {
     background: "#FFAC41 94%",
-    textAlign:"center",
-    padding:"30px"
+    textAlign: "center",
+    padding: "30px",
   },
-  FooterText:{
+  FooterText: {
     fontSize: "18px",
     fontStyle: "normal",
     fontWeight: "500",
     textAlign: "center",
-    marginBottom:"15px"
+    marginBottom: "15px",
   },
-  GithubIcon:{
-    fontSize:"35px",
-  }
+  GithubIcon: {
+    fontSize: "35px",
+  },
 }));
 
 const Home = () => {
@@ -222,15 +224,27 @@ const Home = () => {
         <Grid item md={8}>
           <div className={classes.navWrapper}>
             <div className={classes.navDiv}>
-              <Link data-testid="admin-login-button" to="/login/admin" className={classes.linkTag}>
+              <Link
+                data-testid="admin-login-button"
+                to="/login/admin"
+                className={classes.linkTag}
+              >
                 <Typography className={classes.headingText}>ADMIN</Typography>
               </Link>
-              <Link data-testid="authority-login-button" to="/login/authority" className={classes.linkTag}>
+              <Link
+                data-testid="authority-login-button"
+                to="/login/authority"
+                className={classes.linkTag}
+              >
                 <Typography className={classes.headingText}>
                   AUTHORITY
                 </Typography>
               </Link>
-              <Link data-testid="student-login-button" to="/login/student" className={classes.linkTag}>
+              <Link
+                data-testid="student-login-button"
+                to="/login/student"
+                className={classes.linkTag}
+              >
                 <Typography className={classes.headingText}>STUDENT</Typography>
               </Link>
             </div>
@@ -239,16 +253,15 @@ const Home = () => {
       </Grid>
       <div className={classes.landing}>
         <div className={classes.logoContainer}>
-          <img src={ImpediaLogo} className={classes.logoImg}/>
+          <img src={ImpediaLogo} className={classes.logoImg} alt="logo" />
           <div className={classes.tagline}>
             BRIDGING <span className={classes.extendedBack}>THE GAPS</span>
           </div>
         </div>
-        <div className={classes.rotatedContainer}>
-          
-        </div>
+        <div className={classes.rotatedContainer}></div>
         <Typography className={classes.textOnRotated}>
-            A Platform that breaks the communication barrier between Students and Authorities.
+          A Platform that breaks the communication barrier between Students and
+          Authorities.
         </Typography>
       </div>
       <div className={classes.SectionWrapper}>
@@ -257,7 +270,7 @@ const Home = () => {
             <img
               className={classes.StudentImg}
               src={StudentImage}
-              alt="Student Image"
+              alt="Student"
             />
           </Grid>
           <Grid item md={8} className={classes.SectionTextWrapper}>
@@ -268,37 +281,55 @@ const Home = () => {
               the Authorities on the raised issues
             </Typography>
             <div className={classes.SectionLinkWrapper}>
-              <Link data-testid="student-login-button-2" to="/login/student" className={classes.SectionLinkTag}>
-                <Typography className={classes.SectionLinkText}>LOGIN</Typography>
+              <Link
+                data-testid="student-login-button-2"
+                to="/login/student"
+                className={classes.SectionLinkTag}
+              >
+                <Typography className={classes.SectionLinkText}>
+                  LOGIN
+                </Typography>
               </Link>
-              <Link data-testid="student-register-button" to="/register/student" className={classes.SectionLinkTag}>
-                <Typography className={classes.SectionLinkText}>REGISTER</Typography>
+              <Link
+                data-testid="student-register-button"
+                to="/register/student"
+                className={classes.SectionLinkTag}
+              >
+                <Typography className={classes.SectionLinkText}>
+                  REGISTER
+                </Typography>
               </Link>
             </div>
           </Grid>
         </Grid>
         <Grid container className={classes.roleDesc}>
+          <Grid item md={4} className={classes.StudentImgWrapper}>
+            <img
+              className={classes.StudentImg}
+              src={AuthorityImage}
+              alt="Student"
+            />
+          </Grid>
           <Grid item md={8} className={classes.SectionTextWrapper}>
-            <Typography className={classes.SectionHeading2}>
-              Authority
+            <Typography className={classes.SectionHeading}>
+              AUTHORITY
             </Typography>
-            <Typography className={classes.SectionText2}>
+            <Typography className={classes.SectionText}>
               View the Appeals and Petitions raised by the students. Chat
               directly with them on the issue. Post a decision on the Appeals/
               Petitions
             </Typography>
             <div className={classes.SectionLinkWrapper}>
-              <Link data-testid="authority-login-button-2" to="/login/authority" className={classes.SectionLinkTag}>
-                <Typography className={classes.SectionLinkText}>LOGIN</Typography>
+              <Link
+                data-testid="authority-login-button-2"
+                to="/login/authority"
+                className={classes.SectionLinkTag}
+              >
+                <Typography className={classes.SectionLinkText}>
+                  LOGIN
+                </Typography>
               </Link>
             </div>
-          </Grid>
-          <Grid item md={4} className={classes.StudentImgWrapper}>
-            <img
-              className={classes.StudentImg}
-              src={AuthorityImage}
-              alt="Student Image"
-            />
           </Grid>
         </Grid>
         <Grid container className={classes.roleDesc}>
@@ -306,17 +337,24 @@ const Home = () => {
             <img
               className={classes.StudentImg}
               src={AdminImage}
-              alt="Student Image"
+              alt="Student"
             />
           </Grid>
           <Grid item md={8} className={classes.SectionTextWrapper}>
             <Typography className={classes.SectionHeading}>ADMIN</Typography>
             <Typography className={classes.SectionText}>
-              Add Authority to the platform, Create Authority groups, Edit Authority groups, Change allowed email domain name.
+              Add Authority to the platform, Create Authority groups, Edit
+              Authority groups, Change allowed email domain name.
             </Typography>
             <div className={classes.SectionLinkWrapper}>
-              <Link data-testid="admin-login-button-2" to="/login/admin" className={classes.SectionLinkTag}>
-                <Typography className={classes.SectionLinkText}>LOGIN</Typography>
+              <Link
+                data-testid="admin-login-button-2"
+                to="/login/admin"
+                className={classes.SectionLinkTag}
+              >
+                <Typography className={classes.SectionLinkText}>
+                  LOGIN
+                </Typography>
               </Link>
             </div>
           </Grid>
@@ -324,11 +362,14 @@ const Home = () => {
       </div>
       <div className={classes.footerSection}>
         <Typography className={classes.FooterText}>
-        All Rights Reserved.
-        <br></br>© Team Impedia  
+          All Rights Reserved.
+          <br></br>© Team Impedia
         </Typography>
-        <a href="https://github.com/garvitchittora/Impedia" className={classes.linkTag}>
-            <GitHubIcon className={classes.GithubIcon}></GitHubIcon>
+        <a
+          href="https://github.com/garvitchittora/Impedia"
+          className={classes.footerLink}
+        >
+          <GitHubIcon className={classes.GithubIcon}></GitHubIcon>
         </a>
       </div>
     </>

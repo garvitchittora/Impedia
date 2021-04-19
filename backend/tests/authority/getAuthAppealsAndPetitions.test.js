@@ -104,7 +104,6 @@ describe("get authority appeals", () => {
 
   it("should return 400 if authority doesn't exist", async () => {
     const fake = await fakeTokens();
-    console.log(savedGroup);
     const { body } = await api
       .get(appealsUrl)
       .set("Authorization", fake.authority)
@@ -139,7 +138,6 @@ describe("get authority petitions", () => {
 
   it("should return 400 if authority doesn't exist", async () => {
     const fake = await fakeTokens();
-    console.log(savedGroup);
     const { body } = await api
       .get(petitionsUrl)
       .set("Authorization", fake.authority)
