@@ -247,6 +247,7 @@ const ViewAppeal = (props) => {
     const [supportValue, setSupportValue] = useState("support");
     const [comments, setComments] = useState([]);
     const [replyTo, setReplyTo] = useState();
+    const [emptyReply, setEmptyReply] = useState(false);
 
     const handleDialogOpen = () => {
         setDialogOpen(true);
@@ -334,6 +335,11 @@ const ViewAppeal = (props) => {
     }
 
     const submitComment = () => {
+        if(newComment === ''){
+            setEmptyReply(true);
+            return;
+        }
+        setEmptyReply(false);
         const Token = cookies.user['key'];
             const config = {
                 headers: {
@@ -453,6 +459,7 @@ const ViewAppeal = (props) => {
                             rows={3}
                             rowsMax={5}
                             value={newComment}
+                            helperText={emptyReply?(<strong>* Please enter something (Empty Field)</strong>):""}
                             onChange={(e)=>{setNewComment(e.target.value)}}
                             InputProps={{
                                 endAdornment: <InputAdornment position="end"><SendIcon className={classes.sendIcon} onClick={submitComment}/></InputAdornment>,
