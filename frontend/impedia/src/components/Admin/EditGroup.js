@@ -9,7 +9,10 @@ import {
   IconButton,
 } from "@material-ui/core";
 import { Autocomplete, Alert, AlertTitle } from "@material-ui/lab";
-import { Close as CloseIcon } from "@material-ui/icons";
+import { 
+  Close as CloseIcon ,
+  Delete as DeleteIcon
+} from "@material-ui/icons";
 import axios from "axios";
 import SuccessAlert from '../Alert/SuccessAlert';
 import ErrorAlert from '../Alert/ErrorAlert';
@@ -127,6 +130,7 @@ const EditGroup = () => {
   const [reload, setReload] = useState(false);
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [openErrorAlert, setOpenErrorAlert] = useState(false);
+  const [successMessaage, setSuccessMessage] = useState("Success!");
   const [cookies] = useCookies(["user"]);
   const history = useHistory();
 
@@ -236,8 +240,8 @@ const EditGroup = () => {
         };
       });
     });
-    setNewGroupName(typeof groupSelected !== "undefined" ? groupSelected.name : "")
-  }, [groupSelected, allGroupsData]);
+    setNewGroupName( groupSelected ? groupSelected.name : "")
+  }, [groupSelected, allGroupsData, reload]);
 
   useEffect(() => {
     setAuthorityIds(initVals);
@@ -265,6 +269,7 @@ const EditGroup = () => {
       .put(`/admin/authoritygroup/${groupSelected.id}`, body, config)
       .then((res) => {
         if (res.status === 200 || res.status === 201) {
+          setSuccessMessage("The Authority Group was edited.");
           setOpenSuccessAlert(true);
         } else {
           setOpenErrorAlert(true);
@@ -273,15 +278,43 @@ const EditGroup = () => {
       .catch((err) => {
         console.log(err);
       });
-    setReload(true);
+    setReload((prev)=>!prev);
     setGroupSelected("");
   };
+
+  const deleteGroup = (e) => {
+    e.preventDefault();
+    const Token = cookies.user["key"];
+    console.log(Token);
+    const config = {
+      headers: {
+        authorization: Token,
+      },
+    };
+
+    axios
+      .delete(`/admin/authoritygroup/${groupSelected.id}`, config)
+      .then((res) => {
+        if (res.status === 200 || res.status === 201 || res.status === 202 || res.status === 204) {
+          setSuccessMessage("The Group was Deleted");
+          setOpenSuccessAlert(true);
+        } else {
+          setOpenErrorAlert(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+      
+    setReload((prev)=>!prev);
+    setGroupSelected("");
+  }
 
   return (
     <>
       <div className={classes.setDomainPage}>
         {/* Alerts */}
-          <SuccessAlert open={openSuccessAlert} setOpen={setOpenSuccessAlert} message="The Authority Group was edited." />
+          <SuccessAlert open={openSuccessAlert} setOpen={setOpenSuccessAlert} message={successMessaage} />
           <ErrorAlert open={openErrorAlert} setOpen={setOpenErrorAlert} message="There was an error! Please try again." />
         {/* Alerts End */}
         <TopBar useCase="Edit Group" actor="ADMIN" />
@@ -343,7 +376,6 @@ const EditGroup = () => {
                     <TextField
                       fullWidth
                       variant="filled"
-                      key={reload}
                       error
                       label="Group Name"
                       helperText="Edit the Group Name here"
@@ -408,6 +440,16 @@ const EditGroup = () => {
               </div>
             </div>
 
+            {groupSelected && <div className={classes.button}>
+              <Button
+                variant="contained"
+                className={classes.submitButton}
+                onClick={deleteGroup}
+              >
+                <DeleteIcon /> DELETE
+              </Button>
+            </div>}
+
             <div className={classes.button}>
               <Button
                 variant="contained"
@@ -418,6 +460,7 @@ const EditGroup = () => {
               </Button>
             </div>
           </div>
+          
 
           <div className={classes.sidePic}>
             <img
