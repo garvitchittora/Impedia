@@ -32,6 +32,8 @@ import {
     Alert,
     AlertTitle
 } from '@material-ui/lab';
+import SuccessAlert from '../Alert/SuccessAlert';
+import ErrorAlert from '../Alert/ErrorAlert';
 import CommentBg from '../../assets/Comments/background.svg';
 import ViewComments from '../Comments/ViewComments';
 import axios from 'axios';
@@ -239,7 +241,7 @@ const ViewAppeal = (props) => {
     const [actor, setActor] = useState();
     const [reload, setReload] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
-    const [sucessAlert,setSuccessAlert] = useState(false);
+    const [successAlert,setSuccessAlert] = useState(false);
     const [failureAlert,setFailureAlert] = useState(false);
     const [newComment, setNewComment] = useState("");
     const [supportValue, setSupportValue] = useState("support");
@@ -361,53 +363,9 @@ const ViewAppeal = (props) => {
         <>
             <div className={classes.container}>
                 {/* Alerts */}
-                <div className={classes.Alert}>
-                        <Collapse in={sucessAlert}>
-                            <Alert
-                            action={
-                                <IconButton
-                                aria-label="close"
-                                color="inherit"
-                                size="small"
-                                onClick={() => {
-                                    setSuccessAlert(false);
-                                }}
-                                >
-                                <CloseIcon fontSize="inherit" />
-                                </IconButton>
-                            }
-                            severity="success"
-                            variant="filled"
-                            >
-                            <AlertTitle><strong>Successful !</strong></AlertTitle>
-                                You signed for this Petition.
-                            </Alert>
-                        </Collapse>
-                    </div>   
-
-                    <div className={classes.Alert}>
-                            <Collapse in={failureAlert}>
-                                <Alert
-                                action={
-                                    <IconButton
-                                    aria-label="close"
-                                    color="inherit"
-                                    size="small"
-                                    onClick={() => {
-                                        setFailureAlert(false);
-                                    }}
-                                    >
-                                    <CloseIcon fontSize="inherit" />
-                                    </IconButton>
-                                }
-                                severity="error"
-                                >
-                                <AlertTitle><strong>Error !</strong></AlertTitle>
-                                    Some Error occurred. Please try again.
-                                </Alert>
-                            </Collapse>
-                        </div>       
-                    {/* Alerts End */}
+                    <SuccessAlert open={successAlert} setOpen={setSuccessAlert} message="You signed for this Petition." />
+                    <ErrorAlert open={failureAlert} setOpen={setFailureAlert} message="Some Error occurred. Please try again." />
+                {/* Alerts End */}
                 <TopBar useCase="Petition" actor={actor} />
 
                 <div className={classes.body} >
