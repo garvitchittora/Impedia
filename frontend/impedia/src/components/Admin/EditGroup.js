@@ -11,6 +11,8 @@ import {
 import { Autocomplete, Alert, AlertTitle } from "@material-ui/lab";
 import { Close as CloseIcon } from "@material-ui/icons";
 import axios from "axios";
+import SuccessAlert from '../Alert/SuccessAlert';
+import ErrorAlert from '../Alert/ErrorAlert';
 import DomainPic from "../../assets/Admin/addAuthoritiesPage.svg";
 import TopBar from "../TopBar/TopBar";
 import { useCookies } from "react-cookie";
@@ -123,8 +125,8 @@ const EditGroup = () => {
   const [groupSelected, setGroupSelected] = useState();
   const [newGroupName, setNewGroupName] = useState("");
   const [reload, setReload] = useState(false);
-  const [sucessAlert, setSuccessAlert] = useState(false);
-  const [failureAlert, setFailureAlert] = useState(false);
+  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+  const [openErrorAlert, setOpenErrorAlert] = useState(false);
   const [cookies] = useCookies(["user"]);
   const history = useHistory();
 
@@ -263,9 +265,9 @@ const EditGroup = () => {
       .put(`/admin/authoritygroup/${groupSelected.id}`, body, config)
       .then((res) => {
         if (res.status === 200 || res.status === 201) {
-          setSuccessAlert(true);
+          setOpenSuccessAlert(true);
         } else {
-          setFailureAlert(true);
+          setOpenErrorAlert(true);
         }
       })
       .catch((err) => {
@@ -279,56 +281,8 @@ const EditGroup = () => {
     <>
       <div className={classes.setDomainPage}>
         {/* Alerts */}
-        <div className={classes.Alert}>
-          <Collapse in={sucessAlert}>
-            <Alert
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setSuccessAlert(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              severity="success"
-              variant="filled"
-            >
-              <AlertTitle>
-                <strong>Successful !</strong>
-              </AlertTitle>
-              The Authority Group was successfully updated.
-            </Alert>
-          </Collapse>
-        </div>
-
-        <div className={classes.Alert}>
-          <Collapse in={failureAlert}>
-            <Alert
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setFailureAlert(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              severity="error"
-            >
-              <AlertTitle>
-                <strong>Error !</strong>
-              </AlertTitle>
-              Some Error occurred. Please try again.
-            </Alert>
-          </Collapse>
-        </div>
+          <SuccessAlert open={openSuccessAlert} setOpen={setOpenSuccessAlert} message="The Authority Group was edited." />
+          <ErrorAlert open={openErrorAlert} setOpen={setOpenErrorAlert} message="There was an error! Please try again." />
         {/* Alerts End */}
         <TopBar useCase="Edit Group" actor="ADMIN" />
 

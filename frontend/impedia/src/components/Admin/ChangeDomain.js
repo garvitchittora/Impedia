@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     makeStyles,
     Button,
@@ -8,6 +8,8 @@ import axios from 'axios';
 import DomainPic from '../../assets/Admin/domainPic.svg';
 import domainIcon from '../../assets/Admin/domainIcon.svg';
 import TopBar from '../TopBar/TopBar';
+import SuccessAlert from '../Alert/SuccessAlert';
+import ErrorAlert from '../Alert/ErrorAlert';
 import {useCookies} from 'react-cookie';
 import  { useHistory} from 'react-router-dom';
 
@@ -87,8 +89,10 @@ const ChangeDomain = () => {
     const classes = useStyles();
     const [cookies] = useCookies(['user']);
     const re = new RegExp(/^(((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9][a-z0-9\-]{0,60}|[a-z0-9-]{1,30}\.[a-z]{2,})$/); 
-    const [DomainValues, setDomainValues] = React.useState('');
-    const [validDomain, setValidDomain] = React.useState(true);
+    const [DomainValues, setDomainValues] = useState('');
+    const [validDomain, setValidDomain] = useState(true);
+    const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+    const [openErrorAlert, setOpenErrorAlert] = useState(false);
     const history = useHistory();
 
     useEffect(() => {
@@ -124,9 +128,10 @@ const ChangeDomain = () => {
         .then((res)=>{
             console.log(res);
             if(res.status === 200 || res.status === 201){
-                alert("Domain Name Changed")
+                setOpenSuccessAlert(true);
+                setDomainValues("");
             }else{
-                alert("Failed")
+                setOpenErrorAlert(true);
             } 
         })
         .catch((err)=>{
@@ -137,6 +142,9 @@ const ChangeDomain = () => {
     return (
         <>
             <div className={classes.setDomainPage}>
+                <SuccessAlert open={openSuccessAlert} setOpen={setOpenSuccessAlert} message="Domain Name Updated" />
+                <ErrorAlert open={openErrorAlert} setOpen={setOpenErrorAlert} message="There was an error! Please try again." />
+
                 <TopBar useCase="Set Domain" actor="ADMIN" />
 
                 <div className={classes.Domainbody}>

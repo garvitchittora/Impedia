@@ -9,6 +9,8 @@ import {
 import {
     Autocomplete
 } from '@material-ui/lab';
+import SuccessAlert from '../Alert/SuccessAlert';
+import ErrorAlert from '../Alert/ErrorAlert';
 import axios from 'axios';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import DomainPic from '../../assets/Admin/addAuthoritiesPage.svg';
@@ -101,6 +103,8 @@ const AddGroup = () => {
     const loadingAuth = openAuth && optionsAuth.length === 0;
     const [authorityIds, setAuthorityIds] = useState([]);
     const [groupName, setGroupName] = useState("");
+    const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+    const [openErrorAlert, setOpenErrorAlert] = useState(false);
 
     useEffect(() => {
         let active = true;
@@ -156,11 +160,11 @@ const AddGroup = () => {
         axios.post(`/admin/authoritygroup`, body, config)
             .then((res) => {
                 if (res.status === 200 || res.status === 201) {
-                    alert("Group Created Successfully")
+                    setOpenSuccessAlert(true);
                     setGroupName("");
                     setAuthorityIds([]);
                 } else {
-                    alert("Failed")
+                    setOpenErrorAlert(true);
                 }
             })
             .catch((err) => {
@@ -171,7 +175,10 @@ const AddGroup = () => {
     return (
         <>
             <div className={classes.setDomainPage}>
+                <SuccessAlert open={openSuccessAlert} setOpen={setOpenSuccessAlert} message="The Authority Group was created." />
+                <ErrorAlert open={openErrorAlert} setOpen={setOpenErrorAlert} message="There was an error! Please try again." />
                 <TopBar useCase="Add Group" actor="ADMIN" />
+                
 
                 <div className={classes.Domainbody}>
 
