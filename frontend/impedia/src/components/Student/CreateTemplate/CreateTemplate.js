@@ -176,7 +176,7 @@ const CreateTemplate = (props) => {
             if (active) {
                 setOptionsAuth(() => {
                     return dataAuth.map((option) => {
-                        let firstLetter = option.email[0].toUpperCase();
+                        let firstLetter = option.name[0].toUpperCase();
                         return {
                             firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
                             optionName: typeof option.name!=="undefined" ? (option.name + " | " + option.email) : (option.email) ,

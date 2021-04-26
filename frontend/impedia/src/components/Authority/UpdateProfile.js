@@ -5,7 +5,8 @@ import axios from "axios";
 import TopBar from "../TopBar/TopBar";
 import { useCookies } from "react-cookie";
 import ProfileDetails from "../../assets/Profile/prof_details.svg";
-import { Alert } from "@material-ui/lab";
+import SuccessAlert from '../Alert/SuccessAlert';
+import ErrorAlert from '../Alert/ErrorAlert';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,10 +64,10 @@ const UpdateProfile = () => {
   const classes = useStyles();
   const [cookies] = useCookies(["user"]);
   const [key, setKey] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [failure, setFailure] = useState(false);
   const [error, setError] = useState("");
   const [userData, setUserData] = useState({ name: "" });
+  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+  const [openErrorAlert, setOpenErrorAlert] = useState(false);
 
   useEffect(() => {
     setKey(cookies.user["key"]);
@@ -89,11 +90,9 @@ const UpdateProfile = () => {
 
   const updateUserData = async () => {
     setError("");
-    setFailure(false);
-    setSuccess(false);
     if (!userData.name) {
       setError("Please fill all the required fields");
-      setFailure(true);
+      setOpenErrorAlert(true);
       return;
     }
 
@@ -104,8 +103,8 @@ const UpdateProfile = () => {
     };
     const authority = await axios.put("/authority/profile", userData, config);
 
-    authority.status === 200 ? setSuccess("true") : setFailure("true");
-    failure && setError(authority.data.error);
+    authority.status === 200 ? setOpenSuccessAlert(true) : setOpenErrorAlert(true);
+    openErrorAlert && setError(authority.data.error);
   };
 
   return (
@@ -113,16 +112,10 @@ const UpdateProfile = () => {
       {key !== null ? (
         <div className={`${classes.root} ${classes.container}`}>
           <TopBar actor="AUTHORITY" useCase="Update Profile" />
-          {success && (
-            <Alert severity="success" onClose={() => setSuccess(false)}>
-              Your information has been updated
-            </Alert>
-          )}
-          {failure && (
-            <Alert severity="error" onClose={() => setFailure(false)}>
-              {error}
-            </Alert>
-          )}
+          
+          <SuccessAlert open={openSuccessAlert} setOpen={setOpenSuccessAlert} message="Your information was updated." />
+          <ErrorAlert open={openErrorAlert} setOpen={setOpenErrorAlert} message={error} />
+
           <Grid container spacing={3} className={classes.updateForm}>
             <Grid
               container
