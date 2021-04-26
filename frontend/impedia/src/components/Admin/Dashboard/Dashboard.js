@@ -220,7 +220,7 @@ const Dashboard = () => {
                         </Link>
                         <Link data-testid="edit-group-button" to="/admin/groups/edit" className={classes.link}>
                             <UseCase icon={MakeGroupIcon} type="Edit Groups" />
-                        </Link> 
+                        </Link>
                         <Link data-testid="make-group-button" to="/admin/groups/add" className={classes.link}>
                             <UseCase icon={MakeGroupIcon} type="Make Group" />
                         </Link>
