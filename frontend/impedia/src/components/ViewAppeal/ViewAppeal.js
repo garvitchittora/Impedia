@@ -180,6 +180,7 @@ const ViewAppeal = (props) => {
     const [replyTo, setReplyTo] = useState();
     const [reload, setReload] = useState(false);
     const [cookies] = useCookies(['user']);
+    const [emptyReply, setEmptyReply] = useState(false);
 
     useEffect(()=>{
         const Token = cookies.user['key'];
@@ -212,6 +213,11 @@ const ViewAppeal = (props) => {
     },[reload])
 
     const submitComment = () => {
+        if(newComment === ''){
+            setEmptyReply(true);
+            return;
+        }
+        setEmptyReply(false);
         const Token = cookies.user['key'];
             const config = {
                 headers: {
@@ -293,6 +299,7 @@ const ViewAppeal = (props) => {
                             rows={3}
                             rowsMax={5}
                             value={newComment}
+                            helperText={emptyReply?(<strong>* Please enter something (Empty Field)</strong>):""}
                             onChange={(e)=>{setNewComment(e.target.value)}}
                             InputProps={{
                                 endAdornment: <InputAdornment position="end"><SendIcon className={classes.sendIcon} onClick={submitComment}/></InputAdornment>,

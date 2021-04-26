@@ -10,8 +10,8 @@ import AppealIcon from "../../../assets/Admin/appealIcon.svg";
 import PetitionIcon from "../../../assets/Admin/petitionIcon.svg";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import {useCookies} from 'react-cookie';
-import  { useHistory} from 'react-router-dom';
+import { useCookies } from "react-cookie";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   dashboardPage: {
@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "flex-end",
     letterSpacing: "4px",
-    zIndex:"1000",
+    zIndex: "1000",
     [theme.breakpoints.down("xs")]: {
       marginRight: "20px",
     },
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "600",
     fontSize: "15px",
     letterSpacing: "3px",
-    zIndex:"1000"
+    zIndex: "1000",
   },
   dashLine: {
     position: "relative",
@@ -144,32 +144,35 @@ const Dashboard = () => {
   const classes = useStyles();
   const [appeals, setAppeals] = useState([]);
   const [petitions, setPetitions] = useState([]);
-  const [cookies] = useCookies(['user'])
+  const [cookies] = useCookies(["user"]);
   const history = useHistory();
 
   useEffect(() => {
-      if(! cookies.user || cookies.user["type"] !== "STUDENT"){
-          return history.push("/login/student");
-      }
-  }, []);
-
-  useEffect(async () => {
-    const Token = cookies.user['key'];
-    const config = {
-      headers: {
-        authorization: Token,
-      },
-    };
-    axios
-      .get("/student/appeals", config)
-      .then((res) => res.data)
-      .then((data) => {
-        setAppeals(data);
-      });
+    if (!cookies.user || cookies.user["type"] !== "STUDENT") {
+      return history.push("/login/student");
+    }
   }, []);
 
   useEffect(() => {
-    const Token = cookies.user['key'];
+    const exec = async () => {
+      const Token = cookies.user ? cookies.user["key"] : "";
+      const config = {
+        headers: {
+          authorization: Token,
+        },
+      };
+      axios
+        .get("/student/appeals", config)
+        .then((res) => res.data)
+        .then((data) => {
+          setAppeals(data);
+        });
+    };
+    exec();
+  }, []);
+
+  useEffect(() => {
+    const Token = cookies.user ? cookies.user["key"] : "";
     const config = {
       headers: {
         authorization: Token,
@@ -198,7 +201,7 @@ const Dashboard = () => {
         </div>
 
         <Typography className={classes.dashboardText}>DASHBOARD</Typography>
-                
+
         <Link to="/logout" className={classes.link}>
           <div className={classes.logoutButton}>
             <LogOutIcon />
@@ -222,19 +225,19 @@ const Dashboard = () => {
 
         <div className={classes.bodyRight}>
           <div className={classes.adminButtons}>
-            <Link to="/student/updateprofile" className={classes.link}>
+            <Link data-testid="update-profile-button" to="/student/updateprofile" className={classes.link}>
               <UseCase icon={AddAuthIcon} type="Update Profile" />
             </Link>
-            <Link to="/student/petitions" className={classes.link}>
+            <Link data-testid="view-petitions-button" to="/student/petitions" className={classes.link}>
               <UseCase icon={PetitionIcon} type="View Petitions" />
             </Link>
-            <Link to="/student/appeals" className={classes.link}>
+            <Link data-testid="view-appeals-button" to="/student/appeals" className={classes.link}>
               <UseCase icon={AppealIcon} type="View Appeals" />
             </Link>
-            <Link to="/student/appeals/create" className={classes.link}>
+            <Link data-testid="create-appeal-button" to="/student/appeals/create" className={classes.link}>
               <UseCase icon={AppealIcon} type="Create Appeals" />
             </Link>
-            <Link to="/student/petitions/create" className={classes.link}>
+            <Link data-testid="create-petition-button" to="/student/petitions/create" className={classes.link}>
               <UseCase icon={PetitionIcon} type="Create Petitions" />
             </Link>
           </div>

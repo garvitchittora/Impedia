@@ -116,7 +116,14 @@ const StudentRegister = () => {
         e.preventDefault();
 
         const body = {
-            emailIds: authEmails.map((id)=>id.inputValue),
+            emailIds: authEmails.map((id)=>{
+                if(id.inputValue){
+                    return id.inputValue;
+                }
+                else{
+                    return id;
+                }
+            }),
         }
         console.log(body);
         const Token = cookies.user['key'];

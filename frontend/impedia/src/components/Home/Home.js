@@ -131,14 +131,13 @@ const useStyles = makeStyles((theme) => ({
   roleDesc: {
     display: "flex",
     alignItems: "center",
-    width: "80vw",
+    width: "85vw",
     margin: "4% auto",
-    [theme.breakpoints.down("sm")]: {
-      marginBottom: "20%",
+    [theme.breakpoints.down("md")]: {
+      justifyContent: "center",
+      paddingBottom: "2.5rem",
+      margin: "0 auto",
     },
-  },
-  SectionWrapper: {
-    padding: "50px 20px",
   },
   StudentImgWrapper: {
     textAlign: "center",
@@ -147,6 +146,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "30px",
     width: "100%",
     maxWidth: "300px",
+    [theme.breakpoints.down("md")]: {
+      padding: 0,
+    },
   },
   SectionHeading: {
     fontSize: "24px",
@@ -156,6 +158,9 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: "0.05em",
     textAlign: "left",
     marginBottom: "20px",
+    [theme.breakpoints.down("md")]: {
+      textAlign: "center",
+    },
   },
   SectionText: {
     fontSize: "18px",
@@ -164,16 +169,27 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: "29px",
     letterSpacing: "0.05em",
     textAlign: "left",
+    [theme.breakpoints.down("md")]: {
+      textAlign: "justify",
+      fontSize: "15px",
+      lineHeight: "24px",
+    },
   },
   SectionTextWrapper: {
     textAlign: "left",
     padding: "0 40px",
+    [theme.breakpoints.down("md")]: {
+      padding: "10px 20px",
+    },
   },
   SectionLinkWrapper: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-start",
     marginTop: "20px",
+    [theme.breakpoints.down("md")]: {
+      justifyContent: "center",
+    },
   },
   SectionLinkTag: {
     textDecoration: "none",
@@ -192,6 +208,9 @@ const useStyles = makeStyles((theme) => ({
     "&:active": {
       boxShadow: "0 1px 15px rgba(0,0,0,0.20), 0 10px 10px rgba(0,0,0,0.12)",
       transform: "translateY(1px) scale(1)",
+    },
+    [theme.breakpoints.down("md")]: {
+      marginRight: "10px",
     },
   },
   SectionLinkText: {
@@ -265,7 +284,7 @@ const Home = () => {
         </Typography>
       </div>
       <div className={classes.SectionWrapper}>
-        <Grid container className={classes.roleDesc}>
+        <Grid container item className={classes.roleDesc}>
           <Grid item md={4} className={classes.StudentImgWrapper}>
             <img
               className={classes.StudentImg}
@@ -302,7 +321,7 @@ const Home = () => {
             </div>
           </Grid>
         </Grid>
-        <Grid container className={classes.roleDesc}>
+        <Grid container item className={classes.roleDesc}>
           <Grid item md={4} className={classes.StudentImgWrapper}>
             <img
               className={classes.StudentImg}
@@ -332,7 +351,7 @@ const Home = () => {
             </div>
           </Grid>
         </Grid>
-        <Grid container className={classes.roleDesc}>
+        <Grid container item className={classes.roleDesc}>
           <Grid item md={4} className={classes.StudentImgWrapper}>
             <img
               className={classes.StudentImg}
@@ -344,7 +363,7 @@ const Home = () => {
             <Typography className={classes.SectionHeading}>ADMIN</Typography>
             <Typography className={classes.SectionText}>
               Add Authority to the platform, Create Authority groups, Edit
-              Authority groups, Change allowed email domain name.
+              Authority groups and set the allowed email domain name.
             </Typography>
             <div className={classes.SectionLinkWrapper}>
               <Link

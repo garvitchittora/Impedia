@@ -156,7 +156,7 @@ const Dashboard = () => {
                 return history.push("/login/admin");
             }
 
-            const Token = cookies.user['key'];
+            const Token = cookies.user ? cookies.user['key'] : "";
             const config = {
                 headers: {
                   authorization: Token,
@@ -212,22 +212,22 @@ const Dashboard = () => {
 
                 <div className={classes.bodyRight}>
                     <div className={classes.adminButtons} >
-                        <Link to="/admin/addauthority" className={classes.link}>
+                        <Link data-testid="add-authority-button" to="/admin/addauthority" className={classes.link}>
                             <UseCase icon={AddAuthIcon} type="Add Authority" />
                         </Link>
-                        <Link to="/admin/changedomain" className={classes.link}>
+                        <Link data-testid="set-domain-button" to="/admin/changedomain" className={classes.link}>
                             <UseCase icon={DomainIcon} type="Set Domain" />
                         </Link>
-                        <Link to="/admin/groups/edit" className={classes.link}>
+                        <Link data-testid="edit-group-button" to="/admin/groups/edit" className={classes.link}>
                             <UseCase icon={MakeGroupIcon} type="Edit Groups" />
                         </Link> 
-                        <Link to="/admin/groups/add" className={classes.link}>
+                        <Link data-testid="make-group-button" to="/admin/groups/add" className={classes.link}>
                             <UseCase icon={MakeGroupIcon} type="Make Group" />
                         </Link>
-                        <Link to="/admin/appeals" className={classes.link}>
+                        <Link data-testid="appeals-button" to="/admin/appeals" className={classes.link}>
                             <UseCase icon={AppealIcon} type="Appeals" />
                         </Link>
-                        <Link to="/admin/petitions" className={classes.link}>
+                        <Link data-testid="petition-button" to="/admin/petitions" className={classes.link}>
                             <UseCase icon={PetitionIcon} type="Petitions" />
                         </Link>
                     </div>
