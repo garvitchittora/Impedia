@@ -1,6 +1,6 @@
 import React from "react";
 import { render, cleanup, fireEvent } from "@testing-library/react";
-import Dashboard from "../Dashboard";
+import AdminLogin from "../AdminLogin";
 import { BrowserRouter as Router } from "react-router-dom";
 import { mount, configure } from 'enzyme'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
@@ -11,9 +11,9 @@ afterEach(cleanup);
 it("should take a snapshot", () => {
   const { asFragment } = render(
     <Router>
-      <Dashboard />
+      <AdminLogin />
     </Router>
   );
 
-  expect(asFragment(<Dashboard />)).toMatchSnapshot();
+  expect(asFragment(<AdminLogin />)).toMatchSnapshot();
 });

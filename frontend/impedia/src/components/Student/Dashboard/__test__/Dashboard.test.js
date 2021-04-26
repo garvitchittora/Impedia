@@ -15,38 +15,65 @@ it("should take a snapshot", () => {
   expect(asFragment(<Dashboard />)).toMatchSnapshot();
 });
 
-it("admin login button redirect", () => {
+it("student update profile", () => {
     const { getByTestId } = render(
     <Router>
         <Dashboard />
     </Router>
     ); 
     
-    fireEvent.click(getByTestId('admin-login-button'))
+    fireEvent.click(getByTestId('update-profile-button'));
 
-    expect(location.pathname).toBe('/login/admin');
+    expect(location.pathname).toBe('/student/updateprofile');
 });
 
-it("authority login button redirect", () => {
+it("student view petition", () => {
     const { getByTestId } = render(
     <Router>
         <Dashboard />
     </Router>
     ); 
     
-    fireEvent.click(getByTestId('authority-login-button'))
+    fireEvent.click(getByTestId('view-petitions-button'));
 
-    expect(location.pathname).toBe('/login/authority');
+    expect(location.pathname).toBe('/student/petitions');
 });
 
-it("student login button redirect", () => {
+
+it("student view appeals", () => {
     const { getByTestId } = render(
     <Router>
         <Dashboard />
     </Router>
     ); 
     
-    fireEvent.click(getByTestId('student-login-button'))
+    fireEvent.click(getByTestId('view-appeals-button'));
 
-    expect(location.pathname).toBe('/login/student');
+    expect(location.pathname).toBe('/student/appeals');
+});
+
+
+it("student create appeals", () => {
+    const { getByTestId } = render(
+    <Router>
+        <Dashboard />
+    </Router>
+    ); 
+    
+    fireEvent.click(getByTestId('create-appeal-button'));
+
+    expect(location.pathname).toBe('/student/appeals/create');
+});
+
+
+it("student create petition", () => {
+    const { getByTestId } = render(
+    <Router>
+        <Dashboard />
+    </Router>
+    ); 
+    
+    fireEvent.click(getByTestId('create-petition-button'));
+
+    expect(location.pathname).toBe('/student/petitions/create');
 });

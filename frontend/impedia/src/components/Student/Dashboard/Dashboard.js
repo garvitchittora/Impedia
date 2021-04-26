@@ -155,7 +155,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const exec = async () => {
-      const Token = cookies.user["key"];
+      const Token = cookies.user ? cookies.user["key"] : "";
       const config = {
         headers: {
           authorization: Token,
@@ -172,7 +172,7 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    const Token = cookies.user["key"];
+    const Token = cookies.user ? cookies.user["key"] : "";
     const config = {
       headers: {
         authorization: Token,
@@ -225,19 +225,19 @@ const Dashboard = () => {
 
         <div className={classes.bodyRight}>
           <div className={classes.adminButtons}>
-            <Link to="/student/updateprofile" className={classes.link}>
+            <Link data-testid="update-profile-button" to="/student/updateprofile" className={classes.link}>
               <UseCase icon={AddAuthIcon} type="Update Profile" />
             </Link>
-            <Link to="/student/petitions" className={classes.link}>
+            <Link data-testid="view-petitions-button" to="/student/petitions" className={classes.link}>
               <UseCase icon={PetitionIcon} type="View Petitions" />
             </Link>
-            <Link to="/student/appeals" className={classes.link}>
+            <Link data-testid="view-appeals-button" to="/student/appeals" className={classes.link}>
               <UseCase icon={AppealIcon} type="View Appeals" />
             </Link>
-            <Link to="/student/appeals/create" className={classes.link}>
+            <Link data-testid="create-appeal-button" to="/student/appeals/create" className={classes.link}>
               <UseCase icon={AppealIcon} type="Create Appeals" />
             </Link>
-            <Link to="/student/petitions/create" className={classes.link}>
+            <Link data-testid="create-petition-button" to="/student/petitions/create" className={classes.link}>
               <UseCase icon={PetitionIcon} type="Create Petitions" />
             </Link>
           </div>

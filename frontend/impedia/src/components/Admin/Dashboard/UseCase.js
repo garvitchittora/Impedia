@@ -34,7 +34,6 @@ const useStyles = makeStyles(theme => ({
 const UseCase = (props) => {
     const classes = useStyles();
 
-    console.log(props.data);
     return(
         <div className={classes.useCaseCard}>
             <img src={props.icon} alt="admin-usecase" className={classes.useCaseIcon} />
