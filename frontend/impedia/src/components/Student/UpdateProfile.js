@@ -8,8 +8,8 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import axios from "axios";
-import SuccessAlert from '../Alert/SuccessAlert';
-import ErrorAlert from '../Alert/ErrorAlert';
+import SuccessAlert from "../Alert/SuccessAlert";
+import ErrorAlert from "../Alert/ErrorAlert";
 import TopBar from "../TopBar/TopBar";
 import { useCookies } from "react-cookie";
 import ProfileDetails from "../../assets/Profile/prof_details.svg";
@@ -71,7 +71,12 @@ const UpdateProfile = () => {
   const [cookies] = useCookies(["user"]);
   const [key, setKey] = useState("");
   const [error, setError] = useState("");
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({
+    name: "",
+    semester: "",
+    branch: "",
+    section: "",
+  });
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [openErrorAlert, setOpenErrorAlert] = useState(false);
   const section = [
@@ -151,7 +156,9 @@ const UpdateProfile = () => {
     };
     const student = await axios.put("/student/profile", userData, config);
 
-    student.status === 200 ? setOpenSuccessAlert(true) : setOpenErrorAlert(true);
+    student.status === 200
+      ? setOpenSuccessAlert(true)
+      : setOpenErrorAlert(true);
     openErrorAlert && setError(student.data.error);
   };
 
@@ -161,8 +168,16 @@ const UpdateProfile = () => {
         <div className={`${classes.root} ${classes.container}`}>
           <TopBar actor="STUDENT" useCase="Update Profile" />
 
-          <SuccessAlert open={openSuccessAlert} setOpen={setOpenSuccessAlert} message="Your information was updated." />
-          <ErrorAlert open={openErrorAlert} setOpen={setOpenErrorAlert} message={error} />
+          <SuccessAlert
+            open={openSuccessAlert}
+            setOpen={setOpenSuccessAlert}
+            message="Your information was updated."
+          />
+          <ErrorAlert
+            open={openErrorAlert}
+            setOpen={setOpenErrorAlert}
+            message={error}
+          />
 
           <Grid container spacing={3} className={classes.updateForm}>
             <Grid

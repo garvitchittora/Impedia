@@ -5,17 +5,12 @@ import {
   CircularProgress,
   Button,
   Typography,
-  Collapse,
-  IconButton,
 } from "@material-ui/core";
-import { Autocomplete, Alert, AlertTitle } from "@material-ui/lab";
-import { 
-  Close as CloseIcon ,
-  Delete as DeleteIcon
-} from "@material-ui/icons";
+import { Autocomplete } from "@material-ui/lab";
+import { Delete as DeleteIcon } from "@material-ui/icons";
 import axios from "axios";
-import SuccessAlert from '../Alert/SuccessAlert';
-import ErrorAlert from '../Alert/ErrorAlert';
+import SuccessAlert from "../Alert/SuccessAlert";
+import ErrorAlert from "../Alert/ErrorAlert";
 import DomainPic from "../../assets/Admin/addAuthoritiesPage.svg";
 import TopBar from "../TopBar/TopBar";
 import { useCookies } from "react-cookie";
@@ -240,7 +235,7 @@ const EditGroup = () => {
         };
       });
     });
-    setNewGroupName( groupSelected ? groupSelected.name : "")
+    setNewGroupName(groupSelected ? groupSelected.name : "");
   }, [groupSelected, allGroupsData, reload]);
 
   useEffect(() => {
@@ -278,7 +273,7 @@ const EditGroup = () => {
       .catch((err) => {
         console.log(err);
       });
-    setReload((prev)=>!prev);
+    setReload((prev) => !prev);
     setGroupSelected("");
   };
 
@@ -295,7 +290,12 @@ const EditGroup = () => {
     axios
       .delete(`/admin/authoritygroup/${groupSelected.id}`, config)
       .then((res) => {
-        if (res.status === 200 || res.status === 201 || res.status === 202 || res.status === 204) {
+        if (
+          res.status === 200 ||
+          res.status === 201 ||
+          res.status === 202 ||
+          res.status === 204
+        ) {
           setSuccessMessage("The Group was Deleted");
           setOpenSuccessAlert(true);
         } else {
@@ -305,17 +305,25 @@ const EditGroup = () => {
       .catch((err) => {
         console.log(err);
       });
-      
-    setReload((prev)=>!prev);
+
+    setReload((prev) => !prev);
     setGroupSelected("");
-  }
+  };
 
   return (
     <>
       <div className={classes.setDomainPage}>
         {/* Alerts */}
-          <SuccessAlert open={openSuccessAlert} setOpen={setOpenSuccessAlert} message={successMessaage} />
-          <ErrorAlert open={openErrorAlert} setOpen={setOpenErrorAlert} message="There was an error! Please try again." />
+        <SuccessAlert
+          open={openSuccessAlert}
+          setOpen={setOpenSuccessAlert}
+          message={successMessaage}
+        />
+        <ErrorAlert
+          open={openErrorAlert}
+          setOpen={setOpenErrorAlert}
+          message="There was an error! Please try again."
+        />
         {/* Alerts End */}
         <TopBar useCase="Edit Group" actor="ADMIN" />
 
@@ -385,7 +393,9 @@ const EditGroup = () => {
                           : ""
                       }
                       value={newGroupName}
-                      onChange={(e) => {setNewGroupName(e.target.value)}}
+                      onChange={(e) => {
+                        setNewGroupName(e.target.value);
+                      }}
                     />
 
                     <Autocomplete
@@ -440,15 +450,17 @@ const EditGroup = () => {
               </div>
             </div>
 
-            {groupSelected && <div className={classes.button}>
-              <Button
-                variant="contained"
-                className={classes.submitButton}
-                onClick={deleteGroup}
-              >
-                <DeleteIcon /> DELETE
-              </Button>
-            </div>}
+            {groupSelected && (
+              <div className={classes.button}>
+                <Button
+                  variant="contained"
+                  className={classes.submitButton}
+                  onClick={deleteGroup}
+                >
+                  <DeleteIcon /> DELETE
+                </Button>
+              </div>
+            )}
 
             <div className={classes.button}>
               <Button
@@ -460,7 +472,6 @@ const EditGroup = () => {
               </Button>
             </div>
           </div>
-          
 
           <div className={classes.sidePic}>
             <img
