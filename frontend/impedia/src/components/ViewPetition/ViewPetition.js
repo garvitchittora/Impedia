@@ -137,7 +137,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignSelf: "stretch",
     maxHeight: "150vh",
-    // backgroundColor: "#fcecdd",
+    backgroundColor: "#f9f6f7",
     [theme.breakpoints.down("md")]: {
       maxHeight: "80vh",
       width: "90vw",
@@ -253,6 +253,7 @@ const ViewAppeal = (props) => {
   const [comments, setComments] = useState([]);
   const [replyTo, setReplyTo] = useState();
   const [emptyReply, setEmptyReply] = useState(false);
+  const dateoptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
   const handleDialogOpen = () => {
     setDialogOpen(true);
@@ -430,7 +431,7 @@ const ViewAppeal = (props) => {
                 </Collapse>
               </div>
               <div className={classes.date}>
-                {new Date(data.dateTime).toLocaleString()}
+                {new Date(data.dateTime).toLocaleString('en-Us',dateoptions)} | {new Date(data.dateTime).toLocaleTimeString('en-Us',{hour12:true})}
               </div>
             </div>
             <div className={classes.contentBody}>
