@@ -28,7 +28,6 @@ import {
 } from "@material-ui/icons";
 import SuccessAlert from "../Alert/SuccessAlert";
 import ErrorAlert from "../Alert/ErrorAlert";
-import CommentBg from "../../assets/Comments/background.svg";
 import ViewComments from "../Comments/ViewComments";
 import axios from "axios";
 import TopBar from "../TopBar/TopBar";
@@ -60,10 +59,16 @@ const useStyles = makeStyles((theme) => ({
   },
   mentions: {
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "space-evenly",
     fontWeight: "600",
-    marginBottom: "20px",
+    margin: "30px auto",
+    width: "80vw",
     [theme.breakpoints.down("md")]: {
+      width: "100vw",
+      // justifyContent: "center",
+      // alignItems: "center",
+    },
+    [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
     },
   },
@@ -80,8 +85,9 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: "ellipsis",
     margin: "10px 0",
     textAlign: "center",
-    [theme.breakpoints.down("xs")]: {
-      maxWidth: "80vw",
+    [theme.breakpoints.down("sm")]: {
+      width: "80vw",
+      margin: "10px auto",
     },
   },
   extrainfo: {
@@ -95,10 +101,11 @@ const useStyles = makeStyles((theme) => ({
   },
   APsection: {
     flex: "70%",
-    margin: "0 10px",
+    margin: "0 20px",
     height: "100%",
     bottom: "0",
     [theme.breakpoints.down("md")]: {
+      margin: "0 10px",
       width: "90vw",
     },
   },
@@ -107,6 +114,9 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid #E2E2E2",
     borderRadius: "20px",
     height: "100%",
+    [theme.breakpoints.down("md")]: {
+      padding: "15px",
+    },
   },
   title: {
     fontSize: "35px",
@@ -126,9 +136,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignSelf: "stretch",
-    background: `url(${CommentBg})`,
-    backgroundSize: "cover",
     maxHeight: "150vh",
+    // backgroundColor: "#fcecdd",
     [theme.breakpoints.down("md")]: {
       maxHeight: "80vh",
       width: "90vw",
@@ -146,6 +155,7 @@ const useStyles = makeStyles((theme) => ({
   },
   comments: {
     alignSelf: "stretch",
+    boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
   },
   newComment: {
     alignSelf: "flex-end",
@@ -177,6 +187,7 @@ const useStyles = makeStyles((theme) => ({
   supportOption: {
     display: "flex",
     flexDirection: "row",
+    padding: "5px",
     justifyContent: "space-around",
     // backgroundColor:"#e2e2e2"
   },
@@ -377,22 +388,22 @@ const ViewAppeal = (props) => {
         {/* Alerts End */}
         <TopBar useCase="Petition" actor={actor} />
 
+        <div className={classes.mentions}>
+          <div className={classes.fromto}>
+            FROM :{" "}
+            <span className={classes.colored}>{`${
+              data.petitionFromId.email || ""
+            } | ${data.petitionFromId.name}`}</span>
+          </div>
+          <div className={classes.fromto}>
+            TO :{" "}
+            <span className={classes.colored}>{`${
+              data.petitionToId.email || "Group"
+            } | ${data.petitionToId.name}`}</span>
+          </div>
+        </div>
         <div className={classes.body}>
           <div className={classes.APsection}>
-            <div className={classes.mentions}>
-              <div className={classes.fromto}>
-                FROM :{" "}
-                <span className={classes.colored}>{`${
-                  data.petitionFromId.email || ""
-                } | ${data.petitionFromId.name}`}</span>
-              </div>
-              <div className={classes.fromto}>
-                TO :{" "}
-                <span className={classes.colored}>{`${
-                  data.petitionToId.email || "Group"
-                } | ${data.petitionToId.name}`}</span>
-              </div>
-            </div>
             <div className={classes.extrainfo}>
               <div className={classes.signees}>
                 <div className={classes.upvoteCount}>
