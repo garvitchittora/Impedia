@@ -81,6 +81,9 @@ const useStyles = makeStyles(theme => ({
         padding:"20px",
         backgroundColor:"#f9f6f7",
         borderRadius:"20px",
+        [theme.breakpoints.down("xs")]:{
+            width:"80%"
+        }
     },
     cont:{
         height:"250px",
@@ -105,7 +108,10 @@ const useStyles = makeStyles(theme => ({
     },
     filterInputs:{
         width:"500px",
-        maxWidth:"90vw"
+        maxWidth:"90vw",
+        [theme.breakpoints.down("xs")]:{
+            width:"300px"
+        }
     }
 }));
 
