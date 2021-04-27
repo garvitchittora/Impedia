@@ -188,19 +188,17 @@ const Petitions = (props) => {
     const applyFilters = () => {
         setOpen(false);
         let arr1 = props.data;
-        if(filterRaisedBy === "" || filterRaisedBy === null){
-            arr1 = data;
-        }
         let arr2 = [];
         if(filterRaisedBy === "" || filterRaisedBy === null){
-            arr1 = data;
+            arr1 = props.data;
+            arr2 = props.data;
         }
         else{
             let temp = filterRaisedBy.split('|');
             let email = temp[0].slice(0,-1);
             console.log(email);
             arr2 = arr1.filter((el) => (
-                    el.appealFromId.email === email
+                    el.petitionFromId.email === email
             ))
         }
         let fromdate = new Date(filterFromDate).getTime();
@@ -221,6 +219,9 @@ const Petitions = (props) => {
                 return +dt >= +fromdate && +dt <= +todate
             })
         }
+        console.log(arr1);
+        console.log(arr2);
+        console.log(arr3);
 
         setData(arr3);
     }
