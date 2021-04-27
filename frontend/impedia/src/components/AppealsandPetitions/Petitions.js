@@ -173,10 +173,6 @@ const Petitions = (props) => {
                     emails.push(obj.email);
                 }
             })
-            // const newarr = arr.filter((v,i,s) => {
-            //     return s.indexOf(v) === i
-            // });
-            // console.log(newarr);
             return arr;
         })
     },[props.data])
@@ -189,48 +185,44 @@ const Petitions = (props) => {
         setOpen(false);
     };
 
-    const filterRaisedByData = (usedata) => {
+    const applyFilters = () => {
+        setOpen(false);
+        let arr1 = props.data;
         if(filterRaisedBy === "" || filterRaisedBy === null){
-            setData(usedata);
-            return;
+            arr1 = data;
         }
-        let arr = filterRaisedBy.split('|');
-        console.log(arr);
-        let email = arr[0].slice(0,-1);
-        console.log(email);
-        setData(() => {
-            return usedata.filter((el) => (
-                el.petitionFromId.email === email
+        let arr2 = [];
+        if(filterRaisedBy === "" || filterRaisedBy === null){
+            arr1 = data;
+        }
+        else{
+            let temp = filterRaisedBy.split('|');
+            let email = temp[0].slice(0,-1);
+            console.log(email);
+            arr2 = arr1.filter((el) => (
+                    el.appealFromId.email === email
             ))
-        })
-    }
-    const filterDateData = (usedata) => {
+        }
         let fromdate = new Date(filterFromDate).getTime();
         let todate = new Date(filterToDate).getTime();
+        let arr3 = [];
         if(isNaN(fromdate)){
-            return;
+            arr3 = arr2;
         }
-        if(isNaN(todate)){
-            setData(() => {
-                return usedata.filter((el) => {
+        else if(isNaN(todate)){
+            arr3 = arr2.filter((el) => {
                     let dt = new Date(el.dateTime);
                     return +dt >= +fromdate
-                })
-            });
-            return;
+            })
         }
-
-        setData(() => {
-            return usedata.filter((el) => {
+        else{
+            arr3 = arr2.filter((el) => {
                 let dt = new Date(el.dateTime);
                 return +dt >= +fromdate && +dt <= +todate
             })
-        });
-    }
-    const applyFilters = () => {
-        setOpen(false);
-        filterRaisedByData(props.data);
-        filterDateData(props.data);
+        }
+
+        setData(arr3);
     }
 
     const clearAllFilters = () => {
