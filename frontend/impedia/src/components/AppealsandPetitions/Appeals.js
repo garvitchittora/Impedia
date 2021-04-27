@@ -166,7 +166,8 @@ const Appeals = (props) => {
         let arr1 = props.data;
         let arr2 = [];
         if(filterRaisedBy === "" || filterRaisedBy === null){
-            arr1 = data;
+            arr1 = props.data;
+            arr2 = props.data
         }
         else{
             let temp = filterRaisedBy.split('|');
