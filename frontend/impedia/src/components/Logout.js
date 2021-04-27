@@ -4,7 +4,7 @@ import { useCookies } from "react-cookie";
 
 const Logout = () => {
   const history = useHistory();
-  const [removeCookie] = useCookies(["user"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   useEffect(() => {
     removeCookie("user");

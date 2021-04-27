@@ -181,6 +181,7 @@ const ViewAppeal = (props) => {
     const [reload, setReload] = useState(false);
     const [cookies] = useCookies(['user']);
     const [emptyReply, setEmptyReply] = useState(false);
+    const dateoptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
     useEffect(()=>{
         const Token = cookies.user['key'];
@@ -260,7 +261,7 @@ const ViewAppeal = (props) => {
                         </div>
                         <div className={classes.extrainfo}>
                             <div className={classes.date}>
-                                {new Date(data.dateTime).toLocaleString()}
+                            {new Date(data.dateTime).toLocaleString('en-Us',dateoptions)} | {new Date(data.dateTime).toLocaleTimeString('en-Us',{hour12:true})}
                             </div>
                         </div>
                         <div className={classes.contentBody}>
