@@ -154,7 +154,7 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    const Token = cookies.user["key"];
+    const Token = cookies.user ? cookies.user["key"] : "";
     const config = {
       headers: {
         authorization: Token,
@@ -169,7 +169,7 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    const Token = cookies.user["key"];
+    const Token = cookies.user ? cookies.user["key"] : "";
     const config = {
       headers: {
         authorization: Token,
@@ -222,13 +222,13 @@ const Dashboard = () => {
 
         <div className={classes.bodyRight}>
           <div className={classes.adminButtons}>
-            <Link to="/authority/updateprofile" className={classes.link}>
+            <Link data-testid="update-profile-button" to="/authority/updateprofile" className={classes.link}>
               <UseCase icon={AddAuthIcon} type="Update Profile" />
             </Link>
-            <Link to="/authority/petitions" className={classes.link}>
+            <Link data-testid="petitions-button" to="/authority/petitions" className={classes.link}>
               <UseCase icon={PetitionIcon} type="Petitions" />
             </Link>
-            <Link to="/authority/appeals" className={classes.link}>
+            <Link data-testid="appeals-button" to="/authority/appeals" className={classes.link}>
               <UseCase icon={AppealIcon} type="Appeals" />
             </Link>
           </div>
