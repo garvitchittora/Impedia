@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-around",
     alignItems: "flex-start",
     [theme.breakpoints.down("md")]: {
+      alignItems: "center",
       flexDirection: "column",
     },
   },
@@ -114,6 +115,7 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid #E2E2E2",
     borderRadius: "20px",
     height: "100%",
+    margin: "0 auto",
     [theme.breakpoints.down("md")]: {
       padding: "15px",
     },
@@ -253,7 +255,12 @@ const ViewAppeal = (props) => {
   const [comments, setComments] = useState([]);
   const [replyTo, setReplyTo] = useState();
   const [emptyReply, setEmptyReply] = useState(false);
-  const dateoptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  const dateoptions = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
 
   const handleDialogOpen = () => {
     setDialogOpen(true);
@@ -431,7 +438,10 @@ const ViewAppeal = (props) => {
                 </Collapse>
               </div>
               <div className={classes.date}>
-                {new Date(data.dateTime).toLocaleString('en-Us',dateoptions)} | {new Date(data.dateTime).toLocaleTimeString('en-Us',{hour12:true})}
+                {new Date(data.dateTime).toLocaleString("en-Us", dateoptions)} |{" "}
+                {new Date(data.dateTime).toLocaleTimeString("en-Us", {
+                  hour12: true,
+                })}
               </div>
             </div>
             <div className={classes.contentBody}>
