@@ -200,7 +200,7 @@ const Petitions = (props) => {
             let email = temp[0].slice(0,-1);
             console.log(email);
             arr2 = arr1.filter((el) => (
-                    el.appealFromId.email === email
+                    el.petitionFromId.email === email
             ))
         }
         let fromdate = new Date(filterFromDate).getTime();
