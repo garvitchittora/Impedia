@@ -1,14 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     makeStyles,
-    Typography
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+    TextField
 } from '@material-ui/core';
+import {
+    Autocomplete
+} from '@material-ui/lab';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import {
+    FilterList
+} from '@material-ui/icons';
 import UpvoteIcon from '@material-ui/icons/ThumbUp';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown/with-html';
 import gfm from 'remark-gfm';
 
 const useStyles = makeStyles(theme => ({
+    filterButton:{
+        width:"90%",
+        textAlign:"center",
+        margin:"2% auto"
+    },
     container:{
         display:"flex",
         flexDirection:"row",
@@ -105,19 +126,118 @@ const useStyles = makeStyles(theme => ({
         borderRadius:"20px",
         background: "linear-gradient(85.98deg, #FFA41B 0.54%, rgba(255, 30, 86, 0.99) 130.83%)",
         letterSpacing:"3px"
+    },
+    filterInputs:{
+        width:"500px",
+        maxWidth:"90vw"
     }
 }));
 
 const Petitions = (props) => {
 
     const classes = useStyles();
+    const [open, setOpen] = useState(false);
+    const [data, setData] = useState([]);
+    const [allRaisers, setAllRaisers] = useState([]);
+    const [filterRaisedBy, setFilterRaisedBy] = useState(null);
+    const [filterFromDate, setFilterFromDate] = useState();
+    const [filterToDate, setFilterToDate] = useState();
+
+    useEffect(() => {
+        setData(props.data);
+        if(!props.data || typeof props.data === 'undefined'){
+            setAllRaisers([]);
+            return;
+        }
+        if(props.data === []){
+            setAllRaisers([]);
+            return;
+        }
+
+        setAllRaisers(() => {
+            let arr = [];
+            let emails = [];
+            props.data.forEach((ap) => {
+                let obj = {
+                    email: ap.petitionFromId.email,
+                    name: ap.petitionFromId.name
+                }
+                if(!emails.includes(obj.email)){
+                    arr = [...arr, obj];
+                    emails.push(obj.email);
+                }
+            })
+            // const newarr = arr.filter((v,i,s) => {
+            //     return s.indexOf(v) === i
+            // });
+            // console.log(newarr);
+            return arr;
+        })
+    },[props.data])
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const filterRaisedByData = (usedata) => {
+        if(filterRaisedBy === "" || filterRaisedBy === null){
+            setData(usedata);
+            return;
+        }
+        let arr = filterRaisedBy.split('|');
+        console.log(arr);
+        let email = arr[0].slice(0,-1);
+        console.log(email);
+        setData(() => {
+            return usedata.filter((el) => (
+                el.petitionFromId.email === email
+            ))
+        })
+    }
+    const filterDateData = (usedata) => {
+        let fromdate = new Date(filterFromDate).getTime();
+        let todate = new Date(filterToDate).getTime();
+        if(isNaN(fromdate)){
+            return;
+        }
+        if(isNaN(todate)){
+            setData(() => {
+                return usedata.filter((el) => {
+                    let dt = new Date(el.dateTime);
+                    return +dt >= +fromdate
+                })
+            });
+            return;
+        }
+
+        setData(() => {
+            return usedata.filter((el) => {
+                let dt = new Date(el.dateTime);
+                return +dt >= +fromdate && +dt <= +todate
+            })
+        });
+    }
+    const applyFilters = () => {
+        setOpen(false);
+        filterRaisedByData(props.data);
+        filterDateData(props.data);
+    }
+
+    const clearAllFilters = () => {
+        setFilterRaisedBy(null);
+        setFilterFromDate();
+        setFilterToDate();
+    }
 
     const Card = (ap, ind) => {
-        console.log(ap);
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return (
-            <Link to={`/petitions/${ap.id}`} className={classes.link}>
-            <div className={classes.apCard} key={ind} >
+            <Link to={`/petitions/${ap.id}`} className={classes.link} key={ind}>
+            <div className={classes.apCard} >
                 <div className={classes.titleSection} >
                     {ap.title}
                 </div>
@@ -150,8 +270,91 @@ const Petitions = (props) => {
     
     return (
         <>
+            <div className={classes.filterButton} >
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    startIcon={<FilterList />}
+                    onClick={handleClickOpen}
+                >
+                    Filters
+                </Button>
+            </div>
+            <Dialog
+                open={open}
+                className={classes.dialog}
+                onClose={handleClose}
+                aria-labelledby="filters"
+                aria-describedby="filters"
+            >
+                <DialogTitle className={classes.dialogTitle}>{"Create Filters"}</DialogTitle>
+                <DialogContent>
+                    <Autocomplete
+                        className={classes.filterInputs}
+                        id="raised-by"
+                        options={allRaisers.map((option) => `${option.email} | ${option.name}`)}
+                        value={filterRaisedBy}
+                        onChange={(e,v)=>{setFilterRaisedBy(v)}}
+                        renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            error
+                            label="Raised By"
+                            margin="normal"
+                            variant="outlined"
+                            InputProps={{ ...params.InputProps, type: 'search' }}
+                        />
+                        )}
+                    />
+
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <KeyboardDatePicker
+                            margin="normal"
+                            error
+                            format="MM/dd/yyyy"
+                            margin="normal"
+                            id="date-picker-from"
+                            label="From Date"
+                            value={filterFromDate}
+                            onChange={(date) => (setFilterFromDate(date))}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                            />
+                            <br />
+                            <KeyboardDatePicker
+                            margin="normal"
+                            error
+                            format="MM/dd/yyyy"
+                            margin="normal"
+                            id="date-picker-to"
+                            label="To Date"
+                            value={filterToDate}
+                            onChange={(date) => (setFilterToDate(date))}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                            />
+                    </MuiPickersUtilsProvider>
+                    <br /><br /><br />
+                    <Button 
+                        color="secondary"
+                        onClick={clearAllFilters}
+                    >
+                        Clear All Filters
+                    </Button>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="secondary">
+                        Cancel
+                    </Button>
+                    <Button onClick={applyFilters} color="secondary" autoFocus>
+                        Apply
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <div className={classes.container}>
-                {props.data.map(Card)}
+                {data.length===0?<h2>No Petitions</h2> : data.map(Card)}
             </div>
         </>
     )
