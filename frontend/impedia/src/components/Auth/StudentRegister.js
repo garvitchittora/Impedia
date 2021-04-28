@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
     makeStyles,
@@ -20,6 +20,7 @@ import back3 from '../../assets/Login/login-32.svg';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import LoginSidePic from '../../assets/Login/loginSidePic.svg';
 import  { useHistory} from 'react-router-dom';
+import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles(theme => ({
     loginPage: {
@@ -176,6 +177,13 @@ const StudentRegister = () => {
     const [BranchValues, setBranchValues] = React.useState('');
     const [PasswordValues, setPasswordValues] = React.useState('');
     const [NameValues, setNameValues] = React.useState('');
+    const [cookies] = useCookies(["user"]);
+
+    useEffect(() => {
+      if (!cookies.user || cookies.user["type"] !== "STUDENT") {
+        return history.push("/login/student");
+      }
+    }, []);
 
     const [showPassword, setShowPassword] = useState(false);
     const clickShowPassword = () => {

@@ -153,37 +153,41 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    const exec = async () => {
-      const Token = cookies.user ? cookies.user["key"] : "";
+    if (cookies.user) {
+      const exec = async () => {
+        const Token = cookies.user["key"];
+        const config = {
+          headers: {
+            authorization: Token,
+          },
+        };
+        axios
+          .get("/student/appeals", config)
+          .then((res) => res.data)
+          .then((data) => {
+            setAppeals(data);
+          });
+      };
+      exec();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (cookies.user) {
+      const Token = cookies.user["key"];
       const config = {
         headers: {
           authorization: Token,
         },
       };
+
       axios
-        .get("/student/appeals", config)
+        .get("/student/petitions", config)
         .then((res) => res.data)
         .then((data) => {
-          setAppeals(data);
+          setPetitions(data);
         });
-    };
-    exec();
-  }, []);
-
-  useEffect(() => {
-    const Token = cookies.user ? cookies.user["key"] : "";
-    const config = {
-      headers: {
-        authorization: Token,
-      },
-    };
-
-    axios
-      .get("/student/petitions", config)
-      .then((res) => res.data)
-      .then((data) => {
-        setPetitions(data);
-      });
+    }
   }, []);
 
   return (

@@ -13,6 +13,7 @@ import ErrorAlert from "../Alert/ErrorAlert";
 import TopBar from "../TopBar/TopBar";
 import { useCookies } from "react-cookie";
 import ProfileDetails from "../../assets/Profile/prof_details.svg";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,6 +80,14 @@ const UpdateProfile = () => {
   });
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [openErrorAlert, setOpenErrorAlert] = useState(false);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!cookies.user || cookies.user["type"] !== "STUDENT") {
+      return history.push("/login/student");
+    }
+  }, []);
+
   const section = [
     {
       value: "A",
@@ -118,7 +127,9 @@ const UpdateProfile = () => {
   ];
 
   useEffect(() => {
-    setKey(cookies.user["key"]);
+    if(cookies.user){
+      setKey(cookies.user["key"]);
+    }
   }, []);
 
   useEffect(() => {
