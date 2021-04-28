@@ -13,11 +13,17 @@ body *{
   background-color: #0d1117;
   color: white !important;
 }
-.dark input, .dark textarea, .dark #nav-item *{
+.dark input, .dark textarea, .dark #nav-item *, .dark h2{
   color: white !important;
 }
 .MuiFab-root.Mui-disabled{
   background-color: rgba(198,198,198,0.6) !important;
+}
+.dark .MuiDialog-paper{
+  background-color: #161b22;
+}
+.dark .MuiDialog-paper p, .dark .MuiPickersCalendarHeader-dayLabel{
+  color:white !important
 }
 
 code {

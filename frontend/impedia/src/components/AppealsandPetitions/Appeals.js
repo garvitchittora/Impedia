@@ -272,7 +272,7 @@ const Appeals = (props) => {
         aria-describedby="filters"
       >
         <DialogTitle className={classes.dialogTitle}>
-          {"Create Filters"}
+          Create Filters
         </DialogTitle>
         <DialogContent>
           <Autocomplete
