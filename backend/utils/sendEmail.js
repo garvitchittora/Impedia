@@ -12,7 +12,7 @@ sendPasswordResetEmail = (email, link) => {
   if (process.env.NODE_ENV === "test") {
     return;
   }
-  let text = `A password reset request has been made for your GetAccess Account\n\nPlease ignore this email if this was not requested by you\n\nOpen this link to reset your password: ${link}\nThis link will only be valid for 1 hour.\n\ngetaccess.ai`;
+  let text = `A password reset request has been made for your Impedia Account\n\nPlease ignore this email if this was not requested by you\n\nOpen this link to reset your password: ${baseUrl + link}\nThis link will only be valid for 1 hour.`;
   let html = `<!DOCTYPE html>
             <html lang="en">
             <head>
@@ -46,9 +46,9 @@ sendPasswordResetEmail = (email, link) => {
                         <p class="text-muted">Please ignore this email if this was not requested by you</p>
                         <br/>
                         <h4>Click this button to reset your password</h4>
-                        <a href="${link}" class="btn btn-info" style="display: inline-block;font-weight: 400;line-height: 1.5;text-align: center;text-decoration: none;vertical-align: middle;cursor: pointer;-webkit-user-select: none;-moz-user-select: none;user-select: none;border: 1px solid transparent;padding: .375rem .75rem;font-size: 1rem;border-radius: .25rem;color: #fff;background-color: #0d6efd;border-color: #0d6efd;">Reset Password</a>
+                        <a href="${baseUrl + link}" class="btn btn-info" style="display: inline-block;font-weight: 400;line-height: 1.5;text-align: center;text-decoration: none;vertical-align: middle;cursor: pointer;-webkit-user-select: none;-moz-user-select: none;user-select: none;border: 1px solid transparent;padding: .375rem .75rem;font-size: 1rem;border-radius: .25rem;color: #fff;background-color: #0d6efd;border-color: #0d6efd;">Reset Password</a>
                         <br/><br/><br/>
-                        <h6>If the button doesn't work, copy and open this link in your browser: ${link}</h6>
+                        <h6>If the button doesn't work, copy and open this link in your browser: ${baseUrl + link}</h6>
                     </center>
                 </div>
                 </center>

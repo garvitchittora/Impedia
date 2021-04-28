@@ -1,6 +1,8 @@
 import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
+import ResetPasswordTrigger from "./components/ResetPassword/ResetPasswordTrigger";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
 import AdminLogin from "./components/Auth/AdminLogin";
 import AuthorityLogin from "./components/Auth/AuthorityLogin";
 import StudentLogin from "./components/Auth/StudentLogin";
@@ -36,6 +38,8 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/reset-password/trigger" component={ResetPasswordTrigger} />
+          <Route exact path="/reset-password" component={ResetPassword} />
           <Route exact path="/login/admin" component={AdminLogin} />
           <Route exact path="/login/authority" component={AuthorityLogin} />
           <Route exact path="/login/student" component={StudentLogin} />
