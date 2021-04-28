@@ -155,18 +155,19 @@ const Dashboard = () => {
             if(! cookies.user || cookies.user["type"] !== "ADMIN"){
                 return history.push("/login/admin");
             }
-
-            const Token = cookies.user ? cookies.user['key'] : "";
-            const config = {
-                headers: {
-                  authorization: Token,
+            if(cookies.user){
+                const Token = cookies.user['key'];
+                const config = {
+                    headers: {
+                      authorization: Token,
+                    }
                 }
+                axios.get("/admin/appealspetitions", config)
+                .then(res=>res.data)
+                .then(data=>{
+                    setAppealsPetitions(data);
+                })
             }
-            axios.get("/admin/appealspetitions", config)
-            .then(res=>res.data)
-            .then(data=>{
-                setAppealsPetitions(data);
-            })
     }, []);
 
     return(

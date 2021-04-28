@@ -5,49 +5,50 @@ import {
 } from '@material-ui/core';
 import Appeals from '../AppealsandPetitions/Appeals';
 import TopBar from '../TopBar/TopBar';
-import {useCookies} from 'react-cookie';
-import  { useHistory} from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
-    container:{
-        margin:"2% 0"
+    container: {
+        margin: "2% 0"
     },
     appeals:{
         width:"95vw",
-        maxWidth:"1000px",
-        margin:"5% auto"
+        // maxWidth:"1000px",
+        margin:"auto"
     }
 }))
 
 const AllAppeals = () => {
-    const classes=useStyles();
+    const classes = useStyles();
     const [cookies] = useCookies(['user']);
     const [data, setData] = useState([]);
     const history = useHistory();
 
     useEffect(() => {
-        if(! cookies.user || cookies.user["type"] !== "AUTHORITY"){
+        if (!cookies.user || cookies.user["type"] !== "AUTHORITY") {
             return history.push("/login/authority");
         }
     }, []);
 
-    useEffect(()=>{
-        const Token = cookies.user['key'];
-        const config = {
-            headers: {
-              authorization: Token,
+    useEffect(() => {
+        if (cookies.user) {
+            const Token = cookies.user['key'];
+            const config = {
+                headers: {
+                    authorization: Token,
+                }
             }
+
+            axios.get("/authority/appeals", config)
+                .then(res => res.data)
+                .then(data => {
+                    console.log(data);
+                    setData(data.sort((a, b) => (new Date(b.dateTime) - new Date(a.dateTime))));
+                })
         }
+    }, [])
 
-        axios.get("/authority/appeals", config)
-        .then(res=>res.data)
-        .then(data=>{
-            console.log(data);
-            setData(data.sort((a,b)=>(new Date(b.dateTime) - new Date(a.dateTime))));
-        })
-
-    },[])
-   
     return (
         <>
             <div className={classes.container}>

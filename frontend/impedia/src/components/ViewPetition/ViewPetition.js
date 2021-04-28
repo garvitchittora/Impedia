@@ -34,6 +34,7 @@ import TopBar from "../TopBar/TopBar";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 import { useCookies } from "react-cookie";
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -54,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-around",
     alignItems: "flex-start",
     [theme.breakpoints.down("md")]: {
+      alignItems: "center",
       flexDirection: "column",
     },
   },
@@ -85,6 +87,7 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: "ellipsis",
     margin: "10px 0",
     textAlign: "center",
+    color:"black",
     [theme.breakpoints.down("sm")]: {
       width: "80vw",
       margin: "10px auto",
@@ -114,6 +117,7 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid #E2E2E2",
     borderRadius: "20px",
     height: "100%",
+    margin: "0 auto",
     [theme.breakpoints.down("md")]: {
       padding: "15px",
     },
@@ -137,7 +141,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignSelf: "stretch",
     maxHeight: "150vh",
-    backgroundColor: "#f9f6f7",
+    // backgroundColor: "#f9f6f7",
     [theme.breakpoints.down("md")]: {
       maxHeight: "80vh",
       width: "90vw",
@@ -199,6 +203,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sendIcon: {
     cursor: "pointer",
+    color:"#f44336"
   },
   upvoteCount: {
     fontWeight: "600",
@@ -253,7 +258,20 @@ const ViewAppeal = (props) => {
   const [comments, setComments] = useState([]);
   const [replyTo, setReplyTo] = useState();
   const [emptyReply, setEmptyReply] = useState(false);
-  const dateoptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  const history = useHistory();
+
+  const dateoptions = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
+  useEffect(() => {
+    if (!cookies.user) {
+      return history.push("/");
+    }
+  }, []);
 
   const handleDialogOpen = () => {
     setDialogOpen(true);
@@ -280,45 +298,49 @@ const ViewAppeal = (props) => {
   };
 
   useEffect(() => {
-    const Token = cookies.user["key"];
-    const config = {
-      headers: {
-        authorization: Token,
-      },
-    };
-    axios
-      .get(`/petition/${petitionId}`, config)
-      .then((res) => res.data)
-      .then((data) => {
-        console.log(data);
-        setData(data);
-        setActor(cookies.user["type"]);
-        let userId = cookies.user["email"];
-        let signeeMail = data.signees.map((signee) => signee.email);
-        if (signeeMail.findIndex((el) => el === userId) >= 0) {
-          setSigned(true);
-          setSignMsg("Signed");
-        } else {
-          setSigned(false);
-          setSignMsg();
-        }
-      });
+    if (cookies.user) {
+      const Token = cookies.user["key"];
+      const config = {
+        headers: {
+          authorization: Token,
+        },
+      };
+      axios
+        .get(`/petition/${petitionId}`, config)
+        .then((res) => res.data)
+        .then((data) => {
+          console.log(data);
+          setData(data);
+          setActor(cookies.user["type"]);
+          let userId = cookies.user["email"];
+          let signeeMail = data.signees.map((signee) => signee.email);
+          if (signeeMail.findIndex((el) => el === userId) >= 0) {
+            setSigned(true);
+            setSignMsg("Signed");
+          } else {
+            setSigned(false);
+            setSignMsg();
+          }
+        });
+    }
   }, [reload]);
 
   useEffect(() => {
-    const Token = cookies.user["key"];
-    const config = {
-      headers: {
-        authorization: Token,
-      },
-    };
-    axios
-      .get(`/petition/${petitionId}/replies`, config)
-      .then((res) => res.data)
-      .then((data) => {
-        console.log(data);
-        setComments(data);
-      });
+    if (cookies.user) {
+      const Token = cookies.user["key"];
+      const config = {
+        headers: {
+          authorization: Token,
+        },
+      };
+      axios
+        .get(`/petition/${petitionId}/replies`, config)
+        .then((res) => res.data)
+        .then((data) => {
+          console.log(data);
+          setComments(data);
+        });
+    }
   }, [reload]);
 
   const submitSign = () => {
@@ -392,15 +414,13 @@ const ViewAppeal = (props) => {
         <div className={classes.mentions}>
           <div className={classes.fromto}>
             FROM :{" "}
-            <span className={classes.colored}>{`${
-              data.petitionFromId.email || ""
-            } | ${data.petitionFromId.name}`}</span>
+            <span className={classes.colored}>{`${data.petitionFromId.email || ""
+              } | ${data.petitionFromId.name}`}</span>
           </div>
           <div className={classes.fromto}>
             TO :{" "}
-            <span className={classes.colored}>{`${
-              data.petitionToId.email || "Group"
-            } | ${data.petitionToId.name}`}</span>
+            <span className={classes.colored}>{`${data.petitionToId.email || "Group"
+              } | ${data.petitionToId.name}`}</span>
           </div>
         </div>
         <div className={classes.body}>
@@ -431,7 +451,10 @@ const ViewAppeal = (props) => {
                 </Collapse>
               </div>
               <div className={classes.date}>
-                {new Date(data.dateTime).toLocaleString('en-Us',dateoptions)} | {new Date(data.dateTime).toLocaleTimeString('en-Us',{hour12:true})}
+                {new Date(data.dateTime).toLocaleString("en-Us", dateoptions)} |{" "}
+                {new Date(data.dateTime).toLocaleTimeString("en-Us", {
+                  hour12: true,
+                })}
               </div>
             </div>
             <div className={classes.contentBody}>

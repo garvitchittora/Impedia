@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
     makeStyles,
@@ -20,6 +20,7 @@ import back3 from '../../assets/Login/login-32.svg';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import LoginSidePic from '../../assets/Login/loginSidePic.svg';
 import  { useHistory} from 'react-router-dom';
+import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles(theme => ({
     loginPage: {
@@ -176,6 +177,13 @@ const StudentRegister = () => {
     const [BranchValues, setBranchValues] = React.useState('');
     const [PasswordValues, setPasswordValues] = React.useState('');
     const [NameValues, setNameValues] = React.useState('');
+    const [cookies] = useCookies(["user"]);
+
+    useEffect(() => {
+      if (!cookies.user || cookies.user["type"] !== "STUDENT") {
+        return history.push("/login/student");
+      }
+    }, []);
 
     const [showPassword, setShowPassword] = useState(false);
     const clickShowPassword = () => {
@@ -253,7 +261,7 @@ const StudentRegister = () => {
                         <div className={classes.formCover}>
                             <form className={classes.formContainer} onSubmit={submitFunction}>
                                 <div className={classes.formInputs}>
-                                    <FormControl className={classes.fieldInput} variant="filled">
+                                    <FormControl className={classes.fieldInput} variant="filled" error>
                                         <InputLabel htmlFor="email">
                                             Email
                                         </InputLabel>
@@ -265,7 +273,7 @@ const StudentRegister = () => {
                                     </FormControl>
                                 </div>
                             <div className={classes.formInputs}>
-                                <FormControl className={classes.fieldInput} variant="filled">
+                                <FormControl className={classes.fieldInput} variant="filled" error>
                                     <InputLabel htmlFor="sem">
                                         Sem
                                     </InputLabel>
@@ -277,7 +285,7 @@ const StudentRegister = () => {
                                 </FormControl>
                             </div>
                             <div className={classes.formInputs}>
-                                <FormControl className={classes.fieldInput} variant="filled">
+                                <FormControl className={classes.fieldInput} variant="filled" error>
                                     <InputLabel htmlFor="section">
                                         Section
                                     </InputLabel>
@@ -289,7 +297,7 @@ const StudentRegister = () => {
                                 </FormControl>
                             </div>
                             <div className={classes.formInputs}>
-                                <FormControl className={classes.fieldInput} variant="filled">
+                                <FormControl className={classes.fieldInput} variant="filled" error>
                                     <InputLabel htmlFor="branch">
                                         Branch
                                     </InputLabel>
@@ -301,7 +309,7 @@ const StudentRegister = () => {
                                 </FormControl>
                             </div>
                             <div className={classes.formInputs}>
-                                <FormControl className={classes.fieldInput} variant="filled">
+                                <FormControl className={classes.fieldInput} variant="filled" error>
                                     <InputLabel htmlFor="name">
                                         Name
                                     </InputLabel>
@@ -313,7 +321,7 @@ const StudentRegister = () => {
                                 </FormControl>
                             </div>
                             <div className={classes.formInputs}>
-                                <FormControl className={classes.fieldInput} variant="filled">
+                                <FormControl className={classes.fieldInput} variant="filled" error>
                                        <InputLabel htmlFor="password">Password</InputLabel>
                                        <FilledInput
                                            type={showPassword?'text':'password'}
@@ -327,6 +335,7 @@ const StudentRegister = () => {
                                                    aria-label="toggle password visibility"
                                                    onClick={clickShowPassword}
                                                    onMouseDown={mouseDownPassword}
+                                                   color="secondary"
                                                >
                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
                                                </IconButton>

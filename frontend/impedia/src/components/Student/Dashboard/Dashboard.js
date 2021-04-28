@@ -110,15 +110,14 @@ const useStyles = makeStyles((theme) => ({
   recents: {
     // width:"20%",
     backgroundColor: "rgba(255,164,27,0.8)",
-    padding: "1% 2% 2%",
-    borderRadius: "15px",
+    padding: "10px",
+    borderRadius: "10px",
     flex: "20%",
     maxWidth: "300px",
     // maxHeight:"60vh",
     [theme.breakpoints.down("sm")]: {
-      maxWidth: "95%",
+      width: "80%",
       margin: "20px auto",
-      padding: "10px 20px 20px",
     },
     [theme.breakpoints.down("xs")]: {
       maxWidth: "100%",
@@ -154,37 +153,41 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    const exec = async () => {
-      const Token = cookies.user ? cookies.user["key"] : "";
+    if (cookies.user) {
+      const exec = async () => {
+        const Token = cookies.user["key"];
+        const config = {
+          headers: {
+            authorization: Token,
+          },
+        };
+        axios
+          .get("/student/appeals", config)
+          .then((res) => res.data)
+          .then((data) => {
+            setAppeals(data);
+          });
+      };
+      exec();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (cookies.user) {
+      const Token = cookies.user["key"];
       const config = {
         headers: {
           authorization: Token,
         },
       };
+
       axios
-        .get("/student/appeals", config)
+        .get("/student/petitions", config)
         .then((res) => res.data)
         .then((data) => {
-          setAppeals(data);
+          setPetitions(data);
         });
-    };
-    exec();
-  }, []);
-
-  useEffect(() => {
-    const Token = cookies.user ? cookies.user["key"] : "";
-    const config = {
-      headers: {
-        authorization: Token,
-      },
-    };
-
-    axios
-      .get("/student/petitions", config)
-      .then((res) => res.data)
-      .then((data) => {
-        setPetitions(data);
-      });
+    }
   }, []);
 
   return (
@@ -225,19 +228,39 @@ const Dashboard = () => {
 
         <div className={classes.bodyRight}>
           <div className={classes.adminButtons}>
-            <Link data-testid="update-profile-button" to="/student/updateprofile" className={classes.link}>
+            <Link
+              data-testid="update-profile-button"
+              to="/student/updateprofile"
+              className={classes.link}
+            >
               <UseCase icon={AddAuthIcon} type="Update Profile" />
             </Link>
-            <Link data-testid="view-petitions-button" to="/student/petitions" className={classes.link}>
+            <Link
+              data-testid="view-petitions-button"
+              to="/student/petitions"
+              className={classes.link}
+            >
               <UseCase icon={PetitionIcon} type="View Petitions" />
             </Link>
-            <Link data-testid="view-appeals-button" to="/student/appeals" className={classes.link}>
+            <Link
+              data-testid="view-appeals-button"
+              to="/student/appeals"
+              className={classes.link}
+            >
               <UseCase icon={AppealIcon} type="View Appeals" />
             </Link>
-            <Link data-testid="create-appeal-button" to="/student/appeals/create" className={classes.link}>
+            <Link
+              data-testid="create-appeal-button"
+              to="/student/appeals/create"
+              className={classes.link}
+            >
               <UseCase icon={AppealIcon} type="Create Appeals" />
             </Link>
-            <Link data-testid="create-petition-button" to="/student/petitions/create" className={classes.link}>
+            <Link
+              data-testid="create-petition-button"
+              to="/student/petitions/create"
+              className={classes.link}
+            >
               <UseCase icon={PetitionIcon} type="Create Petitions" />
             </Link>
           </div>

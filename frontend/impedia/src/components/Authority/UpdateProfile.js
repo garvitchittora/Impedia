@@ -7,6 +7,7 @@ import { useCookies } from "react-cookie";
 import ProfileDetails from "../../assets/Profile/prof_details.svg";
 import SuccessAlert from '../Alert/SuccessAlert';
 import ErrorAlert from '../Alert/ErrorAlert';
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,9 +69,18 @@ const UpdateProfile = () => {
   const [userData, setUserData] = useState({ name: "" });
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [openErrorAlert, setOpenErrorAlert] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
-    setKey(cookies.user["key"]);
+    if (!cookies.user || cookies.user["type"] !== "AUTHORITY") {
+      return history.push("/login/authority");
+    }
+  }, []);
+
+  useEffect(() => {
+    if(cookies.user){
+      setKey(cookies.user["key"]);
+    }
   }, []);
 
   useEffect(() => {

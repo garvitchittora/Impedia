@@ -246,6 +246,7 @@ const Home = () => {
               <Link
                 data-testid="admin-login-button"
                 to="/login/admin"
+                id="nav-item"
                 className={classes.linkTag}
               >
                 <Typography className={classes.headingText}>ADMIN</Typography>
@@ -253,6 +254,7 @@ const Home = () => {
               <Link
                 data-testid="authority-login-button"
                 to="/login/authority"
+                id="nav-item"
                 className={classes.linkTag}
               >
                 <Typography className={classes.headingText}>
@@ -262,6 +264,7 @@ const Home = () => {
               <Link
                 data-testid="student-login-button"
                 to="/login/student"
+                id="nav-item"
                 className={classes.linkTag}
               >
                 <Typography className={classes.headingText}>STUDENT</Typography>

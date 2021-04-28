@@ -9,6 +9,16 @@ body {
 body *{
   font-family: 'Montserrat', sans-serif !important;
 }
+.dark{
+  background-color: #0d1117;
+  color: white !important;
+}
+.dark input, .dark textarea, .dark #nav-item *{
+  color: white !important;
+}
+.MuiFab-root.Mui-disabled{
+  background-color: rgba(198,198,198,0.6) !important;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

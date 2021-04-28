@@ -143,26 +143,28 @@ const EditGroup = () => {
     }
 
     (async () => {
-      const Token = cookies.user["key"];
-      const config = {
-        headers: {
-          authorization: Token,
-        },
-      };
-      const res = await axios.get("/group", config);
-      const dataGroups = res.data;
+      if (cookies.user) {
+        const Token = cookies.user["key"];
+        const config = {
+          headers: {
+            authorization: Token,
+          },
+        };
+        const res = await axios.get("/group", config);
+        const dataGroups = res.data;
 
-      if (active) {
-        setAllGroupsData(dataGroups);
-        setOptionsGroup(() => {
-          return dataGroups.map((option) => {
-            let firstLetter = option.name[0].toUpperCase();
-            return {
-              firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
-              ...option,
-            };
+        if (active) {
+          setAllGroupsData(dataGroups);
+          setOptionsGroup(() => {
+            return dataGroups.map((option) => {
+              let firstLetter = option.name[0].toUpperCase();
+              return {
+                firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
+                ...option,
+              };
+            });
           });
-        });
+        }
       }
     })();
 
@@ -181,28 +183,30 @@ const EditGroup = () => {
     }
 
     (async () => {
-      const Token = cookies.user["key"];
-      const config = {
-        headers: {
-          authorization: Token,
-        },
-      };
-      const res = await axios.get("/authority", config);
-      const dataAuth = res.data;
-      if (active) {
-        setOptionsAuth(() => {
-          return dataAuth.map((option) => {
-            let firstLetter = option.email[0].toUpperCase();
-            return {
-              firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
-              optionName:
-                typeof option.name !== "undefined"
-                  ? option.name + " | " + option.email
-                  : option.email,
-              ...option,
-            };
+      if (cookies.user) {
+        const Token = cookies.user["key"];
+        const config = {
+          headers: {
+            authorization: Token,
+          },
+        };
+        const res = await axios.get("/authority", config);
+        const dataAuth = res.data;
+        if (active) {
+          setOptionsAuth(() => {
+            return dataAuth.map((option) => {
+              let firstLetter = option.email[0].toUpperCase();
+              return {
+                firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
+                optionName:
+                  typeof option.name !== "undefined"
+                    ? option.name + " | " + option.email
+                    : option.email,
+                ...option,
+              };
+            });
           });
-        });
+        }
       }
     })();
 
@@ -361,6 +365,7 @@ const EditGroup = () => {
                       renderInput={(params) => (
                         <TextField
                           {...params}
+                          error
                           label="Search Group"
                           margin="normal"
                           variant="outlined"

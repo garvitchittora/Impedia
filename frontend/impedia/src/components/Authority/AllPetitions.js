@@ -11,9 +11,9 @@ const useStyles = makeStyles((theme) => ({
     margin: "2% 0",
   },
   appeals: {
-    width: "95vw",
-    maxWidth: "1000px",
-    margin: "5% auto",
+    width:"95vw",
+    // maxWidth:"1000px",
+    margin:"auto"
   },
 }));
 
@@ -30,22 +30,24 @@ const AllPetitions = () => {
   }, []);
 
   useEffect(() => {
-    const Token = cookies.user["key"];
-    const config = {
-      headers: {
-        authorization: Token,
-      },
-    };
+    if (cookies.key) {
+      const Token = cookies.user["key"];
+      const config = {
+        headers: {
+          authorization: Token,
+        },
+      };
 
-    axios
-      .get("/authority/petitions", config)
-      .then((res) => res.data)
-      .then((data) => {
-        console.log(data);
-        setData(
-          data.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime))
-        );
-      });
+      axios
+        .get("/authority/petitions", config)
+        .then((res) => res.data)
+        .then((data) => {
+          console.log(data);
+          setData(
+            data.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime))
+          );
+        });
+    }
   }, []);
 
   return (
