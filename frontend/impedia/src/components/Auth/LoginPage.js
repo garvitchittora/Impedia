@@ -212,7 +212,7 @@ const LoginPage = (props) => {
               onSubmit={props.submitFunction}
             >
               <div className={classes.formInputs}>
-                <FormControl className={classes.fieldInput} variant="filled">
+                <FormControl className={classes.fieldInput} variant="filled" error>
                   <InputLabel htmlFor="email">Email</InputLabel>
                   <FilledInput
                     id="email"
@@ -223,7 +223,7 @@ const LoginPage = (props) => {
                 </FormControl>
               </div>
               <div className={classes.formInputs}>
-                <FormControl className={classes.fieldInput} variant="filled">
+                <FormControl className={classes.fieldInput} variant="filled" error>
                   <InputLabel htmlFor="password">Password</InputLabel>
                   <FilledInput
                     type={showPassword ? "text" : "password"}
@@ -237,6 +237,7 @@ const LoginPage = (props) => {
                           aria-label="toggle password visibility"
                           onClick={clickShowPassword}
                           onMouseDown={mouseDownPassword}
+                          color="secondary"
                         >
                           {showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>

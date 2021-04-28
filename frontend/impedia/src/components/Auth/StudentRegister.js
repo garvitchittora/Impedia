@@ -253,7 +253,7 @@ const StudentRegister = () => {
                         <div className={classes.formCover}>
                             <form className={classes.formContainer} onSubmit={submitFunction}>
                                 <div className={classes.formInputs}>
-                                    <FormControl className={classes.fieldInput} variant="filled">
+                                    <FormControl className={classes.fieldInput} variant="filled" error>
                                         <InputLabel htmlFor="email">
                                             Email
                                         </InputLabel>
@@ -265,7 +265,7 @@ const StudentRegister = () => {
                                     </FormControl>
                                 </div>
                             <div className={classes.formInputs}>
-                                <FormControl className={classes.fieldInput} variant="filled">
+                                <FormControl className={classes.fieldInput} variant="filled" error>
                                     <InputLabel htmlFor="sem">
                                         Sem
                                     </InputLabel>
@@ -277,7 +277,7 @@ const StudentRegister = () => {
                                 </FormControl>
                             </div>
                             <div className={classes.formInputs}>
-                                <FormControl className={classes.fieldInput} variant="filled">
+                                <FormControl className={classes.fieldInput} variant="filled" error>
                                     <InputLabel htmlFor="section">
                                         Section
                                     </InputLabel>
@@ -289,7 +289,7 @@ const StudentRegister = () => {
                                 </FormControl>
                             </div>
                             <div className={classes.formInputs}>
-                                <FormControl className={classes.fieldInput} variant="filled">
+                                <FormControl className={classes.fieldInput} variant="filled" error>
                                     <InputLabel htmlFor="branch">
                                         Branch
                                     </InputLabel>
@@ -301,7 +301,7 @@ const StudentRegister = () => {
                                 </FormControl>
                             </div>
                             <div className={classes.formInputs}>
-                                <FormControl className={classes.fieldInput} variant="filled">
+                                <FormControl className={classes.fieldInput} variant="filled" error>
                                     <InputLabel htmlFor="name">
                                         Name
                                     </InputLabel>
@@ -313,7 +313,7 @@ const StudentRegister = () => {
                                 </FormControl>
                             </div>
                             <div className={classes.formInputs}>
-                                <FormControl className={classes.fieldInput} variant="filled">
+                                <FormControl className={classes.fieldInput} variant="filled" error>
                                        <InputLabel htmlFor="password">Password</InputLabel>
                                        <FilledInput
                                            type={showPassword?'text':'password'}
@@ -327,6 +327,7 @@ const StudentRegister = () => {
                                                    aria-label="toggle password visibility"
                                                    onClick={clickShowPassword}
                                                    onMouseDown={mouseDownPassword}
+                                                   color="secondary"
                                                >
                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
                                                </IconButton>

@@ -5,8 +5,9 @@ import {
   ThumbUp as SupportIcon,
   ThumbDown as NoSupportIcon,
 } from "@material-ui/icons";
+import { useCookies } from "react-cookie";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((col, theme) => ({
   conatiner: {
     height: "100%",
     overflow: "auto",
@@ -58,6 +59,16 @@ const useStyles = makeStyles((theme) => ({
     boxShadow:
       "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px",
   },
+  contentDark: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "#133B5C",
+    color:"white",
+    padding: "20px 10px 10px",
+    borderRadius: "15px",
+    boxShadow:
+      "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px",
+  },
   from: {
     fontWeight: "600",
     fontSize: "12px",
@@ -83,6 +94,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ViewComments = ({ comments, setReplyTo }) => {
+  const [cookies, setCookie] = useCookies(['theme']);
   const classes = useStyles();
 
   const CommentCard = (comment) => {
@@ -96,7 +108,7 @@ const ViewComments = ({ comments, setReplyTo }) => {
           ) : (
             ""
           )}
-          <div className={classes.content}>
+          <div className={cookies.theme ==="dark"?classes.contentDark:classes.content}>
             <div className={classes.support}>
               {comment.support === true ? (
                 <SupportIcon className={classes.supportIcon} />
@@ -117,7 +129,7 @@ const ViewComments = ({ comments, setReplyTo }) => {
                 {comment.replyById["name"]}
               </span>{" "}
               |{" "}
-              <span className={classes.dateTime}>
+              <span className={cookies.theme==="light" ? classes.dateTime : null}>
                 {new Date(comment.dateTime).toLocaleString()}
               </span>
             </Typography>

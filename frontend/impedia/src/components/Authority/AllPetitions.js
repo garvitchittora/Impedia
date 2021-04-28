@@ -11,9 +11,9 @@ const useStyles = makeStyles((theme) => ({
     margin: "2% 0",
   },
   appeals: {
-    width: "95vw",
-    maxWidth: "1000px",
-    margin: "5% auto",
+    width:"95vw",
+    // maxWidth:"1000px",
+    margin:"auto"
   },
 }));
 

@@ -361,6 +361,7 @@ const EditGroup = () => {
                       renderInput={(params) => (
                         <TextField
                           {...params}
+                          error
                           label="Search Group"
                           margin="normal"
                           variant="outlined"

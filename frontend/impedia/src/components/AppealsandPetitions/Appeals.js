@@ -18,6 +18,7 @@ import { FilterList } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown/with-html";
 import gfm from "remark-gfm";
+import { useCookies } from 'react-cookie';
 
 const useStyles = makeStyles((theme) => ({
   filterButton: {
@@ -33,6 +34,25 @@ const useStyles = makeStyles((theme) => ({
   },
   apCard: {
     // width:"45%",
+    borderRadius: "15px",
+    margin: "5% auto",
+    paddingBottom: "30px",
+    cursor: "pointer",
+    transition: "all 0.15s ease-in",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14)",
+    "&:hover": {
+      boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.12)",
+      //   transform: "translateY(-1.5px)",
+    },
+    [theme.breakpoints.up("sm")]: {
+      width: "40vw",
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "90vw",
+    },
+  },
+  apCardDark: {
+    backgroundColor:"#161b22",
     borderRadius: "15px",
     margin: "5% auto",
     paddingBottom: "30px",
@@ -85,12 +105,14 @@ const useStyles = makeStyles((theme) => ({
   cont: {
     height: "250px",
     overflow: "scroll",
+    color:"black"
   },
   dateSection: {
     width: "90%",
     margin: "auto",
     display: "flex",
     justifyContent: "flex-end",
+    color:"black"
   },
   date: {
     backgroundColor: "#EAE9E9",
@@ -114,6 +136,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Appeals = (props) => {
   const classes = useStyles();
+  const [cookies] = useCookies(['theme']);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const [allRaisers, setAllRaisers] = useState([]);
@@ -200,7 +223,7 @@ const Appeals = (props) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return (
       <Link to={`/appeals/${ap.id}`} className={classes.link} key={ind}>
-        <div className={classes.apCard}>
+        <div className={cookies.theme==="dark" ? classes.apCardDark : classes.apCard}>
           <div className={classes.titleSection}>{ap.title}</div>
           <div className={classes.mentions}>
             <span className={classes.red}>FROM : </span>{" "}

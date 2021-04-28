@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "600",
     textAlign: "center",
     letterSpacing: "3px",
+    color:"black"
   },
   cardData: {
     backgroundColor: "#fff",

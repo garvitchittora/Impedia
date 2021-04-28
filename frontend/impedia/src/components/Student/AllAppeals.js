@@ -14,8 +14,8 @@ const useStyles = makeStyles((theme) => ({
     },
     appeals:{
         width:"95vw",
-        maxWidth:"1000px",
-        margin:"5% auto"
+        // maxWidth:"1000px",
+        margin:"auto"
     }
 }))
 

@@ -26,10 +26,13 @@ import UpdateStudentProfile from "./components/Student/UpdateProfile";
 import UpdateAuthorityProfile from "./components/Authority/UpdateProfile";
 import Home from "./components/Home/Home";
 import Logout from "./components/Logout";
+import DarkTheme from './components/DarkTheme';
 
 function App() {
   return (
     <>
+      
+      <DarkTheme />
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Home} />

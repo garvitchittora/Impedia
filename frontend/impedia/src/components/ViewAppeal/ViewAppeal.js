@@ -63,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: "ellipsis",
     margin: "10px 0",
     textAlign: "center",
+    color:"black",
     [theme.breakpoints.down("sm")]: {
       width: "80vw",
       margin: "10px auto",
@@ -116,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignSelf: "stretch",
-    backgroundColor: "#f9f6f7",
+    // backgroundColor: "#f9f6f7",
     maxHeight: "150vh",
     [theme.breakpoints.down("md")]: {
       maxHeight: "80vh",
@@ -179,6 +180,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sendIcon: {
     cursor: "pointer",
+    color:"#f44336"
   },
 }));
 
