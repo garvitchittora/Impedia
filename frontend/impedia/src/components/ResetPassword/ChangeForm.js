@@ -275,7 +275,7 @@ const ChangeForm = (props) => {
                         <CloseIcon fontSize="inherit" />
                       </IconButton>
                     }
-                    severity="error"
+                    severity="success"
                   >
                     <AlertTitle>
                       <strong>Success !</strong>

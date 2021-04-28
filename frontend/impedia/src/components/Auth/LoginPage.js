@@ -163,6 +163,13 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  forgot: {
+    textAlign:"center",
+    '& a' :{
+      color: "#f44336"
+    }
+    
+  }
 }));
 
 const LoginPage = (props) => {
@@ -282,6 +289,12 @@ const LoginPage = (props) => {
                 >
                   Login
                 </Button>
+                
+                <div className={classes.forgot} >
+                  <Link to="/reset-password/trigger" >
+                    Forgot Password ?
+                  </Link>
+                </div>
               </div>
             </form>
           </div>

@@ -5,7 +5,10 @@ import AdminLoginPic from '../../assets/Login/adminLogin.svg'
 import  { useHistory} from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
-const ResetPasswordTrigger = () => {
+const ResetPasswordTrigger = (props) => {
+
+    // const ids = props.routerProps.match.params;
+    // console.log(ids)
 
     const [EmailValues, setEmailValues] = React.useState('');
     const [TypeValues, setTypeValues] = React.useState('');

@@ -22,7 +22,7 @@ body *{
 .dark .MuiDialog-paper{
   background-color: #161b22;
 }
-.dark .MuiDialog-paper p, .dark .MuiPickersCalendarHeader-dayLabel{
+.dark .MuiDialog-paper p, .dark .MuiPickersCalendarHeader-dayLabel, .dark .MuiSelect-select{
   color:white !important
 }
 

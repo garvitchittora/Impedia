@@ -201,6 +201,7 @@ const UpdateProfile = () => {
             >
               <h3>{userData.email}</h3>
               <TextField
+                error
                 className={classes.form__items}
                 InputLabelProps={{ shrink: true }}
                 label="Name"
@@ -213,6 +214,7 @@ const UpdateProfile = () => {
               />
               <TextField
                 required
+                error
                 type="number"
                 className={classes.form__items}
                 InputLabelProps={{ shrink: true }}
@@ -226,6 +228,7 @@ const UpdateProfile = () => {
               />
               <TextField
                 required
+                error
                 className={classes.form__items}
                 InputLabelProps={{ shrink: true }}
                 select
@@ -244,6 +247,7 @@ const UpdateProfile = () => {
               </TextField>
               <TextField
                 required
+                error
                 className={classes.form__items}
                 InputLabelProps={{ shrink: true }}
                 label="Section"
@@ -266,6 +270,14 @@ const UpdateProfile = () => {
                 variant="contained"
               >
                 Update Details
+              </Button>
+              <br /><br />
+              <Button
+                className={`${classes.submitButton} ${classes.form__items}`}
+                onClick={() => (history.push("/reset-password/trigger"))}
+                variant="contained"
+              >
+                Change Password
               </Button>
             </Grid>
             <Grid
