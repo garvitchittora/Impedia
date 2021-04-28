@@ -13,7 +13,7 @@ body *{
   background-color: #0d1117;
   color: white !important;
 }
-.dark input, .dark textarea, .dark #nav-item *, .dark h2{
+.dark input, .dark textarea, .dark #nav-item *, .dark .MuiDialog-paper h2{
   color: white !important;
 }
 .MuiFab-root.Mui-disabled{
