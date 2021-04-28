@@ -195,6 +195,8 @@ const Appeals = (props) => {
     }
     let fromdate = new Date(filterFromDate).getTime();
     let todate = new Date(filterToDate).getTime();
+    fromdate-=8640000;
+    todate+=8640000;
     let arr3 = [];
     if (isNaN(fromdate)) {
       arr3 = arr2;
@@ -206,7 +208,7 @@ const Appeals = (props) => {
     } else {
       arr3 = arr2.filter((el) => {
         let dt = new Date(el.dateTime);
-        return +dt >= +fromdate && +dt <= +todate;
+        return +dt >= +fromdate && +dt < +todate;
       });
     }
 
