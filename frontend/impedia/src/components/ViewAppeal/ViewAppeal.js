@@ -5,7 +5,6 @@ import {
   InputAdornment,
   FormControlLabel,
 } from "@material-ui/core";
-import CommentBg from "../../assets/Comments/background.svg";
 import {
   Reply as ReplyIcon,
   Cancel as CancelIcon,
@@ -19,6 +18,7 @@ import TopBar from "../TopBar/TopBar";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 import { useCookies } from "react-cookie";
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -196,6 +196,7 @@ const ViewAppeal = (props) => {
   const [reload, setReload] = useState(false);
   const [cookies] = useCookies(["user"]);
   const [emptyReply, setEmptyReply] = useState(false);
+  const history = useHistory();
   const dateoptions = {
     weekday: "long",
     year: "numeric",
@@ -204,35 +205,45 @@ const ViewAppeal = (props) => {
   };
 
   useEffect(() => {
-    const Token = cookies.user["key"];
-    const config = {
-      headers: {
-        authorization: Token,
-      },
-    };
-    axios
-      .get(`/appeal/${appealId}`, config)
-      .then((res) => res.data)
-      .then((data) => {
-        console.log(data);
-        setData(data);
-      });
+    if (!cookies.user) {
+      return history.push("/");
+    }
   }, []);
 
   useEffect(() => {
-    const Token = cookies.user["key"];
-    const config = {
-      headers: {
-        authorization: Token,
-      },
-    };
-    axios
-      .get(`/appeal/${appealId}/replies`, config)
-      .then((res) => res.data)
-      .then((data) => {
-        console.log(data);
-        setComments(data);
-      });
+    if (cookies.user) {
+      const Token = cookies.user["key"];
+      const config = {
+        headers: {
+          authorization: Token,
+        },
+      };
+      axios
+        .get(`/appeal/${appealId}`, config)
+        .then((res) => res.data)
+        .then((data) => {
+          console.log(data);
+          setData(data);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (cookies.user) {
+      const Token = cookies.user["key"];
+      const config = {
+        headers: {
+          authorization: Token,
+        },
+      };
+      axios
+        .get(`/appeal/${appealId}/replies`, config)
+        .then((res) => res.data)
+        .then((data) => {
+          console.log(data);
+          setComments(data);
+        });
+    }
   }, [reload]);
 
   const submitComment = () => {
@@ -281,9 +292,8 @@ const ViewAppeal = (props) => {
           </div>
           <div className={classes.fromto}>
             TO :{" "}
-            <span className={classes.colored}>{`${
-              data.appealToId.email || "Group"
-            } | ${data.appealToId.name}`}</span>
+            <span className={classes.colored}>{`${data.appealToId.email || "Group"
+              } | ${data.appealToId.name}`}</span>
           </div>
         </div>
         <div className={classes.body}>

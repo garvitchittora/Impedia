@@ -13,6 +13,8 @@ import axios from "axios";
 import DomainPic from "../../assets/Admin/addAuthoritiesPage.svg";
 import addAuthIcon from "../../assets/Admin/addAuth.svg";
 import TopBar from "../TopBar/TopBar";
+import { useCookies } from "react-cookie";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   appealToText: {
@@ -102,6 +104,14 @@ const AddGroup = () => {
   const [groupName, setGroupName] = useState("");
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [openErrorAlert, setOpenErrorAlert] = useState(false);
+  const [cookies] = useCookies(["user"]);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!cookies.user || cookies.user["type"] !== "ADMIN") {
+      return history.push("/login/admin");
+    }
+  }, []);
 
   useEffect(() => {
     let active = true;

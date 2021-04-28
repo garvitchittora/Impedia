@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "flex-end",
     letterSpacing: "4px",
-    zIndex:"1000",
+    zIndex: "1000",
     [theme.breakpoints.down("xs")]: {
       marginRight: "20px",
     },
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "600",
     fontSize: "15px",
     letterSpacing: "3px",
-    zIndex:"1000"
+    zIndex: "1000"
   },
   dashLine: {
     position: "relative",
@@ -154,34 +154,38 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    const Token = cookies.user ? cookies.user["key"] : "";
-    const config = {
-      headers: {
-        authorization: Token,
-      },
-    };
-    axios
-      .get("/authority/appeals", config)
-      .then((res) => res.data)
-      .then((data) => {
-        setAppeals(data);
-      });
+    if (cookies.user) {
+      const Token = cookies.user["key"];
+      const config = {
+        headers: {
+          authorization: Token,
+        },
+      };
+      axios
+        .get("/authority/appeals", config)
+        .then((res) => res.data)
+        .then((data) => {
+          setAppeals(data);
+        });
+    }
   }, []);
 
   useEffect(() => {
-    const Token = cookies.user ? cookies.user["key"] : "";
-    const config = {
-      headers: {
-        authorization: Token,
-      },
-    };
+    if (cookies.user) {
+      const Token = cookies.user["key"];
+      const config = {
+        headers: {
+          authorization: Token,
+        },
+      };
 
-    axios
-      .get("/authority/petitions", config)
-      .then((res) => res.data)
-      .then((data) => {
-        setPetitions(data);
-      });
+      axios
+        .get("/authority/petitions", config)
+        .then((res) => res.data)
+        .then((data) => {
+          setPetitions(data);
+        });
+    }
   }, []);
 
   return (

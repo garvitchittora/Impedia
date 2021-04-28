@@ -30,22 +30,24 @@ const AllPetitions = () => {
   }, []);
 
   useEffect(() => {
-    const Token = cookies.user["key"];
-    const config = {
-      headers: {
-        authorization: Token,
-      },
-    };
+    if (cookies.key) {
+      const Token = cookies.user["key"];
+      const config = {
+        headers: {
+          authorization: Token,
+        },
+      };
 
-    axios
-      .get("/authority/petitions", config)
-      .then((res) => res.data)
-      .then((data) => {
-        console.log(data);
-        setData(
-          data.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime))
-        );
-      });
+      axios
+        .get("/authority/petitions", config)
+        .then((res) => res.data)
+        .then((data) => {
+          console.log(data);
+          setData(
+            data.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime))
+          );
+        });
+    }
   }, []);
 
   return (

@@ -126,25 +126,28 @@ const CreateTemplate = (props) => {
     }
 
     (async () => {
-      const Token = cookies.user["key"];
-      const config = {
-        headers: {
-          authorization: Token,
-        },
-      };
-      const res = await axios.get("/group", config);
-      const dataGroups = res.data;
+      if (cookies.user) {
 
-      if (active) {
-        setOptionsGroup(() => {
-          return dataGroups.map((option) => {
-            let firstLetter = option.name[0].toUpperCase();
-            return {
-              firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
-              ...option,
-            };
+        const Token = cookies.user["key"];
+        const config = {
+          headers: {
+            authorization: Token,
+          },
+        };
+        const res = await axios.get("/group", config);
+        const dataGroups = res.data;
+
+        if (active) {
+          setOptionsGroup(() => {
+            return dataGroups.map((option) => {
+              let firstLetter = option.name[0].toUpperCase();
+              return {
+                firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
+                ...option,
+              };
+            });
           });
-        });
+        }
       }
     })();
 
@@ -161,28 +164,30 @@ const CreateTemplate = (props) => {
     }
 
     (async () => {
-      const Token = cookies.user["key"];
-      const config = {
-        headers: {
-          authorization: Token,
-        },
-      };
-      const res = await axios.get("/authority", config);
-      const dataAuth = res.data;
-      if (active) {
-        setOptionsAuth(() => {
-          return dataAuth.map((option) => {
-            let firstLetter = option.name[0].toUpperCase();
-            return {
-              firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
-              optionName:
-                typeof option.name !== "undefined"
-                  ? option.name + " | " + option.email
-                  : option.email,
-              ...option,
-            };
+      if (cookies.user) {
+        const Token = cookies.user["key"];
+        const config = {
+          headers: {
+            authorization: Token,
+          },
+        };
+        const res = await axios.get("/authority", config);
+        const dataAuth = res.data;
+        if (active) {
+          setOptionsAuth(() => {
+            return dataAuth.map((option) => {
+              let firstLetter = option.name[0].toUpperCase();
+              return {
+                firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
+                optionName:
+                  typeof option.name !== "undefined"
+                    ? option.name + " | " + option.email
+                    : option.email,
+                ...option,
+              };
+            });
           });
-        });
+        }
       }
     })();
 
