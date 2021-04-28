@@ -10,7 +10,7 @@ body *{
   font-family: 'Montserrat', sans-serif !important;
 }
 .dark{
-  background-color: #0d1117;
+  background-color: #101720;
   color: white !important;
 }
 .dark input, .dark textarea, .dark #nav-item *, .dark .MuiDialog-paper h2{

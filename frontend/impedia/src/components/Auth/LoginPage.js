@@ -224,6 +224,7 @@ const LoginPage = (props) => {
                 <FormControl className={classes.fieldInput} variant="filled" error>
                   <InputLabel htmlFor="email">Email</InputLabel>
                   <FilledInput
+                    required
                     id="email"
                     name="email"
                     value={props.EmailValues}
@@ -235,6 +236,7 @@ const LoginPage = (props) => {
                 <FormControl className={classes.fieldInput} variant="filled" error>
                   <InputLabel htmlFor="password">Password</InputLabel>
                   <FilledInput
+                    required
                     type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"

@@ -9,11 +9,16 @@ import {
     InputAdornment,
     IconButton,
     FilledInput,
+    TextField,
+    MenuItem,
+    Collapse,
 } from '@material-ui/core';
 import {
     Visibility,
-    VisibilityOff
+    VisibilityOff,
+    Close as CloseIcon,
  } from '@material-ui/icons';
+ import { Alert, AlertTitle } from "@material-ui/lab";
 import back1 from '../../assets/Login/login-1.svg';
 import back2 from '../../assets/Login/login-2.svg';
 import back3 from '../../assets/Login/login-32.svg';
@@ -171,17 +176,55 @@ const StudentRegister = () => {
     const classes = useStyles();
     const history = useHistory();
 
+    const section = [
+        {
+          value: "A",
+          label: "A",
+        },
+        {
+          value: "B",
+          label: "B",
+        },
+        {
+          value: "C",
+          label: "C",
+        },
+        {
+          value: "D",
+          label: "D",
+        },
+        {
+          value: "E",
+          label: "E",
+        },
+      ];
+    const branch = [
+        {
+          value: "IT",
+          label: "IT",
+        },
+        {
+          value: "ECE",
+          label: "ECE",
+        },
+        {
+          value: "IT-BI",
+          label: "IT-BI",
+        },
+      ];
+
     const [EmailValues, setEmailValues] = React.useState('');
-    const [SemValues, setSemValues] = React.useState('');
-    const [SectionValues, setSectionValues] = React.useState('');
-    const [BranchValues, setBranchValues] = React.useState('');
+    const [SemValues, setSemValues] = React.useState(1);
+    const [SectionValues, setSectionValues] = React.useState(section[0].value);
+    const [BranchValues, setBranchValues] = React.useState(branch[0].value);
     const [PasswordValues, setPasswordValues] = React.useState('');
     const [NameValues, setNameValues] = React.useState('');
+    const [domainAlert, setDomainAlert] = useState(true);
     const [cookies] = useCookies(["user"]);
 
     useEffect(() => {
       if (!cookies.user || cookies.user["type"] !== "STUDENT") {
-        return history.push("/login/student");
+        // return history.push("/login/student");
       }
     }, []);
 
@@ -236,7 +279,9 @@ const StudentRegister = () => {
             } 
         })
         .catch((err)=>{
-            console.log(err);
+            if(err.response.status === 401){
+                setDomainAlert(true);
+            }
         });
     }
 
@@ -266,46 +311,106 @@ const StudentRegister = () => {
                                             Email
                                         </InputLabel>
                                         <FilledInput
+                                            required
                                             id="email"
                                             name="email"
                                             onChange={handleChange}
                                         />
                                     </FormControl>
                                 </div>
+                                <div className={classes.failureLoginAlert}>
+                                    <Collapse in={domainAlert}>
+                                    <Alert
+                                        action={
+                                        <IconButton
+                                            aria-label="close"
+                                            color="inherit"
+                                            size="small"
+                                            onClick={() => {
+                                            setDomainAlert(false);
+                                            }}
+                                        >
+                                            <CloseIcon fontSize="inherit" />
+                                        </IconButton>
+                                        }
+                                        severity="error"
+                                    >
+                                        <AlertTitle>
+                                        <strong>Failed !</strong>
+                                        </AlertTitle>
+                                            This domain is not approved by the Admin for Student Registration.
+                                    </Alert>
+                                    </Collapse>
+                                </div>
                             <div className={classes.formInputs}>
                                 <FormControl className={classes.fieldInput} variant="filled" error>
-                                    <InputLabel htmlFor="sem">
-                                        Sem
-                                    </InputLabel>
-                                    <FilledInput
+                                    <TextField
+                                        required
+                                        error
                                         id="sem"
                                         name="sem"
+                                        type="number"
+                                        InputLabelProps={{ shrink: true }}
+                                        InputProps={{ inputProps: { min: 1, max: 8 } }}
+                                        label="Semester"
+                                        variant="filled"
+                                        value={SemValues}
                                         onChange={handleChange}
                                     />
                                 </FormControl>
                             </div>
                             <div className={classes.formInputs}>
                                 <FormControl className={classes.fieldInput} variant="filled" error>
-                                    <InputLabel htmlFor="section">
-                                        Section
-                                    </InputLabel>
-                                    <FilledInput
+                                    
+                                    <TextField
+                                        required
+                                        error
                                         id="section"
                                         name="section"
+                                        className={classes.form__items}
+                                        InputLabelProps={{ shrink: true }}
+                                        label="Section"
+                                        select
+                                        variant="filled"
+                                        value={SectionValues}
                                         onChange={handleChange}
-                                    />
+                                    >
+                                        {section.map((option) => (
+                                        <MenuItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </MenuItem>
+                                        ))}
+                                    </TextField>
                                 </FormControl>
                             </div>
                             <div className={classes.formInputs}>
                                 <FormControl className={classes.fieldInput} variant="filled" error>
-                                    <InputLabel htmlFor="branch">
+                                    {/* <InputLabel htmlFor="branch">
                                         Branch
                                     </InputLabel>
                                     <FilledInput
                                         id="branch"
                                         name="branch"
                                         onChange={handleChange}
-                                    />
+                                    /> */}
+                                    <TextField
+                                        required
+                                        error
+                                        id="section"
+                                        name="section"
+                                        InputLabelProps={{ shrink: true }}
+                                        select
+                                        label="Branch"
+                                        variant="filled"
+                                        value={BranchValues}
+                                        onChange={handleChange}
+                                    >
+                                        {branch.map((option) => (
+                                        <MenuItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </MenuItem>
+                                        ))}
+                                    </TextField>
                                 </FormControl>
                             </div>
                             <div className={classes.formInputs}>
@@ -314,6 +419,7 @@ const StudentRegister = () => {
                                         Name
                                     </InputLabel>
                                     <FilledInput
+                                        required
                                         id="name"
                                         name="name"
                                         onChange={handleChange}
@@ -324,6 +430,7 @@ const StudentRegister = () => {
                                 <FormControl className={classes.fieldInput} variant="filled" error>
                                        <InputLabel htmlFor="password">Password</InputLabel>
                                        <FilledInput
+                                           required
                                            type={showPassword?'text':'password'}
                                            id="password"
                                            name="password"
