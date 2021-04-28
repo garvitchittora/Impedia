@@ -20,6 +20,7 @@ import back1 from "../../assets/Login/login-1.svg";
 import back2 from "../../assets/Login/login-2.svg";
 import back3 from "../../assets/Login/login-3.svg";
 import ImpediaLogo from "../../assets/Logo-Impedia.png";
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   loginPage: {
@@ -193,14 +194,15 @@ const LoginPage = (props) => {
       {/* The Form */}
       <div className={classes.loginContainer}>
         <div>
-          <div className={classes.textCenter}>
-            <img
-              src={ImpediaLogo}
-              className={classes.logo}
-              alt="impedia-logo"
-            />
-          </div>
-
+          <Link to="/" className={classes.linkTag}>
+            <div className={classes.textCenter}>
+              <img
+                src={ImpediaLogo}
+                className={classes.logo}
+                alt="impedia-logo"
+              />
+            </div>
+          </Link>
           <Typography className={classes.formName} color="error">
             {props.actor} Login
           </Typography>
