@@ -11,7 +11,7 @@ import { Delete as DeleteIcon } from "@material-ui/icons";
 import axios from "axios";
 import SuccessAlert from "../Alert/SuccessAlert";
 import ErrorAlert from "../Alert/ErrorAlert";
-import DomainPic from "../../assets/Admin/addAuthoritiesPage.svg";
+import GroupPic from "../../assets/Admin/group.svg";
 import TopBar from "../TopBar/TopBar";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
@@ -480,9 +480,9 @@ const EditGroup = () => {
 
           <div className={classes.sidePic}>
             <img
-              src={DomainPic}
+              src={GroupPic}
               className={classes.domainPic}
-              alt="Set/Update Domain"
+              alt="Eidt Group"
             />
           </div>
         </div>

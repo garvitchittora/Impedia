@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import ResetForm from './ResetForm';
-import AdminLoginPic from '../../assets/Login/adminLogin.svg'
+import PasswordPic from '../../assets/Login/password.svg'
 import  { useHistory} from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
@@ -47,7 +47,7 @@ const ResetPasswordTrigger = (props) => {
                 setEmailValues={setEmailValues}
                 setTypeValues={setTypeValues}
                 submitFunction={submitFunction}
-                loginImage={AdminLoginPic}
+                loginImage={PasswordPic}
                 openAlert={openAlert}
                 successAlert={successAlert}
                 setOpenAlert={setOpenAlert}

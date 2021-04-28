@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import ChangeForm from './ChangeForm';
-import AdminLoginPic from '../../assets/Login/adminLogin.svg'
+import PasswordPic from '../../assets/Login/password.svg'
 import {
     useLocation
 } from "react-router-dom";
@@ -47,7 +47,7 @@ const ResetPassword = () => {
                 PasswordValues={PasswordValues} 
                 setPasswordValues={setPasswordValues}
                 submitFunction={submitFunction}
-                loginImage={AdminLoginPic}
+                loginImage={PasswordPic}
                 openAlert={openAlert}
                 successAlert={successAlert}
                 setOpenAlert={setOpenAlert}
