@@ -201,7 +201,7 @@ const LoginPage = (props) => {
       {/* The Form */}
       <div className={classes.loginContainer}>
         <div>
-          <Link to="/" className={classes.linkTag}>
+          <Link to="/">
             <div className={classes.textCenter}>
               <img
                 src={ImpediaLogo}

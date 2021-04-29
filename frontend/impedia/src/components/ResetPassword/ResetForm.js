@@ -21,6 +21,7 @@ import back1 from "../../assets/Login/login-1.svg";
 import back2 from "../../assets/Login/login-2.svg";
 import back3 from "../../assets/Login/login-3.svg";
 import ImpediaLogo from "../../assets/Logo-Impedia.png";
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   loginPage: {
@@ -171,7 +172,7 @@ const ResetForm = (props) => {
   const handleChange = (event) => {
     if (event.target.name === "email") {
       props.setEmailValues(event.target.value);
-    } else if(event.target.name === "userType") {
+    } else if (event.target.name === "userType") {
       props.setTypeValues(event.target.value);
     }
   };
@@ -185,14 +186,15 @@ const ResetForm = (props) => {
       {/* The Form */}
       <div className={classes.loginContainer}>
         <div>
-          <div className={classes.textCenter}>
-            <img
-              src={ImpediaLogo}
-              className={classes.logo}
-              alt="impedia-logo"
-            />
-          </div>
-
+          <Link to="/">
+            <div className={classes.textCenter}>
+              <img
+                src={ImpediaLogo}
+                className={classes.logo}
+                alt="impedia-logo"
+              />
+            </div>
+          </Link>
           <Typography className={classes.formName} color="error">
             Reset Password
           </Typography>
@@ -216,7 +218,7 @@ const ResetForm = (props) => {
               </div>
 
               <div className={classes.formInputs}>
-              <FormControl className={classes.fieldInput} variant="filled" error>
+                <FormControl className={classes.fieldInput} variant="filled" error>
                   <InputLabel id="type">User Type</InputLabel>
                   <Select
                     labelId="type"
@@ -229,7 +231,7 @@ const ResetForm = (props) => {
                     <MenuItem value="Authority">Authority</MenuItem>
                     <MenuItem value="Student">Student</MenuItem>
                   </Select>
-              </FormControl>
+                </FormControl>
               </div>
 
               <div className={classes.failureLoginAlert}>
