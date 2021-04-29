@@ -7,7 +7,7 @@ const Logout = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   useEffect(() => {
-    removeCookie("user");
+    removeCookie("user" , { path: '/' });
     return history.push("/");
   }, []);
 

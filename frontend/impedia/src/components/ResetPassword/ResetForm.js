@@ -5,7 +5,8 @@ import {
   FormControl,
   InputLabel,
   Button,
-  InputAdornment,
+  Select,
+  MenuItem,
   IconButton,
   FilledInput,
   Collapse,
@@ -163,32 +164,16 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
-  forgot: {
-    textAlign:"center",
-    '& a' :{
-      color: "#f44336"
-    }
-    
-  }
 }));
 
-const LoginPage = (props) => {
+const ResetForm = (props) => {
   const classes = useStyles();
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const clickShowPassword = () => {
-    setShowPassword((prev) => !prev);
-  };
-  const mouseDownPassword = (e) => {
-    e.preventDefault();
-  };
 
   const handleChange = (event) => {
     if (event.target.name === "email") {
       props.setEmailValues(event.target.value);
-    } else if (event.target.name === "password") {
-      props.setPasswordValues(event.target.value);
+    } else if (event.target.name === "userType") {
+      props.setTypeValues(event.target.value);
     }
   };
 
@@ -211,7 +196,7 @@ const LoginPage = (props) => {
             </div>
           </Link>
           <Typography className={classes.formName} color="error">
-            {props.actor} Login
+            Reset Password
           </Typography>
         </div>
         <div className={classes.formWrapper}>
@@ -224,7 +209,6 @@ const LoginPage = (props) => {
                 <FormControl className={classes.fieldInput} variant="filled" error>
                   <InputLabel htmlFor="email">Email</InputLabel>
                   <FilledInput
-                    required
                     id="email"
                     name="email"
                     value={props.EmailValues}
@@ -232,31 +216,24 @@ const LoginPage = (props) => {
                   />
                 </FormControl>
               </div>
+
               <div className={classes.formInputs}>
                 <FormControl className={classes.fieldInput} variant="filled" error>
-                  <InputLabel htmlFor="password">Password</InputLabel>
-                  <FilledInput
-                    required
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    name="password"
-                    value={props.PasswordValues}
+                  <InputLabel id="type">User Type</InputLabel>
+                  <Select
+                    labelId="type"
+                    id="userType"
+                    name="userType"
+                    value={props.TypeValues}
                     onChange={handleChange}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={clickShowPassword}
-                          onMouseDown={mouseDownPassword}
-                          color="secondary"
-                        >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
+                  >
+                    <MenuItem value="Admin">Admin</MenuItem>
+                    <MenuItem value="Authority">Authority</MenuItem>
+                    <MenuItem value="Student">Student</MenuItem>
+                  </Select>
                 </FormControl>
               </div>
+
               <div className={classes.failureLoginAlert}>
                 <Collapse in={props.openAlert}>
                   <Alert
@@ -277,7 +254,32 @@ const LoginPage = (props) => {
                     <AlertTitle>
                       <strong>Failed !</strong>
                     </AlertTitle>
-                    Wrong username or password. Try again
+                    Such an account doesn't exist.
+                  </Alert>
+                </Collapse>
+              </div>
+
+              <div className={classes.failureLoginAlert}>
+                <Collapse in={props.successAlert}>
+                  <Alert
+                    action={
+                      <IconButton
+                        aria-label="close"
+                        color="inherit"
+                        size="small"
+                        onClick={() => {
+                          props.setSuccessAlert(false);
+                        }}
+                      >
+                        <CloseIcon fontSize="inherit" />
+                      </IconButton>
+                    }
+                    severity="success"
+                  >
+                    <AlertTitle>
+                      <strong>Success !</strong>
+                    </AlertTitle>
+                    You must have recieved an email with the link to reset your password. The link will only be valid for 1 hour.
                   </Alert>
                 </Collapse>
               </div>
@@ -289,14 +291,8 @@ const LoginPage = (props) => {
                   type="submit"
                   id="submit-login"
                 >
-                  Login
+                  Reset
                 </Button>
-                
-                <div className={classes.forgot} >
-                  <Link to="/reset-password/trigger" >
-                    Forgot Password ?
-                  </Link>
-                </div>
               </div>
             </form>
           </div>
@@ -313,4 +309,4 @@ const LoginPage = (props) => {
   );
 };
 
-export default LoginPage;
+export default ResetForm;

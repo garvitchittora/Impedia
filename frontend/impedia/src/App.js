@@ -1,6 +1,8 @@
 import "./App.css";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
+import ResetPasswordTrigger from "./components/ResetPassword/ResetPasswordTrigger";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
 import AdminLogin from "./components/Auth/AdminLogin";
 import AuthorityLogin from "./components/Auth/AuthorityLogin";
 import StudentLogin from "./components/Auth/StudentLogin";
@@ -27,8 +29,62 @@ import UpdateAuthorityProfile from "./components/Authority/UpdateProfile";
 import Home from "./components/Home/Home";
 import Logout from "./components/Logout";
 import DarkTheme from './components/DarkTheme';
+import {useCookies} from 'react-cookie'
 
 function App() {
+  const [cookies] = useCookies(["user"]);
+
+  const AdminRoute = (takeprops) => {
+    const { component: Component, ...props } = takeprops
+    return(
+      <Route 
+        {...props} 
+        render={props => (
+          cookies.user ? (
+          cookies.user["type"] === "ADMIN" ?
+            <Component {...props} /> :
+            <Redirect to='/login/admin' /> ) : (
+              <Redirect to='/login/admin' />
+            )
+        )} 
+      />
+    )
+  }
+
+  const AuthorityRoute = (takeprops) => {
+    const { component: Component, ...props } = takeprops
+    return(
+      <Route 
+        {...props} 
+        render={props => (
+          cookies.user ? (
+          cookies.user["type"] === "AUTHORITY" ?
+            <Component {...props} /> :
+            <Redirect to='/login/authority' /> ) : (
+              <Redirect to='/login/authority' />
+            )
+        )} 
+      />
+    )
+  }
+
+  const StudentRoute = (takeprops) => {
+    const { component: Component, ...props } = takeprops
+    return(
+      <Route 
+        {...props} 
+        render={props => (
+          cookies.user ? (
+          cookies.user["type"] === "STUDENT" ?
+            <Component {...props} /> :
+            <Redirect to='/login/student' /> ) : (
+              <Redirect to='/login/student' />
+            )
+        )} 
+      />
+    )
+  }
+  // console.log(cookies.user["type"]);
   return (
     <>
       
@@ -36,54 +92,71 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/reset-password/trigger" component={ResetPasswordTrigger} />
+          <Route exact path="/reset-password" component={ResetPassword} />
           <Route exact path="/login/admin" component={AdminLogin} />
           <Route exact path="/login/authority" component={AuthorityLogin} />
           <Route exact path="/login/student" component={StudentLogin} />
           <Route exact path="/register/student" component={StudentRegister} />
-          <Route exact path="/admin/dashboard" component={Dashboard} />
-          <Route exact path="/student/dashboard" component={StudentDashboard} />
-          <Route
-            exact
-            path="/authority/dashboard"
-            component={AuthorityDashboard}
-          />
-          <Route exact path="/admin/ChangeDomain" component={ChangeDomain} />
-          <Route exact path="/admin/AddAuthority" component={AddAuthority} />
-          <Route
+
+          {/* <Route 
+            path="/admin"
+            
+            > */}
+            <AdminRoute exact path="/admin/dashboard" component={Dashboard} />
+            <AdminRoute exact path="/admin/ChangeDomain" component={ChangeDomain} />
+            <AdminRoute exact path="/admin/AddAuthority" component={AddAuthority} />
+            <AdminRoute exact path="/admin/petitions" component={AdminAllPetitions} />
+            <AdminRoute exact path="/admin/groups/edit" component={EditGroup} />
+            <AdminRoute exact path="/admin/groups/add" component={AddGroup} />
+            <AdminRoute exact path="/admin/appeals" component={AdminAllAppeals} />
+          {/* </Route> */}
+          
+          <StudentRoute exact path="/student/dashboard" component={StudentDashboard} />
+          <StudentRoute
             exact
             path="/student/appeals/create"
             component={CreateAppeal}
           />
-          <Route
+          <StudentRoute
             exact
             path="/student/petitions/create"
             component={CreatePetition}
           />
-          <Route exact path="/admin/groups/edit" component={EditGroup} />
-          <Route exact path="/admin/groups/add" component={AddGroup} />
-          <Route exact path="/admin/appeals" component={AdminAllAppeals} />
-          <Route
-            exact
-            path="/authority/appeals"
-            component={AuthorityAllAppeals}
-          />
-          <Route exact path="/student/appeals" component={StudentAllAppeals} />
-          <Route exact path="/admin/petitions" component={AdminAllPetitions} />
-          <Route
-            exact
-            path="/authority/petitions"
-            component={AuthorityAllPetitions}
-          />
-          <Route
-            exact
-            path="/authority/updateprofile"
-            component={UpdateAuthorityProfile}
-          />
-          <Route
+          <StudentRoute
             exact
             path="/student/petitions"
             component={StudentAllPetitions}
           />
+          <StudentRoute
+            exact
+            path="/student/updateprofile"
+            component={UpdateStudentProfile}
+          />
+          
+          
+          <AuthorityRoute
+            exact
+            path="/authority/dashboard"
+            component={AuthorityDashboard}
+          />
+          <AuthorityRoute
+            exact
+            path="/authority/appeals"
+            component={AuthorityAllAppeals}
+          />
+          <AuthorityRoute exact path="/student/appeals" component={StudentAllAppeals} />
+          <AuthorityRoute
+            exact
+            path="/authority/petitions"
+            component={AuthorityAllPetitions}
+          />
+          <AuthorityRoute
+            exact
+            path="/authority/updateprofile"
+            component={UpdateAuthorityProfile}
+          />
+
           <Route
             path="/appeals/:id"
             render={(props) => <ViewAppeal routerProps={props} />}
@@ -91,11 +164,6 @@ function App() {
           <Route
             path="/petitions/:id"
             render={(props) => <ViewPetition routerProps={props} />}
-          />
-          <Route
-            exact
-            path="/student/updateprofile"
-            component={UpdateStudentProfile}
           />
           <Route exact path="/logout" component={Logout} />
         </Switch>

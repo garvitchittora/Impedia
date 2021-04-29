@@ -12,6 +12,7 @@ const groupRouter = require("./routes/groupRouter");
 const appealRouter = require("./routes/appealRouter");
 const petitionRouter = require("./routes/petitionRouter");
 const replyRouter = require("./routes/replyRouter");
+const resetPasswordRouter = require("./routes/resetPasswordRouter");
 const errorHandler = require("./utils/errorHandler");
 
 // Adding parsing middlewares
@@ -36,6 +37,7 @@ app.use("/group", groupRouter);
 app.use("/appeal", appealRouter);
 app.use("/petition", petitionRouter);
 app.use("/reply", replyRouter);
+app.use("/reset-password", resetPasswordRouter);
 app.use(errorHandler);
 
 

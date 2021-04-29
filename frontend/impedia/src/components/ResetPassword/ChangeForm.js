@@ -5,9 +5,9 @@ import {
   FormControl,
   InputLabel,
   Button,
-  InputAdornment,
   IconButton,
   FilledInput,
+  InputAdornment,
   Collapse,
 } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
@@ -20,7 +20,6 @@ import back1 from "../../assets/Login/login-1.svg";
 import back2 from "../../assets/Login/login-2.svg";
 import back3 from "../../assets/Login/login-3.svg";
 import ImpediaLogo from "../../assets/Logo-Impedia.png";
-import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   loginPage: {
@@ -163,16 +162,9 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
-  forgot: {
-    textAlign:"center",
-    '& a' :{
-      color: "#f44336"
-    }
-    
-  }
 }));
 
-const LoginPage = (props) => {
+const ChangeForm = (props) => {
   const classes = useStyles();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -185,9 +177,7 @@ const LoginPage = (props) => {
   };
 
   const handleChange = (event) => {
-    if (event.target.name === "email") {
-      props.setEmailValues(event.target.value);
-    } else if (event.target.name === "password") {
+    if (event.target.name === "password") {
       props.setPasswordValues(event.target.value);
     }
   };
@@ -201,17 +191,16 @@ const LoginPage = (props) => {
       {/* The Form */}
       <div className={classes.loginContainer}>
         <div>
-          <Link to="/">
-            <div className={classes.textCenter}>
-              <img
-                src={ImpediaLogo}
-                className={classes.logo}
-                alt="impedia-logo"
-              />
-            </div>
-          </Link>
+          <div className={classes.textCenter}>
+            <img
+              src={ImpediaLogo}
+              className={classes.logo}
+              alt="impedia-logo"
+            />
+          </div>
+
           <Typography className={classes.formName} color="error">
-            {props.actor} Login
+            Change Password
           </Typography>
         </div>
         <div className={classes.formWrapper}>
@@ -220,23 +209,11 @@ const LoginPage = (props) => {
               className={classes.formContainer}
               onSubmit={props.submitFunction}
             >
-              <div className={classes.formInputs}>
-                <FormControl className={classes.fieldInput} variant="filled" error>
-                  <InputLabel htmlFor="email">Email</InputLabel>
-                  <FilledInput
-                    required
-                    id="email"
-                    name="email"
-                    value={props.EmailValues}
-                    onChange={handleChange}
-                  />
-                </FormControl>
-              </div>
+
               <div className={classes.formInputs}>
                 <FormControl className={classes.fieldInput} variant="filled" error>
                   <InputLabel htmlFor="password">Password</InputLabel>
                   <FilledInput
-                    required
                     type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
@@ -257,6 +234,7 @@ const LoginPage = (props) => {
                   />
                 </FormControl>
               </div>
+
               <div className={classes.failureLoginAlert}>
                 <Collapse in={props.openAlert}>
                   <Alert
@@ -277,7 +255,32 @@ const LoginPage = (props) => {
                     <AlertTitle>
                       <strong>Failed !</strong>
                     </AlertTitle>
-                    Wrong username or password. Try again
+                    Invalid reset link or the link has expired.
+                  </Alert>
+                </Collapse>
+              </div>
+
+              <div className={classes.failureLoginAlert}>
+                <Collapse in={props.successAlert}>
+                  <Alert
+                    action={
+                      <IconButton
+                        aria-label="close"
+                        color="inherit"
+                        size="small"
+                        onClick={() => {
+                          props.setSuccessAlert(false);
+                        }}
+                      >
+                        <CloseIcon fontSize="inherit" />
+                      </IconButton>
+                    }
+                    severity="success"
+                  >
+                    <AlertTitle>
+                      <strong>Success !</strong>
+                    </AlertTitle>
+                    Your password has been changed.
                   </Alert>
                 </Collapse>
               </div>
@@ -289,14 +292,8 @@ const LoginPage = (props) => {
                   type="submit"
                   id="submit-login"
                 >
-                  Login
+                  Change
                 </Button>
-                
-                <div className={classes.forgot} >
-                  <Link to="/reset-password/trigger" >
-                    Forgot Password ?
-                  </Link>
-                </div>
               </div>
             </form>
           </div>
@@ -313,4 +310,4 @@ const LoginPage = (props) => {
   );
 };
 
-export default LoginPage;
+export default ChangeForm;

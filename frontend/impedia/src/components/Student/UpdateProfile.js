@@ -6,7 +6,13 @@ import {
   makeStyles,
   TextField,
   MenuItem,
+  Collapse,
+  IconButton
 } from "@material-ui/core";
+import { Alert, AlertTitle } from "@material-ui/lab";
+import {
+ Close as CloseIcon,
+} from "@material-ui/icons";
 import axios from "axios";
 import SuccessAlert from "../Alert/SuccessAlert";
 import ErrorAlert from "../Alert/ErrorAlert";
@@ -80,6 +86,8 @@ const UpdateProfile = () => {
   });
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [openErrorAlert, setOpenErrorAlert] = useState(false);
+  const [changepassSuccessAlert, setChangePassSuccessAlert] = useState(false);
+  const [changepassErrorAlert, setChangePassErrorAlert] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -173,6 +181,26 @@ const UpdateProfile = () => {
     openErrorAlert && setError(student.data.error);
   };
 
+  const changePassword = (e) => {
+    e.preventDefault();
+
+        const body = {
+            email: userData.email,
+            type: "Student"
+        }
+        
+        axios.post('/reset-password/trigger',body)
+        .then((res)=>{
+            if(res.status === 200){
+                setChangePassSuccessAlert(true);
+            }
+        })
+        .catch((err)=>{
+            if(err.response.status === 400 || err.response.status === 404)
+                setChangePassErrorAlert(true);
+        });
+  }
+
   return (
     <>
       {key !== null ? (
@@ -201,6 +229,7 @@ const UpdateProfile = () => {
             >
               <h3>{userData.email}</h3>
               <TextField
+                error
                 className={classes.form__items}
                 InputLabelProps={{ shrink: true }}
                 label="Name"
@@ -213,6 +242,7 @@ const UpdateProfile = () => {
               />
               <TextField
                 required
+                error
                 type="number"
                 className={classes.form__items}
                 InputLabelProps={{ shrink: true }}
@@ -226,6 +256,7 @@ const UpdateProfile = () => {
               />
               <TextField
                 required
+                error
                 className={classes.form__items}
                 InputLabelProps={{ shrink: true }}
                 select
@@ -244,6 +275,7 @@ const UpdateProfile = () => {
               </TextField>
               <TextField
                 required
+                error
                 className={classes.form__items}
                 InputLabelProps={{ shrink: true }}
                 label="Section"
@@ -267,6 +299,63 @@ const UpdateProfile = () => {
               >
                 Update Details
               </Button>
+              <br /><br />
+              <Button
+                className={`${classes.submitButton} ${classes.form__items}`}
+                onClick={changePassword}
+                variant="contained"
+              >
+                Change Password
+              </Button>
+              <div className={classes.failureLoginAlert}>
+                <Collapse in={changepassErrorAlert}>
+                  <Alert
+                    action={
+                      <IconButton
+                        aria-label="close"
+                        color="inherit"
+                        size="small"
+                        onClick={() => {
+                          setChangePassErrorAlert(false);
+                        }}
+                      >
+                        <CloseIcon fontSize="inherit" />
+                      </IconButton>
+                    }
+                    severity="error"
+                  >
+                    <AlertTitle>
+                      <strong>Failed !</strong>
+                    </AlertTitle>
+                    There was an error sending the mail !
+                  </Alert>
+                </Collapse>
+              </div>
+
+              <div className={classes.failureLoginAlert}>
+                <Collapse in={changepassSuccessAlert}>
+                  <Alert
+                    action={
+                      <IconButton
+                        aria-label="close"
+                        color="inherit"
+                        size="small"
+                        onClick={() => {
+                          setChangePassSuccessAlert(false);
+                        }}
+                      >
+                        <CloseIcon fontSize="inherit" />
+                      </IconButton>
+                    }
+                    severity="success"
+                  >
+                    <AlertTitle>
+                      <strong>Success !</strong>
+                    </AlertTitle>
+                    You must have recieved an email with the link to reset your password. The link will only be valid for 1 hour.
+                  </Alert>
+                </Collapse>
+              </div>
             </Grid>
             <Grid
               container
