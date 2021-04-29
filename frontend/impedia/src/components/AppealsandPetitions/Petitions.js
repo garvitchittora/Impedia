@@ -219,10 +219,18 @@ const Petitions = (props) => {
       console.log(email);
       arr2 = arr1.filter((el) => el.petitionFromId.email === email);
     }
-    let fromdate = new Date(filterFromDate).getTime();
-    let todate = new Date(filterToDate).getTime();
-    fromdate-=8640000;
-    todate+=8640000;
+    let tempfrom = new Date(filterFromDate).setHours(0,0,0,0);
+    let tempto = new Date(filterToDate).setHours(23,59,59,999);
+    let fromdate = new Date(tempfrom).getTime();
+    let todate = new Date(tempto).getTime();
+    // fromdate.setHours(0,0,0,0);
+    // fromdate
+    // fromdate-=86400000;
+    // todate+=86400000;
+    console.log(fromdate);
+    console.log(todate);
+    console.log(new Date(fromdate));
+    console.log(new Date(todate));
     let arr3 = [];
     if (isNaN(fromdate)) {
       arr3 = arr2;
