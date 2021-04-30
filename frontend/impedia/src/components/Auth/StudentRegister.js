@@ -219,7 +219,7 @@ const StudentRegister = () => {
     const [BranchValues, setBranchValues] = React.useState(branch[0].value);
     const [PasswordValues, setPasswordValues] = React.useState('');
     const [NameValues, setNameValues] = React.useState('');
-    const [domainAlert, setDomainAlert] = useState(true);
+    const [domainAlert, setDomainAlert] = useState(false);
     const [cookies] = useCookies(["user"]);
 
     useEffect(() => {

@@ -44,6 +44,9 @@ const DarkTheme = () => {
     }
     
     useEffect(()=> {
+        if(!cookies.theme){
+            setCookie("theme","light",{path: "/"});
+        }
         if(cookies.theme==="dark"){
             addClass();
         }
@@ -73,7 +76,7 @@ const DarkTheme = () => {
     }
 
     return (
-        <div >
+        <div>
             <Button
             variant="contained"
             color="secondary"
@@ -82,10 +85,11 @@ const DarkTheme = () => {
             onMouseEnter={enterText}
             onMouseLeave={deleteText}
             onClick={changeTheme}
-            / >
+            >
+            </Button>
             <Grow direction="down" in={hover} mountOnEnter unmountOnExit>
             <Paper elevation={10} className={classes.paper}>
-                {cookies.theme==="light"?"Light":"Dark"} Theme
+                {cookies.theme==="dark"?"Dark":"Light"} Theme
             </Paper>
             </Grow>
         </div>
