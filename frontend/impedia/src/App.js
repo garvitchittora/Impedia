@@ -29,6 +29,7 @@ import UpdateAuthorityProfile from "./components/Authority/UpdateProfile";
 import Home from "./components/Home/Home";
 import Logout from "./components/Logout";
 import DarkTheme from './components/DarkTheme';
+import Error404 from './components/Error404';
 import {useCookies} from 'react-cookie'
 
 function App() {
@@ -170,6 +171,7 @@ function App() {
             render={(props) => <ViewPetition routerProps={props} />}
           />
           <Route exact path="/logout" component={Logout} />
+          <Route path="*" component={Error404} />
         </Switch>
       </BrowserRouter>
     </>

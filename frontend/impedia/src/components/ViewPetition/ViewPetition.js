@@ -321,6 +321,11 @@ const ViewAppeal = (props) => {
             setSigned(false);
             setSignMsg();
           }
+        })
+        .catch(err => {
+          if(err.response.status === 400 || err.response.status === 401 || err.response.status === 404 || err.response.status === 403){
+            history.push("/error");
+          }
         });
     }
   }, [reload]);

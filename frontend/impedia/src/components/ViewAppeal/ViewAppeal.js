@@ -226,6 +226,11 @@ const ViewAppeal = (props) => {
         .then((data) => {
           console.log(data);
           setData(data);
+        })
+        .catch(err => {
+          if(err.response.status === 400 || err.response.status === 401 || err.response.status === 404 || err.response.status === 403){
+            history.push("/error");
+          }
         });
     }
   }, []);
