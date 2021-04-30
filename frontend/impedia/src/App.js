@@ -128,6 +128,11 @@ function App() {
             path="/student/petitions"
             component={StudentAllPetitions}
           />
+          <StudentRoute 
+            exact 
+            path="/student/appeals" 
+            component={StudentAllAppeals} 
+          />
           <StudentRoute
             exact
             path="/student/updateprofile"
@@ -145,7 +150,6 @@ function App() {
             path="/authority/appeals"
             component={AuthorityAllAppeals}
           />
-          <AuthorityRoute exact path="/student/appeals" component={StudentAllAppeals} />
           <AuthorityRoute
             exact
             path="/authority/petitions"
