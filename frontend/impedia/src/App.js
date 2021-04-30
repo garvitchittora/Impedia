@@ -29,6 +29,7 @@ import UpdateAuthorityProfile from "./components/Authority/UpdateProfile";
 import Home from "./components/Home/Home";
 import Logout from "./components/Logout";
 import DarkTheme from './components/DarkTheme';
+import Error404 from './components/Error404';
 import {useCookies} from 'react-cookie'
 
 function App() {
@@ -128,6 +129,11 @@ function App() {
             path="/student/petitions"
             component={StudentAllPetitions}
           />
+          <StudentRoute 
+            exact 
+            path="/student/appeals" 
+            component={StudentAllAppeals} 
+          />
           <StudentRoute
             exact
             path="/student/updateprofile"
@@ -145,7 +151,6 @@ function App() {
             path="/authority/appeals"
             component={AuthorityAllAppeals}
           />
-          <AuthorityRoute exact path="/student/appeals" component={StudentAllAppeals} />
           <AuthorityRoute
             exact
             path="/authority/petitions"
@@ -166,6 +171,7 @@ function App() {
             render={(props) => <ViewPetition routerProps={props} />}
           />
           <Route exact path="/logout" component={Logout} />
+          <Route path="*" component={Error404} />
         </Switch>
       </BrowserRouter>
     </>
