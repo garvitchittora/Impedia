@@ -29,6 +29,15 @@ const petitionSchema = new mongoose.Schema(
         ref: "Student",
       },
     ],
+    decision: {
+      type: String,
+      enum: {
+        values: ["Pending", "Approved", "Rejected"],
+        message: "Decision can be either 'Approved' or 'Rejected'",
+      },
+      default: "Pending",
+      required: true,
+    },
     dateTime: {
       type: Date,
       default: Date.now,

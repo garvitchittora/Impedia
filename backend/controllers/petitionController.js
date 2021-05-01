@@ -1,6 +1,8 @@
 const Student = require("../models/Student");
 const Petition = require("../models/Petition");
 const Reply = require("../models/Reply");
+const Group = require("../models/Group");
+const Authority = require("../models/Authority");
 
 const getPetitionById = async (req, res) => {
   const { user } = req;
@@ -64,8 +66,36 @@ const getPetitionReplies = async (req, res) => {
   return res.json(petitionReplies);
 };
 
+const makeDecision = async (req, res) => {
+  const petition = await Petition.findById(req.params.id);
+  const decisionMaker = await Authority.findById(req.user.id);
+
+  if (petition.onModel === "Group") {
+    const group = await Group.findById(petition.petitionToId);
+    if (!group.members.find((member) => member === decisionMaker._id))
+      return res.status(401).json({ error: "Unauthorized" });
+  } else {
+    if (decisionMaker._id !== petition.petitionToId)
+      return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  if (petition.decision !== "Pending") {
+    return res
+      .status(400)
+      .json({ error: "Decision has already been made on this petition" });
+  }
+
+  if (req.body.decision === "Pending")
+    return res.status(400).json({ error: "Invalid decision" });
+
+  petition.decision = req.body.decision;
+  await petition.save();
+  return res.status(200).end();
+};
+
 module.exports = {
   getPetitionById,
   signPetition,
   getPetitionReplies,
+  makeDecision,
 };
