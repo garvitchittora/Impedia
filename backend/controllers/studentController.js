@@ -7,7 +7,10 @@ const Appeal = require("../models/Appeal");
 const Petition = require("../models/Petition");
 const Group = require("../models/Group");
 const Authority = require("../models/Authority");
-const {sendNewAppealEmail, sendNewPetitionEmail} = require("../utils/sendEmail");
+const {
+  sendNewAppealEmail,
+  sendNewPetitionEmail,
+} = require("../utils/sendEmail");
 
 const validateStudentRegisterRequest = async (req, res, next) => {
   const tempStudent = new Student({
@@ -42,7 +45,9 @@ const getProfile = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   const { user } = req;
-  const student = await Student.findByIdAndUpdate(user.id, req.body, {new: true});
+  const student = await Student.findByIdAndUpdate(user.id, req.body, {
+    new: true,
+  });
   if (!student) return res.status(404).end();
   res.status(200).json(student);
 };
@@ -95,15 +100,15 @@ const createAppeal = async (req, res) => {
     appeal.onModel = "Authority";
     const authority = await Authority.findById(appeal.appealToId);
     sendNewAppealEmail(authority, student, appeal);
-  }
-  else if (appeal.appealToId.substring(0, 2) === "GR") {
+  } else if (appeal.appealToId.substring(0, 2) === "GR") {
     appeal.onModel = "Group";
-    const group = await Group.findById(appeal.appealToId).populate("members").exec();
-    group.members.forEach(authority => {
+    const group = await Group.findById(appeal.appealToId)
+      .populate("members")
+      .exec();
+    group.members.forEach((authority) => {
       sendNewAppealEmail(authority, student, appeal);
-    })
-  }
-  else return res.status(400).json({ error: "Invalid appealToId" });
+    });
+  } else return res.status(400).json({ error: "Invalid appealToId" });
 
   await appeal.save();
   return res.status(201).json(appeal);
@@ -126,25 +131,27 @@ const createPetition = async (req, res) => {
   const student = await Student.findById(user.id);
   if (!student)
     return res.status(400).json({ error: "Student does not exist" });
+
   const petition = new Petition({
     _id: `PE${new mongoose.mongo.ObjectID()}`,
     petitionFromId: user.id,
     signees: [user.id],
     ...body,
   });
+
   if (petition.petitionToId.substring(0, 2) === "AU") {
     petition.onModel = "Authority";
     const authority = await Authority.findById(petition.petitionToId);
     sendNewPetitionEmail(authority, student, petition);
-  }
-  else if (petition.petitionToId.substring(0, 2) === "GR") {
+  } else if (petition.petitionToId.substring(0, 2) === "GR") {
     petition.onModel = "Group";
-    const group = await Group.findById(petition.petitionToId).populate("members").exec();
-    group.members.forEach(authority => {
+    const group = await Group.findById(petition.petitionToId)
+      .populate("members")
+      .exec();
+    group.members.forEach((authority) => {
       sendNewPetitionEmail(authority, student, petition);
-    })
-  }
-  else return res.status(400).json({ error: "Invalid petitionToId" });
+    });
+  } else return res.status(400).json({ error: "Invalid petitionToId" });
 
   await petition.save();
   return res.status(201).json(petition);
