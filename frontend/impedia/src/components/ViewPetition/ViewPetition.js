@@ -254,6 +254,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight:"800",
     textTransform:"uppercase"
   },
+  decideIcon:{
+    marginRight:"30px"
+  },
   Approved:{
     background:"#81b214"
   },
@@ -499,7 +502,7 @@ const ViewAppeal = (props) => {
               </div>
               <div>
                 {actor === "AUTHORITY" && (
-                    <Badge badgeContent={decideMsg} color="error">
+                    <Badge badgeContent={decideMsg} color="error" className={classes.decideIcon}>
                       <Fab
                         color="secondary"
                         disabled={decided}
