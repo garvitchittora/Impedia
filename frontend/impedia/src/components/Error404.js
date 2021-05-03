@@ -32,7 +32,8 @@ const useStyles = makeStyles((theme) => ({
         fontSize:"60px"
     },
     desc:{
-        fontSize:"40px"
+        fontSize:"40px",
+        fontStyle: "italic"
     },
     button:{
         fontSize:"20px",
@@ -63,8 +64,8 @@ const Error404 = () => {
                     alt="404"
                 /> 
                 <div className={classes.col2}>
-                    <h1 className={classes.title}> Oooops ...</h1>
-                    <h3 className={classes.desc}> Looks like you have lost !</h3>
+                    <h3 className={classes.desc}> "Not all those who wander are lost ..." </h3>
+                    <h1 className={classes.title}> But you are !</h1>
                     <div className={classes.buttonContainer} >
                         <Button 
                             variant="outlined" 

@@ -30,7 +30,7 @@ const AllPetitions = () => {
   }, []);
 
   useEffect(() => {
-    if (cookies.key) {
+    if (cookies.user) {
       const Token = cookies.user["key"];
       const config = {
         headers: {
