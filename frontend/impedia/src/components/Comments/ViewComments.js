@@ -7,7 +7,11 @@ import {
 } from "@material-ui/icons";
 import { useCookies } from "react-cookie";
 
-const useStyles = makeStyles((col, theme) => ({
+const useStyles = makeStyles((theme) => ({
+  noComments:{
+    textAlign:"center",
+    marginTop:"30px"
+  },
   conatiner: {
     height: "100%",
     overflow: "auto",
@@ -149,7 +153,7 @@ const ViewComments = ({ comments, setReplyTo }) => {
   };
 
   return comments.length === 0 ? (
-    "No Comments Yet"
+    <div className={classes.noComments}>No Comments Yet</div>
   ) : (
     <>
       <div className={classes.conatiner}>{comments.map(CommentCard)}</div>

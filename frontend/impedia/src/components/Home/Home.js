@@ -90,6 +90,9 @@ const useStyles = makeStyles((theme) => ({
     // marginRight:"60px",
     letterSpacing: "5px",
     fontWeight: "600",
+    [theme.breakpoints.up("sm")]: {
+      left:"23vw"
+    },
     [theme.breakpoints.down("sm")]: {
       position:"relative",
       left: "0",
