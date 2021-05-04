@@ -41,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("md")]: {
       fontSize: "16px",
     },
+    
+    [theme.breakpoints.down("sm")]: {
+      fontSize:"14px"
+    },
   },
   navWrapper: {
     width: "100%",
@@ -52,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     top: "20px",
     width: "calc(100%/12*7)",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       width: "100%",
     },
   },
@@ -87,7 +91,14 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: "5px",
     fontWeight: "600",
     [theme.breakpoints.up("sm")]: {
-      left: "23vw",
+      left:"23vw"
+    },
+    [theme.breakpoints.down("sm")]: {
+      position:"relative",
+      left: "0",
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize:"15px"
     },
   },
   extendedBack: {

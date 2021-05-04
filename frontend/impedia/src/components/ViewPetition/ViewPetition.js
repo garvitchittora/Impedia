@@ -25,6 +25,7 @@ import {
   Cancel as CancelIcon,
   ThumbUp as Support,
   ThumbDown as NoSupport,
+  Gavel as DecideIcon,
 } from "@material-ui/icons";
 import SuccessAlert from "../Alert/SuccessAlert";
 import ErrorAlert from "../Alert/ErrorAlert";
@@ -35,8 +36,16 @@ import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 import { useCookies } from "react-cookie";
 import { useHistory } from 'react-router-dom';
+import Loader from '../../assets/loader.svg';
 
 const useStyles = makeStyles((theme) => ({
+  loader:{
+    display:"block",
+    position:"absolute",
+    top:"50%",
+    left:"50%",
+    transform: "translate(-50%, -50%)"
+  },
   container: {
     margin: "2% 0",
   },
@@ -236,6 +245,32 @@ const useStyles = makeStyles((theme) => ({
     //     userSelect:"none"
     // }
   },
+  decisionSection:{
+    marginBottom:"20px",
+    display:"flex",
+    justifyContent:"space-between"
+  },
+  currentDecision:{
+    display: "flex",
+    alignItems: "center",
+    height:"30px",
+    padding: "10px 20px",
+    borderRadius: "15px",
+    background:
+      "linear-gradient(85.98deg, #FFA41B 0.54%, rgba(255, 30, 86, 0.99) 130.83%)",
+    letterSpacing: "3px",
+    fontWeight:"800",
+    textTransform:"uppercase"
+  },
+  decideIcon:{
+    marginRight:"30px"
+  },
+  Approved:{
+    background:"#81b214"
+  },
+  Rejected:{
+    background:"#ec0101"
+  }
 }));
 
 const ViewAppeal = (props) => {
@@ -250,14 +285,18 @@ const ViewAppeal = (props) => {
   const [signMsg, setSignMsg] = useState();
   const [actor, setActor] = useState();
   const [reload, setReload] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [signdialogOpen, setSignDialogOpen] = useState(false);
   const [successAlert, setSuccessAlert] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const [failureAlert, setFailureAlert] = useState(false);
   const [newComment, setNewComment] = useState("");
   const [supportValue, setSupportValue] = useState("support");
   const [comments, setComments] = useState([]);
   const [replyTo, setReplyTo] = useState();
   const [emptyReply, setEmptyReply] = useState(false);
+  const [decisiondialogOpen, setDecisionDialogOpen] = useState(false);
+  const [decided, setDecided] = useState(false);
+  const [decideMsg, setDecideMsg] = useState();
   const history = useHistory();
 
   const dateoptions = {
@@ -273,11 +312,18 @@ const ViewAppeal = (props) => {
     }
   }, []);
 
-  const handleDialogOpen = () => {
-    setDialogOpen(true);
+  const handleSignDialogOpen = () => {
+    setSignDialogOpen(true);
   };
-  const handleDialogClose = () => {
-    setDialogOpen(false);
+  const handleSignDialogClose = () => {
+    setSignDialogOpen(false);
+  };
+
+  const handleDecisionDialogOpen = () => {
+    setDecisionDialogOpen(true);
+  };
+  const handleDecisionDialogClose = () => {
+    setDecisionDialogOpen(false);
   };
 
   const SigneeCard = (data) => {
@@ -321,6 +367,15 @@ const ViewAppeal = (props) => {
             setSigned(false);
             setSignMsg();
           }
+          if(data.decision === "Approved" || data.decision === "Rejected"){
+            setDecided(true);
+            setDecideMsg("Decided");
+          }
+        })
+        .catch(err => {
+          if(err.response.status === 400 || err.response.status === 401 || err.response.status === 404 || err.response.status === 403){
+            history.push("/error");
+          }
         });
     }
   }, [reload]);
@@ -344,7 +399,7 @@ const ViewAppeal = (props) => {
   }, [reload]);
 
   const submitSign = () => {
-    handleDialogClose();
+    handleSignDialogClose();
     const Token = cookies.user["key"];
     const config = {
       headers: {
@@ -355,6 +410,7 @@ const ViewAppeal = (props) => {
     axios.post(`/petition/${petitionId}/sign`, {}, config).then((res) => {
       if (res.status === 200 || res.status === 201 || res.status === 204) {
         setSuccessAlert(true);
+        setSuccessMessage("You signed for this Petition.")
         setReload((prev) => !prev);
       } else {
         setFailureAlert(true);
@@ -392,8 +448,31 @@ const ViewAppeal = (props) => {
     });
   };
 
+  const submitDecision = (decision) => {
+    const Token = cookies.user["key"];
+    const config = {
+      headers: {
+        Authorization: Token,
+      },
+    };
+    const body = {
+      decision
+    };
+    handleDecisionDialogClose();
+    axios.post(`/petition/${petitionId}/decision`, body, config).then((res) => {
+      if (res.status === 200 || res.status === 201 || res.status === 204) {
+        setSuccessAlert(true);
+        setReload((prev) => !prev);
+        setSuccessMessage("The Decision was Posted.")
+      }
+      else{
+          setFailureAlert(true);
+      }
+    });
+  }
+
   return data.length === 0 ? (
-    "Loading"
+    <img src={Loader} alt="loading" className={classes.loader} />
   ) : (
     <>
       <div className={classes.container}>
@@ -401,7 +480,7 @@ const ViewAppeal = (props) => {
         <SuccessAlert
           open={successAlert}
           setOpen={setSuccessAlert}
-          message="You signed for this Petition."
+          message={successMessage}
         />
         <ErrorAlert
           open={failureAlert}
@@ -425,6 +504,51 @@ const ViewAppeal = (props) => {
         </div>
         <div className={classes.body}>
           <div className={classes.APsection}>
+            <div className={classes.decisionSection} >
+              <div className={`${classes.currentDecision} ${classes[data.decision]}`} >
+                {data.decision ? data.decision : "Pending"}
+              </div>
+              <div>
+                {actor === "AUTHORITY" && (
+                    <Badge badgeContent={decideMsg} color="error" className={classes.decideIcon}>
+                      <Fab
+                        color="secondary"
+                        disabled={decided}
+                        aria-label="edit"
+                        onClick={handleDecisionDialogOpen}
+                      >
+                        <DecideIcon />
+                      </Fab>
+                    </Badge>
+                  )}
+                  <Dialog
+                    open={decisiondialogOpen}
+                    onClose={handleDecisionDialogClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                  >
+                    <DialogTitle id="alert-dialog-title">
+                      {"Post a Decision on this Petition"}
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        You can either Approve or Reject a Petition. Note that, once posted, the decision cannot be changed.
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleDecisionDialogClose} color="secondary">
+                        Cancel
+                      </Button>
+                      <Button onClick={() => {submitDecision("Approved")}} color="secondary" autoFocus>
+                        Approve
+                      </Button>
+                      <Button onClick={() => {submitDecision("Rejected")}} color="secondary" autoFocus>
+                        Reject
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+              </div>
+            </div>
             <div className={classes.extrainfo}>
               <div className={classes.signees}>
                 <div className={classes.upvoteCount}>
@@ -465,15 +589,15 @@ const ViewAppeal = (props) => {
                     disabled={signed}
                     aria-label="edit"
                     className={classes.signPetition}
-                    onClick={handleDialogOpen}
+                    onClick={handleSignDialogOpen}
                   >
                     <SignIcon className={classes.signIcon} />
                   </Fab>
                 </Badge>
               )}
               <Dialog
-                open={dialogOpen}
-                onClose={handleDialogClose}
+                open={signdialogOpen}
+                onClose={handleSignDialogClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
               >
@@ -488,7 +612,7 @@ const ViewAppeal = (props) => {
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleDialogClose} color="secondary">
+                  <Button onClick={handleSignDialogClose} color="secondary">
                     Disagree
                   </Button>
                   <Button onClick={submitSign} color="secondary" autoFocus>

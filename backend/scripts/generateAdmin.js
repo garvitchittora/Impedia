@@ -5,8 +5,8 @@ const db = require("../db");
 
 const exec = async () => {
     const name = "Admin";
-    const email = "admin" + String(Math.floor(Math.random() * 100)) + "@" + "admin" + String(Math.floor(Math.random() * 1000)) + ".com";
-    const password = "password" + String(Math.floor(Math.random() * 10000))
+    const email = "admin@admin.com";
+    const password = "password";
     const passwordHash = await bcrypt.hash(password, 10);
     const admin = new Admin({
         _id: "AD" + new mongoose.mongo.ObjectID(),

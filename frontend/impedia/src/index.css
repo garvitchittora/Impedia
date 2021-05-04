@@ -10,10 +10,10 @@ body *{
   font-family: 'Montserrat', sans-serif !important;
 }
 .dark{
-  background-color: #0d1117;
+  background-color: #101720;
   color: white !important;
 }
-.dark input, .dark textarea, .dark #nav-item *, .dark .MuiDialog-paper h2{
+.dark input, .dark textarea, .dark #nav-item *, .dark .MuiInputAdornment-positionEnd * ,.dark .MuiDialog-paper h2{
   color: white !important;
 }
 .MuiFab-root.Mui-disabled{
@@ -22,7 +22,7 @@ body *{
 .dark .MuiDialog-paper{
   background-color: #161b22;
 }
-.dark .MuiDialog-paper p, .dark .MuiPickersCalendarHeader-dayLabel{
+.dark .MuiDialog-paper p, .dark .MuiPickersCalendarHeader-dayLabel, .dark .MuiSelect-select{
   color:white !important
 }
 

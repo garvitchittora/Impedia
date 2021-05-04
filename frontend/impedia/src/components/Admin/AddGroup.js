@@ -10,7 +10,7 @@ import { Autocomplete } from "@material-ui/lab";
 import SuccessAlert from "../Alert/SuccessAlert";
 import ErrorAlert from "../Alert/ErrorAlert";
 import axios from "axios";
-import DomainPic from "../../assets/Admin/addAuthoritiesPage.svg";
+import GroupPic from "../../assets/Admin/group.svg";
 import addAuthIcon from "../../assets/Admin/addAuth.svg";
 import TopBar from "../TopBar/TopBar";
 import { useCookies } from "react-cookie";
@@ -293,9 +293,9 @@ const AddGroup = () => {
 
           <div className={classes.sidePic}>
             <img
-              src={DomainPic}
+              src={GroupPic}
               className={classes.domainPic}
-              alt="Set/Update Domain"
+              alt="Make Group"
             />
           </div>
         </div>

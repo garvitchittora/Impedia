@@ -193,8 +193,10 @@ const Appeals = (props) => {
       console.log(email);
       arr2 = arr1.filter((el) => el.appealFromId.email === email);
     }
-    let fromdate = new Date(filterFromDate).getTime();
-    let todate = new Date(filterToDate).getTime();
+    let tempfrom = new Date(filterFromDate).setHours(0,0,0,0);
+    let tempto = new Date(filterToDate).setHours(23,59,59,999);
+    let fromdate = new Date(tempfrom).getTime();
+    let todate = new Date(tempto).getTime();
     fromdate-=8640000;
     todate+=8640000;
     let arr3 = [];

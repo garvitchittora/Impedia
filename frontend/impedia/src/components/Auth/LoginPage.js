@@ -163,6 +163,13 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  forgot: {
+    textAlign:"center",
+    '& a' :{
+      color: "#f44336"
+    }
+    
+  }
 }));
 
 const LoginPage = (props) => {
@@ -194,7 +201,7 @@ const LoginPage = (props) => {
       {/* The Form */}
       <div className={classes.loginContainer}>
         <div>
-          <Link to="/" className={classes.linkTag}>
+          <Link to="/">
             <div className={classes.textCenter}>
               <img
                 src={ImpediaLogo}
@@ -217,6 +224,7 @@ const LoginPage = (props) => {
                 <FormControl className={classes.fieldInput} variant="filled" error>
                   <InputLabel htmlFor="email">Email</InputLabel>
                   <FilledInput
+                    required
                     id="email"
                     name="email"
                     value={props.EmailValues}
@@ -228,6 +236,7 @@ const LoginPage = (props) => {
                 <FormControl className={classes.fieldInput} variant="filled" error>
                   <InputLabel htmlFor="password">Password</InputLabel>
                   <FilledInput
+                    required
                     type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
@@ -282,6 +291,12 @@ const LoginPage = (props) => {
                 >
                   Login
                 </Button>
+                
+                <div className={classes.forgot} >
+                  <Link to="/reset-password/trigger" >
+                    Forgot Password ?
+                  </Link>
+                </div>
               </div>
             </form>
           </div>
