@@ -91,8 +91,16 @@ const addAuthorities = async (req, res) => {
       .status(400)
       .json({ error: "Please enter the required information" });
 
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  console.log(req.get('origin'));
   for (let email of emailIds) {
-    const password = "password";
+    let result = [];
+    for ( var i = 0; i < 7; i++ ) {
+      result.push(characters.charAt(Math.floor(Math.random() * 
+      charactersLength)));
+    }
+    const password = result.join('');
     const passwordHash = await bcrypt.hash(password, 10);
     let user = new Authority({
       _id: "AU" + new mongoose.mongo.ObjectId(),
