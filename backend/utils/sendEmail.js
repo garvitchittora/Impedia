@@ -6,7 +6,7 @@ let transporter = nodemailer.createTransport({
   auth: emailCredentials,
 });
 
-let baseUrl = "https://impedia.herokuapp.com/";
+let baseUrl = process.env.BASE_URL || "http://localhost:3000/";
 
 sendPasswordResetEmail = (email, link) => {
   if (process.env.NODE_ENV === "test") {

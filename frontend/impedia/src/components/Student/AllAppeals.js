@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AllAppeals = () => {
     const classes = useStyles();
-    const [data, setData] = useState([]);
+    const [data, setData] = useState();
     const [cookies] = useCookies(['user']);
     const history = useHistory();
 
