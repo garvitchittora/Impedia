@@ -141,8 +141,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
   const classes = useStyles();
-  const [appeals, setAppeals] = useState([]);
-  const [petitions, setPetitions] = useState([]);
+  const [appeals, setAppeals] = useState();
+  const [petitions, setPetitions] = useState();
   const [cookies] = useCookies(["user"]);
   const history = useHistory();
 
@@ -222,8 +222,8 @@ const Dashboard = () => {
         <div className={classes.recents}>
           <Typography className={classes.recentsHeading}>RECENT</Typography>
 
-          <Recents type="APPEALS" data={appeals || []} />
-          <Recents type="PETITIONS" data={petitions || []} />
+          <Recents type="APPEALS" data={appeals} />
+          <Recents type="PETITIONS" data={petitions} />
         </div>
 
         <div className={classes.bodyRight}>
