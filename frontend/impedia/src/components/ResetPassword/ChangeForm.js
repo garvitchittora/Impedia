@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Link} from 'react-router-dom';
 import {
   makeStyles,
   Typography,
@@ -191,13 +192,15 @@ const ChangeForm = (props) => {
       {/* The Form */}
       <div className={classes.loginContainer}>
         <div>
-          <div className={classes.textCenter}>
-            <img
-              src={ImpediaLogo}
-              className={classes.logo}
-              alt="impedia-logo"
-            />
-          </div>
+          <Link to="/">
+            <div className={classes.textCenter}>
+              <img
+                src={ImpediaLogo}
+                className={classes.logo}
+                alt="impedia-logo"
+              />
+            </div>
+          </Link>
 
           <Typography className={classes.formName} color="error">
             Change Password

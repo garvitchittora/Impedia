@@ -139,6 +139,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     // height:"70vh",
     // overflow:"scroll"
+    overflow:"auto"
   },
   commentsSection: {
     border: "2px solid #AAA",
@@ -586,7 +587,7 @@ const ViewAppeal = (props) => {
                 <Badge badgeContent={signMsg} color="error">
                   <Fab
                     color="secondary"
-                    disabled={signed}
+                    disabled={signed || decided}
                     aria-label="edit"
                     className={classes.signPetition}
                     onClick={handleSignDialogOpen}

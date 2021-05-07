@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Typography, CircularProgress } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import UpvoteIcon from "@material-ui/icons/ThumbUp";
 const useStyles = makeStyles((theme) => ({
@@ -58,9 +58,12 @@ const MAXRETURN = 5;
 const Recents = (props) => {
   const classes = useStyles();
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
 
   useEffect(() => {
+    if(!props.data){
+      return;
+    }
     props.data.sort((a, b) => {
       return new Date(b.dateTime) - new Date(a.dateTime);
     });
@@ -93,7 +96,7 @@ const Recents = (props) => {
   return (
     <div className={classes.recentSection}>
       <Typography className={classes.recentsHeading}>{props.type}</Typography>
-      {data.map(makeCard)}
+      {data ? data.map(makeCard) : <CircularProgress style={{display:"block", margin:"auto"}}/>}
     </div>
   );
 };

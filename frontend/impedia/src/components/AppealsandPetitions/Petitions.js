@@ -7,7 +7,8 @@ import {
   DialogActions,
   Button,
   TextField,
-  MenuItem
+  MenuItem,
+  CircularProgress
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import DateFnsUtils from "@date-io/date-fns";
@@ -173,7 +174,7 @@ const Petitions = (props) => {
   const classes = useStyles();
   const [cookies] = useCookies(['theme']);
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
   const [allRaisers, setAllRaisers] = useState([]);
   const [filterRaisedBy, setFilterRaisedBy] = useState(null);
   const [filterFromDate, setFilterFromDate] = useState();
@@ -431,7 +432,8 @@ const Petitions = (props) => {
         </DialogActions>
       </Dialog>
       <div className={classes.container}>
-        {data.length === 0 ? <h2>No Petitions</h2> : data.map(Card)}
+        {data ? (data.length === 0 ? <h2>No Petitions</h2> : data.map(Card)) : <CircularProgress /> }
+        {/* {data.length === 0 ? <h2>No Petitions</h2> : data.map(Card)} */}
       </div>
     </>
   );
