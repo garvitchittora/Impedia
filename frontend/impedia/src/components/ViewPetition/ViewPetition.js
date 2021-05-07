@@ -587,7 +587,7 @@ const ViewAppeal = (props) => {
                 <Badge badgeContent={signMsg} color="error">
                   <Fab
                     color="secondary"
-                    disabled={signed}
+                    disabled={signed || decided}
                     aria-label="edit"
                     className={classes.signPetition}
                     onClick={handleSignDialogOpen}
