@@ -63,8 +63,6 @@ const resetPassword = async (req, res) => {
         await Authority.findByIdAndUpdate(foundUser.id, {password: newPassword});
     }
 
-    if (!foundUser) return res.status(404).json({error: "No account found with that email address."});
-
     await ResetPassword.deleteOne({resetToken});
     res.sendStatus(200);
 }

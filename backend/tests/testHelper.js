@@ -10,6 +10,8 @@ const Petition = require("../models/Petition");
 const Reply = require("../models/Reply");
 const Settings = require("../models/Settings");
 const { key, sign } = require("../utils/jwt");
+const ResetPassword = require('../models/ResetPassword');
+const crypto = require('crypto');
 
 const initialAdmins = [
   {
@@ -322,6 +324,18 @@ const addReply = async (userid, userType, replyToId, data) => {
   return saved;
 };
 
+const triggerPasswordReset = async (email, type, expiry) => {
+  let resetToken = crypto.randomBytes(32).toString('hex');
+  let newResetPasswordTrigger = new ResetPassword({
+      resetToken: resetToken,
+      email: email,
+      expiry: expiry || new Date(Date.now() + 1000 * 3600),
+      model: type 
+  });
+  let resetPasswordSave = await newResetPasswordTrigger.save();
+  return resetToken;
+}
+
 module.exports = {
   initialAdmins,
   initialAuthorities,
@@ -343,4 +357,5 @@ module.exports = {
   addReply,
   initialReplies,
   addStudent,
+  triggerPasswordReset,
 };

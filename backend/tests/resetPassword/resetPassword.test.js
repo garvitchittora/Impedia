@@ -24,6 +24,7 @@ const {
     addReply,
     initialReplies,
     addStudent,
+    triggerPasswordReset,
   } = require("../testHelper");
 const app = require("../../app");
 const Authority = require("../../models/Authority");
@@ -91,6 +92,45 @@ describe("the reset password trigger route", () => {
     expect(res.body.error).toBe("No account found with that email address and type.");
   });
 });
+
+describe("the reset password route", () => {
+    it("should return 404 if no such reset request", async () => {
+        let res = await api
+                            .post(url)
+                            .send({resetToken: "RANDOM1234", password: "newpassword"})
+                            .expect(404);
+        expect(res.body.error).toBe("No such password reset request found.");
+      });
+
+    it("should return 410 if reset request has expired", async () => {
+        let oldDate = new Date(Date.now() - 1000 * 3600);
+        let token = await triggerPasswordReset(initialAdmins[0].email, "Admin", oldDate);
+        let res = await api
+                            .post(url)
+                            .send({resetToken: token, password: "newpassword"})
+                            .expect(410);
+        expect(res.body.error).toBe("Mentioned password reset request is now invalid.");
+      });
+
+    it("should change password when valid reset request exists", async () => {
+        let token = await triggerPasswordReset(initialAdmins[0].email, "Admin");
+        let res = await api
+                            .post(url)
+                            .send({resetToken: token, password: "newpassword"})
+                            .expect(200);
+        token = await triggerPasswordReset(initialAuthorities[0], "Authority");
+        res = await api
+                        .post(url)
+                        .send({resetToken: token, password: "newpassword"})
+                        .expect(200);
+        token = await triggerPasswordReset(initialStudents[0].email, "Student");
+        res = await api
+                        .post(url)
+                        .send({resetToken: token, password: "newpassword"})
+                        .expect(200);
+      
+    });
+  });
 
 afterAll(() => {
   mongoose.connection.close();
