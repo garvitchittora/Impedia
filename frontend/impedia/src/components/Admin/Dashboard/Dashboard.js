@@ -207,8 +207,8 @@ const Dashboard = () => {
                         RECENT
                     </Typography>
 
-                    <Recents type="APPEALS" data={AppealsPetitions.appeals || []} />
-                    <Recents type="PETITIONS" data={AppealsPetitions.petitions || []} />
+                    <Recents type="APPEALS" data={AppealsPetitions.appeals} />
+                    <Recents type="PETITIONS" data={AppealsPetitions.petitions} />
                 </div>
 
                 <div className={classes.bodyRight}>

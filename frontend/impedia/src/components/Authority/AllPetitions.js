@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AllPetitions = () => {
   const classes = useStyles();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
   const [cookies] = useCookies(["user"]);
   const history = useHistory();
 
@@ -30,7 +30,7 @@ const AllPetitions = () => {
   }, []);
 
   useEffect(() => {
-    if (cookies.key) {
+    if (cookies.user) {
       const Token = cookies.user["key"];
       const config = {
         headers: {

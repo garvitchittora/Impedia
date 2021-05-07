@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const AllPetitions = () => {
     const classes = useStyles();
     const [cookies] = useCookies(['user']);
-    const [data, setData] = useState([]);
+    const [data, setData] = useState();
     const history = useHistory();
 
     useEffect(() => {

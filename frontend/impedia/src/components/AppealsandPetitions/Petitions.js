@@ -7,6 +7,8 @@ import {
   DialogActions,
   Button,
   TextField,
+  MenuItem,
+  CircularProgress
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import DateFnsUtils from "@date-io/date-fns";
@@ -150,6 +152,8 @@ const useStyles = makeStyles((theme) => ({
     background:
       "linear-gradient(85.98deg, #FFA41B 0.54%, rgba(255, 30, 86, 0.99) 130.83%)",
     letterSpacing: "3px",
+    fontWeight:"800",
+    textTransform:"uppercase"
   },
   filterInputs: {
     width: "500px",
@@ -158,17 +162,24 @@ const useStyles = makeStyles((theme) => ({
       width: "300px",
     },
   },
+  Approved:{
+    background:"#81b214"
+  },
+  Rejected:{
+    background:"#ec0101"
+  }
 }));
 
 const Petitions = (props) => {
   const classes = useStyles();
   const [cookies] = useCookies(['theme']);
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
   const [allRaisers, setAllRaisers] = useState([]);
   const [filterRaisedBy, setFilterRaisedBy] = useState(null);
   const [filterFromDate, setFilterFromDate] = useState();
   const [filterToDate, setFilterToDate] = useState();
+  const [filterStatus, setFilterStatus] = useState();
 
   useEffect(() => {
     setData(props.data);
@@ -245,17 +256,24 @@ const Petitions = (props) => {
         return +dt >= +fromdate && +dt < +todate;
       });
     }
-    console.log(arr1);
-    console.log(arr2);
-    console.log(arr3);
+    let arr4=[];
+    if(filterStatus===null || filterStatus==="All"){
+      arr4=arr3;
+    }
+    else{
+      arr4 = arr3.filter((el) => {
+        return el.decision === filterStatus;
+      })
+    }
 
-    setData(arr3);
+    setData(arr4);
   };
 
   const clearAllFilters = () => {
     setFilterRaisedBy(null);
     setFilterFromDate();
     setFilterToDate();
+    setFilterStatus(null);
   };
 
   const Card = (ap, ind) => {
@@ -288,7 +306,9 @@ const Petitions = (props) => {
             <div className={classes.upvotes}>
               <UpvoteIcon /> &nbsp; {ap.signees.length}
             </div>
-            <div className={classes.status}>PENDING</div>
+            <div className={`${classes.status} ${classes[ap.decision]}`} >
+                {ap.decision ? ap.decision : "Pending"}
+            </div>
           </div>
         </div>
       </Link>
@@ -368,7 +388,33 @@ const Petitions = (props) => {
                 "aria-label": "change date",
               }}
             />
+            <br />
           </MuiPickersUtilsProvider>
+          
+          <br />
+          <TextField
+              error
+              id="status-filter"
+              name="status"
+              className={classes.filterInputs}
+              InputLabelProps={{ shrink: true }}
+              label="Status"
+              select
+              variant="outlined"
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+          >
+              {[
+                {label:"All", value:"All"},
+                {label:"Pending", value:"Pending"},
+                {label:"Approved", value:"Approved"},
+                {label:"Rejected", value:"Rejected"}
+                ].map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                  </MenuItem>
+              ))}
+          </TextField>
           <br />
           <br />
           <br />
@@ -386,7 +432,8 @@ const Petitions = (props) => {
         </DialogActions>
       </Dialog>
       <div className={classes.container}>
-        {data.length === 0 ? <h2>No Petitions</h2> : data.map(Card)}
+        {data ? (data.length === 0 ? <h2>No Petitions</h2> : data.map(Card)) : <CircularProgress /> }
+        {/* {data.length === 0 ? <h2>No Petitions</h2> : data.map(Card)} */}
       </div>
     </>
   );

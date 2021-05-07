@@ -19,8 +19,16 @@ import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 import { useCookies } from "react-cookie";
 import { useHistory } from 'react-router-dom';
+import Loader from '../../assets/loader.svg';
 
 const useStyles = makeStyles((theme) => ({
+  loader:{
+    display:"block",
+    position:"absolute",
+    top:"50%",
+    left:"50%",
+    transform: "translate(-50%, -50%)"
+  },
   container: {
     margin: "2% 0",
   },
@@ -107,6 +115,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     // height:"70vh",
     // overflow:"scroll"
+    overflow:"auto"
   },
   commentsSection: {
     border: "2px solid #AAA",
@@ -284,7 +293,7 @@ const ViewAppeal = (props) => {
   };
 
   return data.length === 0 ? (
-    "Loading"
+    <img src={Loader} alt="loading" className={classes.loader} />
   ) : (
     <>
       <div className={classes.container}>
