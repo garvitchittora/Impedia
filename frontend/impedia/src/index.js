@@ -5,6 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { CookiesProvider } from 'react-cookie';
 
+if(process.env.NODE_ENV === 'production'){
+  console.log = () => {}
+}
+
 ReactDOM.render(
   <CookiesProvider>
     <App />

@@ -130,7 +130,7 @@ const useStyles = makeStyles((theme) => ({
   adminButtons: {
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "space-around",
+    justifyContent: "space-evenly",
   },
   link: {
     textTransform: "none",
