@@ -247,6 +247,7 @@ const StudentRegister = () => {
             setSectionValues(event.target.value);
         }
         else if (event.target.name === "branch") {
+            console.log(event.target);
             setBranchValues(event.target.value);
         }
         else if (event.target.name === "password") {
@@ -397,8 +398,8 @@ const StudentRegister = () => {
                                     <TextField
                                         required
                                         error
-                                        id="section"
-                                        name="section"
+                                        id="branch"
+                                        name="branch"
                                         InputLabelProps={{ shrink: true }}
                                         select
                                         label="Branch"
