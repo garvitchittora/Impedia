@@ -179,7 +179,7 @@ const Petitions = (props) => {
   const [filterRaisedBy, setFilterRaisedBy] = useState(null);
   const [filterFromDate, setFilterFromDate] = useState();
   const [filterToDate, setFilterToDate] = useState();
-  const [filterStatus, setFilterStatus] = useState();
+  const [filterStatus, setFilterStatus] = useState(null);
 
   useEffect(() => {
     setData(props.data);
@@ -256,7 +256,9 @@ const Petitions = (props) => {
         return +dt >= +fromdate && +dt < +todate;
       });
     }
-    let arr4=[];
+    console.log(arr3);
+    let arr4=arr3;
+    console.log(filterStatus);
     if(filterStatus===null || filterStatus==="All"){
       arr4=arr3;
     }
@@ -265,6 +267,7 @@ const Petitions = (props) => {
         return el.decision === filterStatus;
       })
     }
+    console.log(arr4);
 
     setData(arr4);
   };
