@@ -3,3 +3,4 @@ coverage/
 strings.js
 .env
 yarn.lock
+package-lock.json

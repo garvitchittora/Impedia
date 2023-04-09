@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
     makeStyles,
@@ -172,53 +172,16 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-const StudentRegister = () => {
+const AdminRegister = () => {
     const classes = useStyles();
     const history = useHistory();
 
-    const section = [
-        {
-            value: "A",
-            label: "A",
-        },
-        {
-            value: "B",
-            label: "B",
-        },
-        {
-            value: "C",
-            label: "C",
-        },
-        {
-            value: "D",
-            label: "D",
-        },
-        {
-            value: "E",
-            label: "E",
-        },
-    ];
-    const branch = [
-        {
-            value: "IT",
-            label: "IT",
-        },
-        {
-            value: "ECE",
-            label: "ECE",
-        },
-        {
-            value: "IT-BI",
-            label: "IT-BI",
-        },
-    ];
-
-    const [EmailValues, setEmailValues] = React.useState('');
-    const [SemValues, setSemValues] = React.useState(1);
-    const [SectionValues, setSectionValues] = React.useState(section[0].value);
-    const [BranchValues, setBranchValues] = React.useState(branch[0].value);
-    const [PasswordValues, setPasswordValues] = React.useState('');
+    const [OrgNameValues, setOrgNameValues] = React.useState('');
+    const [EmailDomainValues, setEmailDomainValues] = React.useState('');
+    const [LogoValues, setLogoValues] = React.useState('');
     const [NameValues, setNameValues] = React.useState('');
+    const [EmailValues, setEmailValues] = React.useState('');
+    const [PasswordValues, setPasswordValues] = React.useState('');
     const [domainAlert, setDomainAlert] = useState(false);
 
     const [showPassword, setShowPassword] = useState(false);
@@ -230,24 +193,23 @@ const StudentRegister = () => {
     }
 
     const handleChange = (event) => {
-        if (event.target.name === "email") {
+        if (event.target.name === "emailAdmin") {
             setEmailValues(event.target.value);
-        }
-        else if (event.target.name === "sem") {
-            setSemValues(event.target.value);
-        }
-        else if (event.target.name === "section") {
-            setSectionValues(event.target.value);
-        }
-        else if (event.target.name === "branch") {
-            console.log(event.target);
-            setBranchValues(event.target.value);
         }
         else if (event.target.name === "password") {
             setPasswordValues(event.target.value);
         }
         else if (event.target.name === "name") {
             setNameValues(event.target.value);
+        }
+        else if (event.target.name === "orgName") {
+            setOrgNameValues(event.target.value);
+        }
+        else if (event.target.name === "emailDomain") {
+            setEmailDomainValues(event.target.value);
+        }
+        else if (event.target.name === "logo") {
+            setLogoValues(event.target.value);
         }
     }
 
@@ -257,13 +219,13 @@ const StudentRegister = () => {
         const body = {
             email: EmailValues,
             password: PasswordValues,
-            semester: SemValues,
-            branch: BranchValues,
-            section: SectionValues,
             name: NameValues,
+            organisationName: OrgNameValues,
+            emailDomain: EmailDomainValues,
+            logo: LogoValues
         }
 
-        axios.post('/student/register', body)
+        axios.post('/admin/register', body)
             .then((res) => {
                 console.log(res);
                 if (res.status === 200 || res.status === 201) {
@@ -294,21 +256,34 @@ const StudentRegister = () => {
                         </div>
                     </Link>
                     <Typography className={classes.formName} color="error">
-                        Student Registration
-                            </Typography>
+                        Admin Registration
+                    </Typography>
                 </div>
                 <div className={classes.formWrapper}>
                     <div className={classes.formCover}>
                         <form className={classes.formContainer} onSubmit={submitFunction}>
                             <div className={classes.formInputs}>
                                 <FormControl className={classes.fieldInput} variant="filled" error>
-                                    <InputLabel htmlFor="email">
-                                        Email
+                                    <InputLabel htmlFor="orgName">
+                                        Organisation Name
+                                    </InputLabel>
+                                    <FilledInput
+                                        required
+                                        id="orgName"
+                                        name="orgName"
+                                        onChange={handleChange}
+                                    />
+                                </FormControl>
+                            </div>
+                            <div className={classes.formInputs}>
+                                <FormControl className={classes.fieldInput} variant="filled" error>
+                                    <InputLabel htmlFor="emailDomain">
+                                        Email Domain
                                         </InputLabel>
                                     <FilledInput
                                         required
-                                        id="email"
-                                        name="email"
+                                        id="emailDomain"
+                                        name="emailDomain"
                                         onChange={handleChange}
                                     />
                                 </FormControl>
@@ -339,73 +314,15 @@ const StudentRegister = () => {
                             </div>
                             <div className={classes.formInputs}>
                                 <FormControl className={classes.fieldInput} variant="filled" error>
-                                    <TextField
-                                        required
-                                        error
-                                        id="sem"
-                                        name="sem"
-                                        type="number"
-                                        InputLabelProps={{ shrink: true }}
-                                        InputProps={{ inputProps: { min: 1, max: 8 } }}
-                                        label="Semester"
-                                        variant="filled"
-                                        value={SemValues}
-                                        onChange={handleChange}
-                                    />
-                                </FormControl>
-                            </div>
-                            <div className={classes.formInputs}>
-                                <FormControl className={classes.fieldInput} variant="filled" error>
-
-                                    <TextField
-                                        required
-                                        error
-                                        id="section"
-                                        name="section"
-                                        className={classes.form__items}
-                                        InputLabelProps={{ shrink: true }}
-                                        label="Section"
-                                        select
-                                        variant="filled"
-                                        value={SectionValues}
-                                        onChange={handleChange}
-                                    >
-                                        {section.map((option) => (
-                                            <MenuItem key={option.value} value={option.value}>
-                                                {option.label}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                </FormControl>
-                            </div>
-                            <div className={classes.formInputs}>
-                                <FormControl className={classes.fieldInput} variant="filled" error>
-                                    {/* <InputLabel htmlFor="branch">
-                                        Branch
+                                    <InputLabel htmlFor="logo">
+                                        Logo
                                     </InputLabel>
                                     <FilledInput
-                                        id="branch"
-                                        name="branch"
-                                        onChange={handleChange}
-                                    /> */}
-                                    <TextField
                                         required
-                                        error
-                                        id="branch"
-                                        name="branch"
-                                        InputLabelProps={{ shrink: true }}
-                                        select
-                                        label="Branch"
-                                        variant="filled"
-                                        value={BranchValues}
+                                        id="logo"
+                                        name="logo"
                                         onChange={handleChange}
-                                    >
-                                        {branch.map((option) => (
-                                            <MenuItem key={option.value} value={option.value}>
-                                                {option.label}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
+                                    />
                                 </FormControl>
                             </div>
                             <div className={classes.formInputs}>
@@ -417,6 +334,19 @@ const StudentRegister = () => {
                                         required
                                         id="name"
                                         name="name"
+                                        onChange={handleChange}
+                                    />
+                                </FormControl>
+                            </div>
+                            <div className={classes.formInputs}>
+                                <FormControl className={classes.fieldInput} variant="filled" error>
+                                    <InputLabel htmlFor="emailAdmin">
+                                        Admin Email
+                                        </InputLabel>
+                                    <FilledInput
+                                        required
+                                        id="emailAdmin"
+                                        name="emailAdmin"
                                         onChange={handleChange}
                                     />
                                 </FormControl>
@@ -463,4 +393,4 @@ const StudentRegister = () => {
     )
 }
 
-export default StudentRegister;
+export default AdminRegister;

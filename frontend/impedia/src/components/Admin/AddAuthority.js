@@ -95,7 +95,7 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-const StudentRegister = () => {
+const AddAuthority = () => {
     const classes = useStyles();
     const [cookies] = useCookies(['user']);
     const [authEmails, setAuthEmails] = useState([]);
@@ -258,4 +258,4 @@ const StudentRegister = () => {
     )
 }
 
-export default StudentRegister;
+export default AddAuthority;

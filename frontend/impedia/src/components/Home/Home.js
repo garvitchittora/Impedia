@@ -389,6 +389,15 @@ const Home = () => {
                   LOGIN
                 </Typography>
               </Link>
+              <Link
+                data-testid="student-register-button"
+                to="/register/admin"
+                className={classes.SectionLinkTag}
+              >
+                <Typography className={classes.SectionLinkText}>
+                  REGISTER
+                </Typography>
+              </Link>
             </div>
           </Grid>
         </Grid>
