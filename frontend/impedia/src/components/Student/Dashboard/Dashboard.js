@@ -23,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   logo: {
-    width: "250px",
+    maxWidth: "250px",
+    maxHeight: "150px",
   },
   logoAdmin: {
     flex: "20%",
@@ -31,12 +32,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   logoForAdmin: {
-    marginLeft: "80px",
     letterSpacing: "3px",
     fontSize: "12px",
     fontWeight: "600",
-    marginTop: "-10px",
     userSelect: "none",
+    textAlign: "center",
   },
   dashboardText: {
     flex: "80%",
@@ -137,6 +137,13 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     color: "inherit",
   },
+  imageCoverLink: {
+    textTransform: "none",
+    textDecoration: "none",
+    color: "inherit",
+    display: "grid",
+    justifyContent: "center",
+  },
 }));
 
 const Dashboard = () => {
@@ -190,12 +197,25 @@ const Dashboard = () => {
     }
   }, []);
 
+  const [dynamicLogo, setDynamicLogo] = useState(ImpediaLogo);
+  const AdminToken = localStorage.getItem("key");
+  const config = {
+    headers: {
+      authorization: AdminToken,
+    },
+  };
+  axios.get('/organization/get', config).then(res=>{
+    if(res && res.data && res.data.logo){
+      setDynamicLogo(res.data.logo);
+    }
+  });
+
   return (
     <div className={classes.dashboardPage}>
       <div className={classes.dashTopBar}>
         <div className={classes.logoAdmin}>
-          <Link to="#" className={classes.link}>
-            <img src={ImpediaLogo} alt="Impedia" className={classes.logo} />
+          <Link to="#" className={classes.imageCoverLink}>
+            <img src={dynamicLogo} alt="Impedia" className={classes.logo} />
 
             <Typography className={classes.logoForAdmin}>
               FOR MEMBER

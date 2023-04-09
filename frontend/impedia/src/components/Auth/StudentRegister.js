@@ -9,8 +9,6 @@ import {
     InputAdornment,
     IconButton,
     FilledInput,
-    TextField,
-    MenuItem,
     Collapse,
 } from '@material-ui/core';
 import {

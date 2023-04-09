@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
     topbar:{
@@ -20,14 +21,14 @@ const useStyles = makeStyles(theme => ({
         flex:"40%",
     },
     logoSubtext:{
-        marginLeft:"80px",
         letterSpacing:"3px",
         fontSize:"12px",
         fontWeight:"600",
-        marginTop:"-10px"
+        textAlign:"center",
     },
     logoImg:{
-        width: "250px"
+        maxWidth: "250px",
+        maxHeight: "150px",
     },
     heading:{
         flex:"60%",
@@ -49,7 +50,9 @@ const useStyles = makeStyles(theme => ({
     },
     linkTag: {
         textDecoration: "none",
-        color: "inherit"
+        color: "inherit",
+        display: "grid",
+        justifyContent: "center",
     }
 }));
 
@@ -67,14 +70,27 @@ const TopBar = (props) => {
         }
     },[props.actor]);
     
+    const [dynamicLogo, setDynamicLogo] = useState(ImpediaLogo);
+    const AdminToken = localStorage.getItem("key");
+    const config = {
+      headers: {
+        authorization: AdminToken,
+      },
+    };
+    axios.get('/organization/get', config).then(res=>{
+      if(res && res.data && res.data.logo){
+        setDynamicLogo(res.data.logo);
+      }
+    });
+
     return (
         <>
                 <div className={classes.topbar}>
                     <div className={classes.logo}>
                         <Link to={link} className={classes.linkTag}>
-                            <img className={classes.logoImg} src={ImpediaLogo} alt="Impedia Logo" />
+                            <img className={classes.logoImg} src={dynamicLogo} alt="Impedia Logo" />
                             <Typography className={classes.logoSubtext}>
-                                FOR {props.actor}
+                                FOR {props.actor == "STUDENT" ? "MEMBER" : props.actor}
                             </Typography>
                         </Link>
                     </div>
