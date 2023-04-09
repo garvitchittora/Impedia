@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const Organization = require("../models/Organization");
 const Admin = require("../models/Admin");
+const mongoose = require("mongoose");
 
 const organizationRegister = async (req, res) => {
     const organization = new Organization(req.body);

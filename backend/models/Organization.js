@@ -2,19 +2,25 @@ const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
 const organizationSchema = new mongoose.Schema({
-  organizationName: {
-    type: String,
-    required: true
+    _id: {
+      type: String,
+      required: true,
+    },
+    organizationName: {
+      type: String,
+      required: true
+    },
+    logo: {
+      type: String
+    },
+    emailDomain: {
+      type: String,
+      required: true,
+      unique: true,
+    }
   },
-  logo: {
-    type: String
-  },
-  emailDomain: {
-    type: String,
-    required: true,
-    unique: true,
-  }
-});
+  { _id: false }
+);
 
 organizationSchema.set("toJSON", {
   transform: (document, returnedObject) => {

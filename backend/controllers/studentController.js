@@ -18,7 +18,6 @@ const validateStudentRegisterRequest = async (req, res, next) => {
     ...req.body,
   });
   try {
-    await tempStudent.validate();
     const emailDomain = tempStudent.email.split("@")[1];
     const org = await Organization.findOne({emailDomain: emailDomain});
     if (!org) {
@@ -27,6 +26,8 @@ const validateStudentRegisterRequest = async (req, res, next) => {
           "EmailID doesn't belong to any Organization!",
       });
     }
+    tempStudent.organizationId = org._id;
+    await tempStudent.validate();
     next();
   } catch (err) {
     const error = err.message;
@@ -57,7 +58,7 @@ const studentRegister = async (req, res) => {
   let givenPassword = req.body.password;
   student._id = "ST" + new mongoose.mongo.ObjectId();
   student.password = await bcrypt.hash(givenPassword, 10);
-  const emailDomain = tempStudent.email.split("@")[1];
+  const emailDomain = student.email.split("@")[1];
   const org = await Organization.findOne({emailDomain: emailDomain});
   student.organizationId = org._id;
   const studentSave = await student.save();
@@ -169,7 +170,7 @@ const getPetitions = async (req, res) => {
   if (!student)
     return res.status(400).json({ error: "Student does not exist" });
 
-  const petitions = await Petition.find({})
+  const petitions = await Petition.find({organizationId: user.organizationId})
     .populate("petitionFromId")
     .populate({ path: "petitionToId", populate: { path: "members" } })
     .populate("signees");

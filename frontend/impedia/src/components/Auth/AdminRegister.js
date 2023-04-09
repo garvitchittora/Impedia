@@ -220,7 +220,7 @@ const AdminRegister = () => {
             email: EmailValues,
             password: PasswordValues,
             name: NameValues,
-            organisationName: OrgNameValues,
+            organizationName: OrgNameValues,
             emailDomain: EmailDomainValues,
             logo: LogoValues
         }
