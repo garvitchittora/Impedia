@@ -225,13 +225,13 @@ const AdminRegister = () => {
             logo: LogoValues
         }
 
-        axios.post('/admin/register', body)
+        axios.post('/organization/register', body)
             .then((res) => {
                 console.log(res);
                 if (res.status === 200 || res.status === 201) {
-                    return history.push("/login/student");
+                    return history.push("/login/admin");
                 } else {
-                    alert("Failed")
+                    alert("Failed");
                 }
             })
             .catch((err) => {
