@@ -24,7 +24,7 @@ it("student update profile", () => {
     
     fireEvent.click(getByTestId('update-profile-button'));
 
-    expect(location.pathname).toBe('/student/updateprofile');
+    expect(location.pathname).toBe('/member/updateprofile');
 });
 
 it("student view petition", () => {
@@ -36,7 +36,7 @@ it("student view petition", () => {
     
     fireEvent.click(getByTestId('view-petitions-button'));
 
-    expect(location.pathname).toBe('/student/petitions');
+    expect(location.pathname).toBe('/member/petitions');
 });
 
 
@@ -49,7 +49,7 @@ it("student view appeals", () => {
     
     fireEvent.click(getByTestId('view-appeals-button'));
 
-    expect(location.pathname).toBe('/student/appeals');
+    expect(location.pathname).toBe('/member/appeals');
 });
 
 
@@ -62,7 +62,7 @@ it("student create appeals", () => {
     
     fireEvent.click(getByTestId('create-appeal-button'));
 
-    expect(location.pathname).toBe('/student/appeals/create');
+    expect(location.pathname).toBe('/member/appeals/create');
 });
 
 
@@ -75,5 +75,5 @@ it("student create petition", () => {
     
     fireEvent.click(getByTestId('create-petition-button'));
 
-    expect(location.pathname).toBe('/student/petitions/create');
+    expect(location.pathname).toBe('/member/petitions/create');
 });

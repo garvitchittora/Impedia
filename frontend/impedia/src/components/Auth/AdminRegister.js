@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import {
     makeStyles,
@@ -9,8 +9,6 @@ import {
     InputAdornment,
     IconButton,
     FilledInput,
-    TextField,
-    MenuItem,
     Collapse,
 } from '@material-ui/core';
 import {
@@ -25,7 +23,6 @@ import back3 from '../../assets/Login/login-32.svg';
 import ImpediaLogo from '../../assets/Logo-Impedia.png';
 import LoginSidePic from '../../assets/Login/loginSidePic.svg';
 import { useHistory, Link } from 'react-router-dom';
-import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles(theme => ({
     loginPage: {
@@ -256,7 +253,7 @@ const AdminRegister = () => {
                         </div>
                     </Link>
                     <Typography className={classes.formName} color="error">
-                        Admin Registration
+                        Organisation Registration
                     </Typography>
                 </div>
                 <div className={classes.formWrapper}>
@@ -308,7 +305,7 @@ const AdminRegister = () => {
                                         <AlertTitle>
                                             <strong>Failed !</strong>
                                         </AlertTitle>
-                                            This domain is not approved by the Admin for Student Registration.
+                                            This domain is not approved by the Admin for Members Registration.
                                     </Alert>
                                 </Collapse>
                             </div>

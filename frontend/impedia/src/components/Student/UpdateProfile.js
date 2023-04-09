@@ -92,7 +92,7 @@ const UpdateProfile = () => {
 
   useEffect(() => {
     if (!cookies.user || cookies.user["type"] !== "STUDENT") {
-      return history.push("/login/student");
+      return history.push("/login/member");
     }
   }, []);
 
@@ -374,7 +374,7 @@ const UpdateProfile = () => {
           </Grid>
         </div>
       ) : (
-        <Redirect to="/login/student" />
+        <Redirect to="/login/member" />
       )}
     </>
   );

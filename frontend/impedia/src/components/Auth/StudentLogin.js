@@ -17,7 +17,7 @@ const StudentLogin = () => {
     
     useEffect(() => {
         if(cookies.user && cookies.user["type"] === "STUDENT"){
-            return history.push("/student/dashboard");
+            return history.push("/member/dashboard");
         }
     }, []);
 
@@ -37,7 +37,7 @@ const StudentLogin = () => {
                 localStorage.setItem('key',data.authKey);
                 console.log(data.authKey);
                 setCookie('user', {key: data.authKey, type:"STUDENT", email:EmailValues}, { path: '/' });
-                return history.push("/student/dashboard");
+                return history.push("/member/dashboard");
             }else{
                 alert("Failed")
             } 
@@ -51,7 +51,7 @@ const StudentLogin = () => {
     return (
         <>
             <LoginPage 
-                actor="Student"
+                actor="Members"
                 EmailValues={EmailValues} 
                 PasswordValues={PasswordValues}
                 setEmailValues={setEmailValues}

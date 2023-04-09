@@ -229,7 +229,7 @@ const ResetForm = (props) => {
                   >
                     <MenuItem value="Admin">Admin</MenuItem>
                     <MenuItem value="Authority">Authority</MenuItem>
-                    <MenuItem value="Student">Student</MenuItem>
+                    <MenuItem value="Student">Member</MenuItem>
                   </Select>
                 </FormControl>
               </div>

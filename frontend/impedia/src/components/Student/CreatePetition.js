@@ -18,7 +18,7 @@ const CreatePetition = () => {
 
     useEffect(() => {
         if(! cookies.user || cookies.user["type"] !== "STUDENT"){
-            return history.push("/login/student");
+            return history.push("/login/member");
         }
     }, []);
 

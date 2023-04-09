@@ -267,7 +267,7 @@ const StudentRegister = () => {
             .then((res) => {
                 console.log(res);
                 if (res.status === 200 || res.status === 201) {
-                    return history.push("/login/student");
+                    return history.push("/login/member");
                 } else {
                     alert("Failed")
                 }
@@ -294,8 +294,8 @@ const StudentRegister = () => {
                         </div>
                     </Link>
                     <Typography className={classes.formName} color="error">
-                        Student Registration
-                            </Typography>
+                    Members Registration
+                    </Typography>
                 </div>
                 <div className={classes.formWrapper}>
                     <div className={classes.formCover}>
@@ -333,11 +333,11 @@ const StudentRegister = () => {
                                         <AlertTitle>
                                             <strong>Failed !</strong>
                                         </AlertTitle>
-                                            This domain is not approved by the Admin for Student Registration.
+                                            This domain is not approved by the Admin for Members Registration.
                                     </Alert>
                                 </Collapse>
                             </div>
-                            <div className={classes.formInputs}>
+                            {/* <div className={classes.formInputs}>
                                 <FormControl className={classes.fieldInput} variant="filled" error>
                                     <TextField
                                         required
@@ -380,14 +380,14 @@ const StudentRegister = () => {
                             </div>
                             <div className={classes.formInputs}>
                                 <FormControl className={classes.fieldInput} variant="filled" error>
-                                    {/* <InputLabel htmlFor="branch">
+                                    <InputLabel htmlFor="branch">
                                         Branch
                                     </InputLabel>
                                     <FilledInput
                                         id="branch"
                                         name="branch"
                                         onChange={handleChange}
-                                    /> */}
+                                    />
                                     <TextField
                                         required
                                         error
@@ -407,7 +407,7 @@ const StudentRegister = () => {
                                         ))}
                                     </TextField>
                                 </FormControl>
-                            </div>
+                            </div> */}
                             <div className={classes.formInputs}>
                                 <FormControl className={classes.fieldInput} variant="filled" error>
                                     <InputLabel htmlFor="name">

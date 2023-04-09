@@ -148,7 +148,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!cookies.user || cookies.user["type"] !== "STUDENT") {
-      return history.push("/login/student");
+      return history.push("/login/member");
     }
   }, []);
 
@@ -198,7 +198,7 @@ const Dashboard = () => {
             <img src={ImpediaLogo} alt="Impedia" className={classes.logo} />
 
             <Typography className={classes.logoForAdmin}>
-              FOR STUDENT
+              FOR MEMBER
             </Typography>
           </Link>
         </div>
@@ -230,35 +230,35 @@ const Dashboard = () => {
           <div className={classes.adminButtons}>
             <Link
               data-testid="update-profile-button"
-              to="/student/updateprofile"
+              to="/member/updateprofile"
               className={classes.link}
             >
               <UseCase icon={AddAuthIcon} type="Update Profile" />
             </Link>
             <Link
               data-testid="view-petitions-button"
-              to="/student/petitions"
+              to="/member/petitions"
               className={classes.link}
             >
               <UseCase icon={PetitionIcon} type="View Petitions" />
             </Link>
             <Link
               data-testid="view-appeals-button"
-              to="/student/appeals"
+              to="/member/appeals"
               className={classes.link}
             >
               <UseCase icon={AppealIcon} type="View Appeals" />
             </Link>
             <Link
               data-testid="create-appeal-button"
-              to="/student/appeals/create"
+              to="/member/appeals/create"
               className={classes.link}
             >
               <UseCase icon={AppealIcon} type="Create Appeals" />
             </Link>
             <Link
               data-testid="create-petition-button"
-              to="/student/petitions/create"
+              to="/member/petitions/create"
               className={classes.link}
             >
               <UseCase icon={PetitionIcon} type="Create Petitions" />

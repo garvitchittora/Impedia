@@ -274,11 +274,11 @@ const Home = () => {
               </Link>
               <Link
                 data-testid="student-login-button"
-                to="/login/student"
+                to="/login/member"
                 id="nav-item"
                 className={classes.linkTag}
               >
-                <Typography className={classes.headingText}>STUDENT</Typography>
+                <Typography className={classes.headingText}>MEMBER</Typography>
               </Link>
             </div>
           </div>
@@ -303,11 +303,11 @@ const Home = () => {
             <img
               className={classes.StudentImg}
               src={StudentImage}
-              alt="Student"
+              alt="Member"
             />
           </Grid>
           <Grid item md={8} className={classes.SectionTextWrapper}>
-            <Typography className={classes.SectionHeading}>STUDENT</Typography>
+            <Typography className={classes.SectionHeading}>MEMBER</Typography>
             <Typography className={classes.SectionText}>
               Create Appeals and Petitions directly to authorities / group of
               authorities. Sign and support other petitions. Chat directly with
@@ -316,7 +316,7 @@ const Home = () => {
             <div className={classes.SectionLinkWrapper}>
               <Link
                 data-testid="student-login-button-2"
-                to="/login/student"
+                to="/login/member"
                 className={classes.SectionLinkTag}
               >
                 <Typography className={classes.SectionLinkText}>
@@ -325,7 +325,7 @@ const Home = () => {
               </Link>
               <Link
                 data-testid="student-register-button"
-                to="/register/student"
+                to="/register/member"
                 className={classes.SectionLinkTag}
               >
                 <Typography className={classes.SectionLinkText}>
@@ -340,7 +340,7 @@ const Home = () => {
             <img
               className={classes.StudentImg}
               src={AuthorityImage}
-              alt="Student"
+              alt="Member"
             />
           </Grid>
           <Grid item md={8} className={classes.SectionTextWrapper}>
@@ -348,7 +348,7 @@ const Home = () => {
               AUTHORITY
             </Typography>
             <Typography className={classes.SectionText}>
-              View the Appeals and Petitions raised by the students. Chat
+              View the Appeals and Petitions raised by the members. Chat
               directly with them on the issue. Post a decision on the Appeals/
               Petitions
             </Typography>
@@ -370,7 +370,7 @@ const Home = () => {
             <img
               className={classes.StudentImg}
               src={AdminImage}
-              alt="Student"
+              alt="Member"
             />
           </Grid>
           <Grid item md={8} className={classes.SectionTextWrapper}>

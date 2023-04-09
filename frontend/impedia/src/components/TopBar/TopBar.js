@@ -59,7 +59,7 @@ const TopBar = (props) => {
 
     useEffect(() => {
         if(props.actor === "STUDENT"){
-            setLink("/student/dashboard");
+            setLink("/member/dashboard");
         }else if(props.actor === "ADMIN"){
             setLink("/admin/dashboard");
         }else{

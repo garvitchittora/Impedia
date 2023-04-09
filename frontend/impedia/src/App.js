@@ -79,8 +79,8 @@ function App() {
           cookies.user ? (
           cookies.user["type"] === "STUDENT" ?
             <Component {...props} /> :
-            <Redirect to='/login/student' /> ) : (
-              <Redirect to='/login/student' />
+            <Redirect to='/login/member' /> ) : (
+              <Redirect to='/login/member' />
             )
         )} 
       />
@@ -98,8 +98,8 @@ function App() {
           <Route exact path="/reset-password" component={ResetPassword} />
           <Route exact path="/login/admin" component={AdminLogin} />
           <Route exact path="/login/authority" component={AuthorityLogin} />
-          <Route exact path="/login/student" component={StudentLogin} />
-          <Route exact path="/register/student" component={StudentRegister} />
+          <Route exact path="/login/member" component={StudentLogin} />
+          <Route exact path="/register/member" component={StudentRegister} />
           <Route exact path="/register/admin" component={AdminRegister} />
           {/* <Route 
             path="/admin"
@@ -114,30 +114,30 @@ function App() {
             <AdminRoute exact path="/admin/appeals" component={AdminAllAppeals} />
           {/* </Route> */}
           
-          <StudentRoute exact path="/student/dashboard" component={StudentDashboard} />
+          <StudentRoute exact path="/member/dashboard" component={StudentDashboard} />
           <StudentRoute
             exact
-            path="/student/appeals/create"
+            path="/member/appeals/create"
             component={CreateAppeal}
           />
           <StudentRoute
             exact
-            path="/student/petitions/create"
+            path="/member/petitions/create"
             component={CreatePetition}
           />
           <StudentRoute
             exact
-            path="/student/petitions"
+            path="/member/petitions"
             component={StudentAllPetitions}
           />
           <StudentRoute 
             exact 
-            path="/student/appeals" 
+            path="/member/appeals" 
             component={StudentAllAppeals} 
           />
           <StudentRoute
             exact
-            path="/student/updateprofile"
+            path="/member/updateprofile"
             component={UpdateStudentProfile}
           />
           

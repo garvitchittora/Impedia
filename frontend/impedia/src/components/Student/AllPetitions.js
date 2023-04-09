@@ -27,7 +27,7 @@ const AllPetitions = () => {
 
     useEffect(() => {
         if (!cookies.user || cookies.user["type"] !== "STUDENT") {
-            return history.push("/login/student");
+            return history.push("/login/member");
         }
     }, []);
 
@@ -40,7 +40,7 @@ const AllPetitions = () => {
                 }
             }
 
-            axios.get("/student/petitions", config)
+            axios.get("/member/petitions", config)
                 .then(res => res.data)
                 .then(data => {
                     console.log(data);

@@ -48,7 +48,7 @@ it("student login button redirect", () => {
     
     fireEvent.click(getByTestId('student-login-button'))
 
-    expect(location.pathname).toBe('/login/student');
+    expect(location.pathname).toBe('/login/member');
 });
 
 
@@ -61,7 +61,7 @@ it("student register button redirect", () => {
     
     fireEvent.click(getByTestId('student-register-button'))
 
-    expect(location.pathname).toBe('/register/student');
+    expect(location.pathname).toBe('/register/member');
 });
 
 it("student login button redirect 2", () => {
@@ -73,7 +73,7 @@ it("student login button redirect 2", () => {
     
     fireEvent.click(getByTestId('student-login-button-2'))
 
-    expect(location.pathname).toBe('/login/student');
+    expect(location.pathname).toBe('/login/member');
 });
 
 it("authority login button redirect", () => {

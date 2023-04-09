@@ -27,7 +27,7 @@ const AllAppeals = () => {
 
     useEffect(() => {
         if (!cookies.user || cookies.user["type"] !== "STUDENT") {
-            return history.push("/login/student");
+            return history.push("/login/member");
         }
     }, []);
 
@@ -41,7 +41,7 @@ const AllAppeals = () => {
                 }
             }
 
-            axios.get("/student/appeals", config)
+            axios.get("/member/appeals", config)
                 .then(res => res.data)
                 .then(data => {
                     console.log(data);
