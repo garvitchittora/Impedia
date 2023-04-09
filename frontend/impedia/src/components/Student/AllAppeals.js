@@ -41,7 +41,7 @@ const AllAppeals = () => {
                 }
             }
 
-            axios.get("/member/appeals", config)
+            axios.get("/student/appeals", config)
                 .then(res => res.data)
                 .then(data => {
                     console.log(data);

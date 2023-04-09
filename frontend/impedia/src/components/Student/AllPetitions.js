@@ -40,7 +40,7 @@ const AllPetitions = () => {
                 }
             }
 
-            axios.get("/member/petitions", config)
+            axios.get("/student/petitions", config)
                 .then(res => res.data)
                 .then(data => {
                     console.log(data);

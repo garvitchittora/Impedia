@@ -293,8 +293,8 @@ const Home = () => {
         </div>
         <div className={classes.rotatedContainer}></div>
         <Typography className={classes.textOnRotated}>
-          A Platform that breaks the communication barrier between Students and
-          Authorities.
+          A platform that breaks the communication barrier between an organization's members and
+          and its authorities.
         </Typography>
       </div>
       <div className={classes.SectionWrapper}>
