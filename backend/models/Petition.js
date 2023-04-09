@@ -47,6 +47,11 @@ const petitionSchema = new mongoose.Schema(
       required: true,
       enum: ["Group", "Authority"],
     },
+    organizationId: {
+      type: String,
+      ref: "Organization",
+      required: true,
+    }
   },
   { _id: false }
 );

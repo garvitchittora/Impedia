@@ -17,6 +17,11 @@ const authoritySchema = new mongoose.Schema(
       type: String,
       required: [true, "Password field is required"],
     },
+    organizationId: {
+      type: String,
+      ref: "Organization",
+      required: true,
+    }
   },
   { _id: false }
 );

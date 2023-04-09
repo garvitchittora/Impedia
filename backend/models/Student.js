@@ -29,6 +29,11 @@ const studentSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Semester field is required"],
     },
+    organizationId: {
+      type: String,
+      ref: "Organization",
+      required: true,
+    }
   },
   { _id: false }
 );

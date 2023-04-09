@@ -17,6 +17,11 @@ const adminSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    organizationId: {
+      type: String,
+      ref: "Organization",
+      required: true,
+    }
   },
   { _id: false }
 );

@@ -29,6 +29,7 @@ const addReply = async (req, res) => {
     _id: "RE" + new mongoose.mongo.ObjectID(),
     replyById: user.id,
     onByModel: userType,
+    organizationId: user.organizationId,
     ...body,
   });
 

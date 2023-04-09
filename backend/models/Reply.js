@@ -35,6 +35,11 @@ const replySchema = new mongoose.Schema(
       type: String,
       required: true,
       enum: ["Reply", "Appeal", "Petition"],
+    },
+    organizationId: {
+      type: String,
+      ref: "Organization",
+      required: true,
     }
   },
   { _id: false }

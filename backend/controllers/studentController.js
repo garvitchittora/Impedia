@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const { key, sign } = require("../utils/jwt");
 const Student = require("../models/Student");
-const Settings = require("../models/Settings");
+const Organization = require("../models/Organization");
 const mongoose = require("mongoose");
 const Appeal = require("../models/Appeal");
 const Petition = require("../models/Petition");
@@ -19,12 +19,12 @@ const validateStudentRegisterRequest = async (req, res, next) => {
   });
   try {
     await tempStudent.validate();
-    const email = tempStudent.email;
-    const domainSettings = await Settings.findOne({});
-    if (domainSettings.emailDomain !== email.split("@")[1]) {
+    const emailDomain = tempStudent.email.split("@")[1];
+    const org = await Organization.findOne({emailDomain: emailDomain});
+    if (!org) {
       return res.status(401).json({
         error:
-          "EmailID doesn't belong to the domain approved by Administrator!",
+          "EmailID doesn't belong to any Organization!",
       });
     }
     next();
@@ -57,6 +57,9 @@ const studentRegister = async (req, res) => {
   let givenPassword = req.body.password;
   student._id = "ST" + new mongoose.mongo.ObjectId();
   student.password = await bcrypt.hash(givenPassword, 10);
+  const emailDomain = tempStudent.email.split("@")[1];
+  const org = await Organization.findOne({emailDomain: emailDomain});
+  student.organizationId = org._id;
   const studentSave = await student.save();
   res.status(201).json(studentSave);
 };
@@ -77,6 +80,7 @@ const studentAuth = async (req, res) => {
     {
       email: student.email,
       id: student._id,
+      organizationId: student.organizationId
     },
     key
   );
@@ -94,6 +98,7 @@ const createAppeal = async (req, res) => {
   const appeal = new Appeal({
     _id: "AP" + new mongoose.mongo.ObjectID(),
     appealFromId: user.id,
+    organizationId: user.organizationId,
     ...body,
   });
   if (appeal.appealToId.substring(0, 2) === "AU") {
@@ -136,6 +141,7 @@ const createPetition = async (req, res) => {
     _id: `PE${new mongoose.mongo.ObjectID()}`,
     petitionFromId: user.id,
     signees: [user.id],
+    organizationId: user.organizationId,
     ...body,
   });
 

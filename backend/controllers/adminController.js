@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const { key, sign } = require("../utils/jwt");
 const Admin = require("../models/Admin");
-const Settings = require("../models/Settings");
+const Organization = require("../models/Organization");
 const Authority = require("../models/Authority");
 const Group = require("../models/Group");
 const Appeal = require("../models/Appeal");
@@ -28,6 +28,7 @@ const adminAuth = async (req, res) => {
               {
                 email: admin.email,
                 id: admin._id,
+                organizationId: admin.organizationId
               },
               key,
               (err, token) => {
@@ -63,16 +64,8 @@ const setEmailDomain = async (req, res) => {
   if (!domain)
     return res.status(400).json({ error: "The domain field is required" });
 
-  const domainSettings = await Settings.findOne({});
-  if (domainSettings) {
-    domainSettings.emailDomain = domain;
-    await domainSettings.save();
-  } else {
-    const setting = new Settings({
-      emailDomain: domain,
-    });
-    await setting.save();
-  }
+  const organization = await Organization.findById(admin.organizationId);
+  await organization.save();
   res.status(200).end();
 };
 
@@ -107,6 +100,7 @@ const addAuthorities = async (req, res) => {
       name: email,
       email: email,
       password: passwordHash,
+      organizationId: req.user.organizationId
     });
     await user.save();
     sendNewAuthorityEmail(email, password);
@@ -142,6 +136,7 @@ const makeAuthorityGroup = async (req, res) => {
     _id: "GR" + new mongoose.mongo.ObjectId(),
     name: name,
     members: authorityIds,
+    organizationId: req.user.organizationId
   });
   const groupSave = await group.save();
   res.status(201).json(groupSave);
@@ -186,10 +181,10 @@ const getAppealsAndPetitions = async (req, res) => {
   const { user } = req;
   const admin = await Admin.findById(user.id);
   if (!admin) return res.status(403).json({ error: "Forbidden" });
-  const appeals = await Appeal.find({})
+  const appeals = await Appeal.find({organizationId: req.user.organizationId})
     .populate("appealFromId")
     .populate({ path: "appealToId", populate: { path: "members" } });
-  const petitions = await Petition.find({})
+  const petitions = await Petition.find({organizationId: req.user.organizationId})
     .populate("petitionFromId")
     .populate({ path: "petitionToId", populate: { path: "members" } })
     .populate("signees");

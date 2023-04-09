@@ -1,15 +1,22 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
-const settingsSchema = new mongoose.Schema({
+const organizationSchema = new mongoose.Schema({
+  organizationName: {
+    type: String,
+    required: true
+  },
+  logo: {
+    type: String
+  },
   emailDomain: {
     type: String,
     required: true,
     unique: true,
-  },
+  }
 });
 
-settingsSchema.set("toJSON", {
+organizationSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -17,6 +24,6 @@ settingsSchema.set("toJSON", {
   },
 });
 
-settingsSchema.plugin(uniqueValidator);
-const Settings = mongoose.model("Settings", settingsSchema);
-module.exports = Settings;
+organizationSchema.plugin(uniqueValidator);
+const Organization = mongoose.model("Organization", organizationSchema);
+module.exports = Organization;

@@ -16,6 +16,11 @@ const groupSchema = new mongoose.Schema(
         ref: "Authority",
       },
     ],
+    organizationId: {
+      type: String,
+      ref: "Organization",
+      required: true,
+    }
   },
   { _id: false }
 );

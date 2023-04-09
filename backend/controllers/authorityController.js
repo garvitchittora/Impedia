@@ -1,7 +1,5 @@
 const bcrypt = require("bcrypt");
 const Authority = require("../models/Authority");
-const Student = require("../models/Student");
-const Admin = require("../models/Admin");
 const { key, sign } = require("../utils/jwt");
 const Group = require("../models/Group");
 const Appeal = require("../models/Appeal");
@@ -10,20 +8,7 @@ const Petition = require("../models/Petition");
 //*tested
 
 const getAuthorities = async (req, res) => {
-  const { id } = req.user;
-  let userType = id.substring(0, 2);
-  let foundUser;
-
-  if (userType === "AD") {
-    foundUser = await Admin.findById(id);
-  } else if (userType === "ST") {
-    foundUser = await Student.findById(id);
-  } else if (userType === "AU") {
-    foundUser = await Authority.findById(id);
-  }
-
-  if (!foundUser) return res.status(400).json({ error: "Invalid user" });
-  const authorities = await Authority.find({});
+  const authorities = await Authority.find({organizationId: req.user.organizationId});
   return res.status(200).json(authorities);
 };
 
@@ -43,6 +28,7 @@ const authorityAuth = async (req, res) => {
     {
       email: authority.email,
       id: authority._id,
+      organizationId: authority.organizationId
     },
     key
   );
