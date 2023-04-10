@@ -32,6 +32,9 @@ import Logout from "./components/Logout";
 import DarkTheme from './components/DarkTheme';
 import Error404 from './components/Error404';
 import {useCookies} from 'react-cookie'
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('G-F90JMR43ZQ');
 
 function App() {
   const [cookies] = useCookies(["user"]);
