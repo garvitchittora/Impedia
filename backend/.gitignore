@@ -1,6 +1,5 @@
 node_modules/
 coverage/
-strings.js
 .env
 yarn.lock
 package-lock.json
