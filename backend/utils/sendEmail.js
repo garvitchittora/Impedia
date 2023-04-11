@@ -6,7 +6,7 @@ let transporter = nodemailer.createTransport({
   auth: emailCredentials,
 });
 
-let baseUrl = process.env.BASE_URL || "http://localhost:3000/";
+let baseUrl = "https://impedia.shreyasgupta.in/";
 
 sendPasswordResetEmail = (email, link) => {
   if (process.env.NODE_ENV === "test") {
@@ -70,7 +70,7 @@ sendPasswordResetEmail = (email, link) => {
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      console.log("Some error occured");
+      console.log("Some error occured: " + error);
     } else {
       //console.log("Email sent: " + info.response);
     }
@@ -146,7 +146,7 @@ sendNewAuthorityEmail = (authorityEmail, password) => {
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      console.log("Some error occured");
+      console.log("Some error occured: " + error);
     } else {
       //console.log("Email sent: " + info.response);
     }
@@ -226,7 +226,7 @@ sendNewAppealEmail = (authority, student, appeal) => {
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      console.log("Some error occured");
+      console.log("Some error occured: " + error);
     } else {
       //console.log("Email sent: " + info.response);
     }
@@ -306,7 +306,7 @@ sendNewPetitionEmail = (authority, student, petition) => {
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      console.log("Some error occured");
+      console.log("Some error occured: " + error);
     } else {
       //console.log("Email sent: " + info.response);
     }
@@ -374,7 +374,7 @@ sendNewReplyEmail = (email, type, gist, replier, replyGist) => {
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      console.log("Some error occured");
+      console.log("Some error occured: " + error);
     } else {
       //console.log("Email sent: " + info.response);
     }
