@@ -3,6 +3,7 @@ const Petition = require("../models/Petition");
 const Reply = require("../models/Reply");
 const Group = require("../models/Group");
 const Authority = require("../models/Authority");
+const ResolvedPetition = require("../models/ResolvedPetition");
 
 const getPetitionById = async (req, res) => {
   const { user } = req;
@@ -93,9 +94,43 @@ const makeDecision = async (req, res) => {
   return res.status(200).end();
 };
 
+const resolvePetition = async (req, res) => {
+  const { user } = req;
+  const petition = await Petition.findById(req.params.id).populate("petitionToId");
+  if (!petition) return res.status(404).end();
+
+  if (
+    !(
+      petition.petitionFromId === user.id ||
+      user.id.substring(0, 2) === "AD" ||
+      petition.petitionToId._id === user.id ||
+      (petition.petitionToId.members && petition.petitionToId.members.includes(user.id))
+    )
+  ) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  const resolved = new ResolvedPetition({
+    _id: petition._id,
+    title: petition.title,
+    content: petition.content,
+    petitionFromId: petition.petitionFromId,
+    petitionToId: petition.petitionToId,
+    signees: petition.signees,
+    decision: petition.decision,
+    dateTime: petition.dateTime,
+    onModel: petition.onModel,
+    organizationId: petition.organizationId
+  });
+  await resolved.save();
+  await Petition.deleteOne({_id: req.params.id});
+  return res.json(resolved);
+}
+
 module.exports = {
   getPetitionById,
   signPetition,
   getPetitionReplies,
   makeDecision,
+  resolvePetition
 };

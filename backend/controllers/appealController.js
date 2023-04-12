@@ -3,6 +3,8 @@ const Student = require("../models/Student");
 const Appeal = require("../models/Appeal");
 const Admin = require("../models/Admin");
 const Reply = require("../models/Reply");
+const ResolvedAppeal = require("../models/ResolvedAppeal");
+const mongoose = require("mongoose");
 
 //* tested
 const getAppealById = async (req, res) => {
@@ -86,7 +88,40 @@ const getAppealReplies = async (req, res) => {
   return res.json(appealReplies);
 };
 
+const resolveAppeal = async (req, res) => {
+  const { user } = req;
+  const appeal = await Appeal.findById(req.params.id).populate("appealToId");
+  if (!appeal) return res.status(404).end();
+
+  if (
+    !(
+      appeal.appealFromId === user.id ||
+      user.id.substring(0, 2) === "AD" ||
+      appeal.appealToId._id === user.id ||
+      (appeal.appealToId.members && appeal.appealToId.members.includes(user.id))
+    )
+  ) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  const resolved = new ResolvedAppeal({
+    _id: appeal._id,
+    title: appeal.title,
+    content: appeal.content,
+    appealFromId: appeal.appealFromId,
+    appealToId: appeal.appealToId,
+    dateTime: appeal.dateTime,
+    onModel: appeal.onModel,
+    organizationId: appeal.organizationId
+  });
+  console.log(resolved);
+  await resolved.save();
+  await Appeal.deleteOne({_id: req.params.id});
+  return res.json(resolved);
+};
+
 module.exports = {
   getAppealById,
   getAppealReplies,
+  resolveAppeal
 };
