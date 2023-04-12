@@ -271,6 +271,20 @@ const useStyles = makeStyles((theme) => ({
   },
   Rejected:{
     background:"#ec0101"
+  },
+  resolvedButton: {
+    padding: "10px 20px",
+    borderRadius: "10px",
+    background: "linear-gradient(87.74deg, #FFAC41 4.75%, #FF1E56 140.54%)",
+    border: "none",
+    cursor: "pointer",
+    color: "white",
+    fontWeight: "bold",
+  },
+  resolvedButtonWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+    display: "grid",
   }
 }));
 
@@ -472,6 +486,21 @@ const ViewAppeal = (props) => {
     });
   }
 
+  const markAsResolved = () => {
+    const Token = cookies.user['key'];
+    const config = {
+      headers: {
+        authorization: Token,
+      },
+    };
+    axios
+      .post(`/petition/${petitionId}/resolve`, {}, config)
+      .then((res) => res.data)
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
   return data.length === 0 ? (
     <img src={Loader} alt="loading" className={classes.loader} />
   ) : (
@@ -501,6 +530,11 @@ const ViewAppeal = (props) => {
             TO :{" "}
             <span className={classes.colored}>{`${data.petitionToId.email || "Group"
               } | ${data.petitionToId.name}`}</span>
+          </div>
+          <div className={classes.resolvedButtonWrapper}>
+            <button className={classes.resolvedButton} onClick={() => {
+              markAsResolved();
+            }}>Mark as resolved</button>
           </div>
         </div>
         <div className={classes.body}>

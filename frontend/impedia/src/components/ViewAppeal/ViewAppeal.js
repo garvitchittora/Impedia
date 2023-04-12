@@ -22,11 +22,11 @@ import { useHistory } from 'react-router-dom';
 import Loader from '../../assets/loader.svg';
 
 const useStyles = makeStyles((theme) => ({
-  loader:{
-    display:"block",
-    position:"absolute",
-    top:"50%",
-    left:"50%",
+  loader: {
+    display: "block",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
     transform: "translate(-50%, -50%)"
   },
   container: {
@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: "ellipsis",
     margin: "10px 0",
     textAlign: "center",
-    color:"black",
+    color: "black",
     [theme.breakpoints.down("sm")]: {
       width: "80vw",
       margin: "10px auto",
@@ -115,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     // height:"70vh",
     // overflow:"scroll"
-    overflow:"auto"
+    overflow: "auto"
   },
   commentsSection: {
     border: "2px solid #AAA",
@@ -189,8 +189,22 @@ const useStyles = makeStyles((theme) => ({
   },
   sendIcon: {
     cursor: "pointer",
-    color:"#f44336"
+    color: "#f44336"
   },
+  resolvedButton: {
+    padding: "10px 20px",
+    borderRadius: "10px",
+    background: "linear-gradient(87.74deg, #FFAC41 4.75%, #FF1E56 140.54%)",
+    border: "none",
+    cursor: "pointer",
+    color: "white",
+    fontWeight: "bold",
+  },
+  resolvedButtonWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+    display: "grid",
+  }
 }));
 
 const ViewAppeal = (props) => {
@@ -237,7 +251,7 @@ const ViewAppeal = (props) => {
           setData(data);
         })
         .catch(err => {
-          if(err.response.status === 400 || err.response.status === 401 || err.response.status === 404 || err.response.status === 403){
+          if (err.response.status === 400 || err.response.status === 401 || err.response.status === 404 || err.response.status === 403) {
             history.push("/error");
           }
         });
@@ -261,6 +275,21 @@ const ViewAppeal = (props) => {
         });
     }
   }, [reload]);
+
+  const markAsResolved = () => {
+    const Token = cookies.user['key'];
+    const config = {
+      headers: {
+        authorization: Token,
+      },
+    };
+    axios
+      .post(`/appeal/${appealId}/resolve`, {}, config)
+      .then((res) => res.data)
+      .then((data) => {
+        console.log(data);
+      });
+  };
 
   const submitComment = () => {
     if (newComment === "") {
@@ -310,6 +339,11 @@ const ViewAppeal = (props) => {
             TO :{" "}
             <span className={classes.colored}>{`${data.appealToId.email || "Group"
               } | ${data.appealToId.name}`}</span>
+          </div>
+          <div className={classes.resolvedButtonWrapper}>
+            <button className={classes.resolvedButton} onClick={() => {
+              markAsResolved();
+            }}>Mark as resolved</button>
           </div>
         </div>
         <div className={classes.body}>
