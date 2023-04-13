@@ -315,7 +315,6 @@ const AdminRegister = () => {
                                         Logo
                                     </InputLabel>
                                     <FilledInput
-                                        required
                                         id="logo"
                                         name="logo"
                                         onChange={handleChange}

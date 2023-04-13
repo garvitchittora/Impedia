@@ -113,10 +113,10 @@ const CreateTemplate = (props) => {
   const [value, setValue] = useState(0);
   const [openGroup, setOpenGroup] = useState(false);
   const [openAuth, setOpenAuth] = useState(false);
-  const [optionsGroup, setOptionsGroup] = useState([]);
-  const [optionsAuth, setOptionsAuth] = useState([]);
-  const loadingGroup = openGroup && optionsGroup.length === 0;
-  const loadingAuth = openAuth && optionsAuth.length === 0;
+  const [optionsGroup, setOptionsGroup] = useState(null);
+  const [optionsAuth, setOptionsAuth] = useState(null);
+  const loadingGroup = openGroup && optionsGroup === null;
+  const loadingAuth = openAuth && optionsAuth === null;
 
   useEffect(() => {
     let active = true;
@@ -150,7 +150,6 @@ const CreateTemplate = (props) => {
         }
       }
     })();
-
     return () => {
       active = false;
     };
@@ -283,9 +282,9 @@ const CreateTemplate = (props) => {
                   }
                   getOptionLabel={(option) => option.name}
                   loading={loadingGroup}
-                  options={optionsGroup.sort(
+                  options={optionsGroup ?  optionsGroup.sort(
                     (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
-                  )}
+                  ) : []}
                   groupBy={(option) => option.firstLetter}
                   onChange={(e, v) => {
                     props.setId(v);
@@ -339,9 +338,9 @@ const CreateTemplate = (props) => {
                   }
                   getOptionLabel={(option) => option.optionName}
                   loading={loadingAuth}
-                  options={optionsAuth.sort(
+                  options={optionsAuth && optionsAuth.sort(
                     (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
-                  )}
+                  ) || []}
                   groupBy={(option) => option.firstLetter}
                   onChange={(e, v) => {
                     props.setId(v);

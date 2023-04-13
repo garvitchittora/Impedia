@@ -27,6 +27,7 @@ import AuthorityAllPetitions from "./components/Authority/AllPetitions";
 import StudentAllPetitions from "./components/Student/AllPetitions";
 import UpdateStudentProfile from "./components/Student/UpdateProfile";
 import UpdateAuthorityProfile from "./components/Authority/UpdateProfile";
+import GetStarted from "./components/GetStarted";
 import Home from "./components/Home/Home";
 import Logout from "./components/Logout";
 import DarkTheme from './components/DarkTheme';
@@ -97,6 +98,7 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/get-started" component={GetStarted} />
           <Route exact path="/reset-password/trigger" component={ResetPasswordTrigger} />
           <Route exact path="/reset-password" component={ResetPassword} />
           <Route exact path="/login/admin" component={AdminLogin} />
