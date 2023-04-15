@@ -167,7 +167,8 @@ const useStyles = makeStyles((theme) => ({
     textAlign:"center",
     '& a' :{
       color: "#f44336"
-    }
+    },
+    marginBottom: "1rem"
     
   }
 }));
@@ -191,6 +192,26 @@ const LoginPage = (props) => {
       props.setPasswordValues(event.target.value);
     }
   };
+
+  const getRegisterURL = (actor) => {
+    if (actor == "Members") {
+      return "/register/member";
+    } else if (actor == "Admin") {
+      return "/register/admin";
+    } else {
+      return "";
+    }
+  }
+
+  const getRegisterText = (actor) => {
+    if (actor == "Members") {
+      return " Register your account with your org email address.";
+    } else if (actor == "Admin") {
+      return " Register your organization here.";
+    } else {
+      return " Ask your org admin to add you as an authority then check your email.";
+    }
+  }
 
   return (
     <div className={classes.loginPage}>
@@ -292,6 +313,13 @@ const LoginPage = (props) => {
                   Login
                 </Button>
                 
+                <div className={classes.forgot} >
+                  Don't have an account?
+                  <Link to={getRegisterURL(props.actor)} >
+                    {getRegisterText(props.actor)}
+                  </Link>
+                </div>
+              
                 <div className={classes.forgot} >
                   <Link to="/reset-password/trigger" >
                     Forgot Password ?

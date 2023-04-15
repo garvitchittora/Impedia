@@ -85,13 +85,13 @@ const GetStarted = () => {
             </Typography>
             <Typography className={classes.SectionText}>
             <br></br>
-            1. Register your organization with basic details like name, logo and your email domain
+            1. <Link to="/register/admin" >Register your organization</Link> with basic details like name, logo and your email domain
             <br></br>
-            2. Add users with admin privileges 
+            2. This simultaneously registers an admin user who overlooks the organization. 
             <br></br>
-            3. The admins add authorities, to whom your organization’s members can make appeals and petitions.
+            3. The admins add authorities, to whom your organization’s members can make appeals and petitions. The authorities will be sent their login details via email.
             <br></br>
-            4. The members register themselves with the organization’s email domain and can then make appeals and petitions. Appeals are individual problems whereas petitions are for a group of individuals, so people can support a petition, removing the need for multiple appeals.
+            4. <Link to="/register/member" >The members register themselves</Link> with the organization’s email domain and can then make appeals and petitions. Appeals are individual problems whereas petitions are for a group of individuals, so people can support a petition, removing the need for multiple appeals.
             <br></br>
             5. Members and authorities can add their replies on an appeal or a petition and try to resolve them.
 
