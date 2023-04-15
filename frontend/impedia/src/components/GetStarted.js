@@ -97,6 +97,20 @@ const GetStarted = () => {
 
             <br></br>
             <br></br>
+
+            Impedia gives you a centralized appeal/request platform that your organization members can use to communicate with the authorities. We aim to remove all the endless spamming and CC'ing that comes with any requests made within an organization.
+            <br></br>
+            The use cases for Impedia are immense. Some of the usecases include:
+            <br></br>
+            1. Access Requests handling in Tech companies
+            <br></br>
+            2. Suggestions/Grievances handling in various companies
+            <br></br>
+            3. Bug reporting tool in tech companies
+            <br></br>
+            4. Internal Tech Support tool
+            <br></br>
+            and much much more.
           <Link
           data-testid="student-login-button-2"
           to="/"
