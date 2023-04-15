@@ -275,7 +275,7 @@ const AdminRegister = () => {
                             <div className={classes.formInputs}>
                                 <FormControl className={classes.fieldInput} variant="filled" error>
                                     <InputLabel htmlFor="emailDomain">
-                                        Email Domain
+                                        Email Domain (eg: razorpay.com)
                                         </InputLabel>
                                     <FilledInput
                                         required
@@ -324,7 +324,7 @@ const AdminRegister = () => {
                             <div className={classes.formInputs}>
                                 <FormControl className={classes.fieldInput} variant="filled" error>
                                     <InputLabel htmlFor="name">
-                                        Name
+                                        Admin Name
                                     </InputLabel>
                                     <FilledInput
                                         required
