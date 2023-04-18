@@ -223,7 +223,7 @@ sendNewAppealEmail = (authority, student, appeal) => {
     text: text,
     html: html,
   };
-
+  /*
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log("Some error occured: " + error);
@@ -231,6 +231,7 @@ sendNewAppealEmail = (authority, student, appeal) => {
       //console.log("Email sent: " + info.response);
     }
   });
+  */
 };
 
 sendNewPetitionEmail = (authority, student, petition) => {
@@ -303,7 +304,7 @@ sendNewPetitionEmail = (authority, student, petition) => {
     text: text,
     html: html,
   };
-
+  /*
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log("Some error occured: " + error);
@@ -311,6 +312,7 @@ sendNewPetitionEmail = (authority, student, petition) => {
       //console.log("Email sent: " + info.response);
     }
   });
+  */
 };
 
 sendNewReplyEmail = (email, type, gist, replier, replyGist) => {
@@ -371,7 +373,7 @@ sendNewReplyEmail = (email, type, gist, replier, replyGist) => {
     text: text,
     html: html,
   };
-
+  /*
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log("Some error occured: " + error);
@@ -379,6 +381,7 @@ sendNewReplyEmail = (email, type, gist, replier, replyGist) => {
       //console.log("Email sent: " + info.response);
     }
   });
+  */
 };
 
 module.exports = {
