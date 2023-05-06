@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     [theme.breakpoints.down("sm")]: {
-      fontSize: "14px"
+      fontSize: "14px",
     },
   },
   navWrapper: {
@@ -91,14 +91,14 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: "5px",
     fontWeight: "600",
     [theme.breakpoints.up("sm")]: {
-      left: "23vw"
+      left: "23vw",
     },
     [theme.breakpoints.down("sm")]: {
       position: "relative",
       left: "0",
     },
     [theme.breakpoints.down("xs")]: {
-      fontSize: "15px"
+      fontSize: "15px",
     },
   },
   extendedBack: {
@@ -245,14 +245,14 @@ const useStyles = makeStyles((theme) => ({
   GetStarted: {
     cursor: "pointer",
     background: "rgba(255, 30, 86, 0.74)",
-    textDecoration: "none",
+    textDecoration: "None",
     color: "white",
     padding: "10px 20px",
     borderRadius: "50px",
     textAlign: "center",
     maxWidth: "200px",
-    margin: "auto"
-  }
+    margin: "auto",
+  },
 }));
 
 const Home = () => {
@@ -304,19 +304,16 @@ const Home = () => {
         </div>
         <div className={classes.rotatedContainer}></div>
         <Typography className={classes.textOnRotated}>
-          A platform that breaks the communication barrier between an organization's members and
-          and its authorities.
+          A platform that breaks the communication barrier between an
+          organization's members and and its authorities.
           <div>
             <br></br>
             <br></br>
-          <Link
-          data-testid="student-login-button-2"
-          to="/get-started"
-        >
-          <Typography className={classes.GetStarted}>
-            Get Started
-          </Typography>
-        </Link>
+            <Link data-testid="student-login-button-2" to="/get-started">
+              <Typography className={classes.GetStarted}>
+                Get Started
+              </Typography>
+            </Link>
           </div>
         </Typography>
       </div>
@@ -390,11 +387,7 @@ const Home = () => {
         </Grid>
         <Grid container item className={classes.roleDesc}>
           <Grid item md={4} className={classes.StudentImgWrapper}>
-            <img
-              className={classes.StudentImg}
-              src={AdminImage}
-              alt="Member"
-            />
+            <img className={classes.StudentImg} src={AdminImage} alt="Member" />
           </Grid>
           <Grid item md={8} className={classes.SectionTextWrapper}>
             <Typography className={classes.SectionHeading}>ADMIN</Typography>
